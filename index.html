@@ -233,7 +233,6 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56p
   <div class="container">
     <div class="nav-wrap">
       <a href="#" class="logo">
-        <img src="logo.jpg" alt="Logo" id="site-logo">
         <div class="logo-text">
           <div class="brand">ANADOLU SES IŞIK</div>
           <div class="sub">Ses Işık Görüntü Sistemleri</div>
@@ -429,7 +428,7 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56p
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="#" class="logo"><img src="logo.jpg" alt="Logo" id="footer-logo" style="height:42px;">
+        <a href="#" class="logo">
           <div class="logo-text"><div class="brand">ANADOLU SES IŞIK</div><div class="sub">Ses Işık Görüntü Sistemleri</div></div>
         </a>
         <p>Ses, ışık ve görüntü sistemlerinde 15+ yıllık tecrübemizle profesyonel çözümler sunuyoruz.</p>
@@ -550,7 +549,7 @@ function applyInfo(si){
   if(si.heroTitle) document.getElementById('hero-title').innerHTML=si.heroTitle;
   se('hero-desc',si.heroDesc);
   if(si.whatsapp){const w='https://wa.me/'+si.whatsapp;['waFloat','wa-btn','footer-wa'].forEach(id=>{const e=document.getElementById(id);if(e)e.href=w;});}
-  if(si.logoUrl) document.querySelectorAll('#site-logo,#footer-logo').forEach(e=>e.src=si.logoUrl);
+
 }
 
 let cb=0;
