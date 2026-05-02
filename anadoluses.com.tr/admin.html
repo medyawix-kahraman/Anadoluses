@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<!-- Mirrored from anadoluses.com.tr/admin by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 02 May 2026 16:13:20 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel – Anadolu Ses Işık</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;900&amp;family=Barlow:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0f14;--sidebar:#111520;--card:#161b26;--card2:#1c2130;--accent:#f5a623;--accent2:#e8891a;--text:#e0e4ed;--text2:#6b7690;--border:rgba(255,255,255,.07);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--sidebar);}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px;}
+/* LOGIN */
+#loginPage{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0a0a0a,#111827 50%,#1a2a4a);position:relative;overflow:hidden;}
+#loginPage::before{content:'';position:absolute;inset:0;opacity:.03;background-image:linear-gradient(var(--accent) 1px,transparent 1px),linear-gradient(90deg,var(--accent) 1px,transparent 1px);background-size:50px 50px;}
+.login-box{background:rgba(22,27,38,.97);border:1px solid rgba(245,166,35,.2);border-radius:8px;padding:48px 44px;width:100%;max-width:430px;position:relative;z-index:1;backdrop-filter:blur(20px);box-shadow:0 40px 100px rgba(0,0,0,.5);}
+.login-logo{text-align:center;margin-bottom:30px;}
+.login-logo img{height:70px;margin-bottom:10px;object-fit:contain;}
+.login-logo h1{font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:900;}
+.login-logo p{font-size:12px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-top:4px;}
+.login-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.2);border-radius:50px;padding:5px 16px;font-size:11px;color:var(--accent);letter-spacing:1px;text-transform:uppercase;margin-bottom:22px;}
+.fg{margin-bottom:16px;}
+.fg label{display:block;font-size:11px;color:var(--text2);font-weight:500;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px;}
+.fg input{width:100%;padding:12px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:5px;color:var(--text);font-size:14px;font-family:'Barlow',sans-serif;outline:none;transition:border-color .2s;}
+.fg input:focus{border-color:var(--accent);}
+.login-btn{width:100%;padding:13px;background:var(--accent);color:#000;font-size:15px;font-weight:700;font-family:'Barlow',sans-serif;border:none;border-radius:5px;cursor:pointer;}
+.login-btn:hover{background:var(--accent2);}
+.login-error{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);border-radius:5px;padding:10px 14px;color:#fca5a5;font-size:13px;text-align:center;display:none;margin-bottom:12px;}
+/* LAYOUT */
+#adminApp{display:none;min-height:100vh;}
+.admin-layout{display:flex;min-height:100vh;}
+.sidebar{width:254px;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;overflow-y:auto;}
+.sidebar-logo{padding:20px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.sidebar-logo img{height:40px;object-fit:contain;}
+.sidebar-logo .brand{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:900;}
+.sidebar-logo .sub{font-size:10px;color:var(--accent);letter-spacing:1px;}
+.sidebar-nav{flex:1;padding:12px 9px;}
+.nav-group{margin-bottom:20px;}
+.nav-group-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text2);padding:0 8px;margin-bottom:6px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:5px;cursor:pointer;transition:all .2s;color:var(--text2);font-size:13px;font-weight:500;margin-bottom:1px;}
+.nav-item:hover,.nav-item.active{background:rgba(245,166,35,.1);color:var(--accent);}
+.nav-item.active{font-weight:600;}
+.nav-item .icon{font-size:15px;width:20px;text-align:center;flex-shrink:0;}
+.sidebar-footer{padding:13px 16px;border-top:1px solid var(--border);}
+.sidebar-user{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.user-avatar{width:36px;height:36px;border-radius:50%;background:var(--accent);color:#000;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;flex-shrink:0;}
+.user-name{font-size:13px;font-weight:600;}.user-role{font-size:11px;color:var(--accent);}
+.logout-btn{width:100%;padding:8px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:5px;color:#fca5a5;font-size:12px;cursor:pointer;font-family:'Barlow',sans-serif;}
+.logout-btn:hover{background:rgba(239,68,68,.2);}
+.main-content{margin-left:254px;flex:1;display:flex;flex-direction:column;}
+.topbar{background:var(--sidebar);border-bottom:1px solid var(--border);padding:0 26px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+.page-title{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:800;}
+.site-link{display:flex;align-items:center;gap:6px;padding:6px 13px;background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.2);border-radius:5px;color:var(--accent);font-size:12px;text-decoration:none;}
+.site-link:hover{background:rgba(245,166,35,.2);}
+.content{padding:26px;flex:1;}
+/* CARDS */
+.stats-row{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-bottom:24px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:18px;border-top:3px solid var(--accent);}
+.stat-card .num{font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:900;color:var(--accent);}
+.stat-card .lbl{font-size:11px;color:var(--text2);margin-top:2px;}
+.sc{background:var(--card);border:1px solid var(--border);border-radius:7px;margin-bottom:20px;overflow:hidden;}
+.sc-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.sc-head h3{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;}
+.sc-body{padding:20px;}
+/* BTNS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:5px;font-size:12px;font-weight:600;font-family:'Barlow',sans-serif;cursor:pointer;border:none;transition:all .2s;}
+.btn-primary{background:var(--accent);color:#000;}.btn-primary:hover{background:var(--accent2);}
+.btn-danger{background:rgba(239,68,68,.12);color:#fca5a5;border:1px solid rgba(239,68,68,.2);}.btn-danger:hover{background:rgba(239,68,68,.22);}
+.btn-secondary{background:rgba(255,255,255,.06);color:var(--text);border:1px solid var(--border);}.btn-secondary:hover{background:rgba(255,255,255,.1);}
+.btn-sm{padding:5px 11px;font-size:11px;}
+/* TABLE */
+.dt{width:100%;border-collapse:collapse;}
+.dt th{background:rgba(255,255,255,.03);padding:9px 13px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text2);border-bottom:1px solid var(--border);}
+.dt td{padding:11px 13px;border-bottom:1px solid rgba(255,255,255,.03);font-size:12px;vertical-align:middle;}
+.dt tr:last-child td{border:none;}.dt tr:hover td{background:rgba(255,255,255,.02);}
+.badge{display:inline-block;padding:2px 8px;border-radius:50px;font-size:10px;font-weight:600;}
+.badge-a{background:rgba(245,166,35,.12);color:var(--accent);}.badge-b{background:rgba(42,82,152,.18);color:#93c5fd;}
+/* FORM */
+.af{display:flex;flex-direction:column;gap:14px;}
+.fr2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.af label{font-size:11px;color:var(--text2);display:block;margin-bottom:5px;font-weight:500;letter-spacing:.3px;text-transform:uppercase;}
+.af input,.af select,.af textarea{width:100%;padding:10px 12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:5px;color:var(--text);font-size:13px;font-family:'Barlow',sans-serif;outline:none;transition:border-color .2s;}
+.af input:focus,.af select:focus,.af textarea:focus{border-color:var(--accent);}
+.af select option{background:var(--card);}
+.af textarea{resize:vertical;min-height:80px;}
+.form-btns{display:flex;gap:8px;padding-top:4px;}
+/* TOAST */
+.toast-wrap{position:fixed;top:68px;right:18px;z-index:9999;display:flex;flex-direction:column;gap:6px;}
+.toast{padding:11px 16px;border-radius:6px;font-size:12px;font-weight:500;animation:slideIn .3s;min-width:240px;display:flex;align-items:center;gap:8px;}
+@keyframes slideIn{from{transform:translateX(100%);opacity:0;}to{transform:translateX(0);opacity:1;}}
+.toast-success{background:#14532d;border:1px solid #22c55e;color:#86efac;}
+.toast-error{background:#450a0a;border:1px solid #ef4444;color:#fca5a5;}
+.toast-info{background:#1e3a5f;border:1px solid #60a5fa;color:#93c5fd;}
+/* MODAL */
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);z-index:5000;display:none;align-items:center;justify-content:center;}
+.mo.open{display:flex;}
+.mb{background:var(--card);border:1px solid var(--border);border-radius:7px;width:90%;max-width:580px;max-height:90vh;overflow-y:auto;}
+.mb-head{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.mb-head h3{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;}
+.mb-close{background:none;border:none;color:var(--text2);font-size:18px;cursor:pointer;}.mb-close:hover{color:var(--accent);}
+.mb-body{padding:24px;}
+/* LOGO BOX */
+.logo-preview-box{background:rgba(0,0,0,.3);border:2px dashed rgba(255,255,255,.15);border-radius:7px;padding:26px;text-align:center;margin-bottom:14px;}
+.logo-preview-box img{max-height:80px;max-width:100%;object-fit:contain;}
+/* IMG PREVIEW */
+.img-prev{width:100%;height:130px;object-fit:cover;border-radius:5px;border:1px solid var(--border);margin-top:6px;display:none;}
+.img-prev.show{display:block;}
+.banner-prev-box{width:100%;height:90px;background-size:cover;background-position:center;border-radius:5px;border:1px solid var(--border);margin-top:6px;display:none;position:relative;overflow:hidden;}
+.banner-prev-box.show{display:block;}
+.banner-prev-overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;}
+/* REF GRID */
+.ref-grid-admin{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px;}
+.ref-item{position:relative;border-radius:5px;overflow:hidden;border:1px solid var(--border);}
+.ref-item img{width:100%;height:90px;object-fit:cover;display:block;}
+.ref-item .ri{padding:7px 9px;background:var(--card2);}
+.ref-item .rd{position:absolute;top:5px;right:5px;background:rgba(239,68,68,.85);border:none;color:#fff;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;}
+.ref-add{border:2px dashed rgba(255,255,255,.12);border-radius:5px;height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;color:var(--text2);font-size:12px;}
+.ref-add:hover{border-color:var(--accent);color:var(--accent);}
+/* MSG */
+.msg-badge{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;background:var(--accent);color:#000;border-radius:50px;font-size:10px;font-weight:700;padding:0 5px;margin-left:6px;}
+/* PAGES */
+.ps{display:none;}.ps.active{display:block;}
+@media(max-width:768px){.sidebar{transform:translateX(-100%);transition:transform .3s;}.sidebar.open{transform:translateX(0);}.main-content{margin-left:0;}.stats-row{grid-template-columns:repeat(3,1fr);}.fr2,.sg{grid-template-columns:1fr;}.ref-grid-admin{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+
+<div id="loginPage">
+  <div class="login-box">
+    <div class="login-logo">
+      <img src="logo.jpg" alt="Logo">
+      <h1>ANADOLU SES IŞIK</h1>
+      <p>Admin Kontrol Paneli</p>
+    </div>
+    <div style="text-align:center;margin-bottom:20px;"><div class="login-badge">🔐 Güvenli Giriş</div></div>
+    <div class="login-error" id="loginError">Hatalı kullanıcı adı veya şifre!</div>
+    <div class="fg"><label>Kullanıcı Adı</label><input type="text" id="lu" placeholder="admin"></div>
+    <div class="fg"><label>Şifre</label><input type="password" id="lp" placeholder="••••••••"></div>
+    <button class="login-btn" onclick="doLogin()">🔓 Giriş Yap</button>
+    <p style="text-align:center;margin-top:16px;font-size:11px;color:var(--text2);">admin / admin2026</p>
+  </div>
+</div>
+
+<div id="adminApp">
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="logo.jpg" alt="Logo" id="sidebarLogo">
+        <div><div class="brand">ANADOLU SES IŞIK</div><div class="sub">Admin Panel</div></div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <div class="nav-group-title">Genel</div>
+          <div class="nav-item active" onclick="go('dashboard')"><span class="icon">📊</span> Dashboard</div>
+          <div class="nav-item" onclick="go('messages')"><span class="icon">✉️</span> Mesajlar <span id="msgBadge" class="msg-badge" style="display:none">0</span></div>
+          <div class="nav-item" onclick="go('settings')"><span class="icon">⚙️</span> Site Ayarları</div>
+          <div class="nav-item" onclick="go('logo')"><span class="icon">🖼</span> Logo Değiştir</div>
+        </div>
+        <div class="nav-group">
+          <div class="nav-group-title">İçerik</div>
+          <div class="nav-item" onclick="go('banners')"><span class="icon">🎞️</span> Bannerlar</div>
+          <div class="nav-item" onclick="go('services')"><span class="icon">⚙️</span> Hizmetler</div>
+          <div class="nav-item" onclick="go('refs')"><span class="icon">📸</span> Referans Galerisi</div>
+          <div class="nav-item" onclick="go('projects')"><span class="icon">🏗️</span> Projeler</div>
+          <div class="nav-item" onclick="go('brands')"><span class="icon">🏷️</span> Markalar</div>
+        </div>
+        <div class="nav-group">
+          <div class="nav-group-title">Sistem</div>
+          <div class="nav-item" onclick="go('password')"><span class="icon">🔑</span> Şifre Değiştir</div>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user"><div class="user-avatar">A</div><div><div class="user-name">Admin</div><div class="user-role">Süper Admin</div></div></div>
+        <button class="logout-btn" onclick="doLogout()">🚪 Çıkış Yap</button>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <div class="topbar">
+        <div class="page-title" id="pageTitle">📊 Dashboard</div>
+        <a class='site-link' href='index.html' target='_blank'>🌐 Siteyi Görüntüle</a>
+      </div>
+      <div class="content">
+        <div class="toast-wrap" id="tw"></div>
+
+        <!-- DASHBOARD -->
+        <div class="ps active" id="page-dashboard">
+          <div class="stats-row">
+            <div class="stat-card"><div class="num" id="ds-b">-</div><div class="lbl">🎞️ Banner</div></div>
+            <div class="stat-card"><div class="num" id="ds-s">-</div><div class="lbl">⚙️ Hizmet</div></div>
+            <div class="stat-card"><div class="num" id="ds-r">-</div><div class="lbl">📸 Referans</div></div>
+            <div class="stat-card"><div class="num" id="ds-pr">-</div><div class="lbl">🏗️ Proje</div></div>
+            <div class="stat-card"><div class="num" id="ds-br">-</div><div class="lbl">🏷️ Marka</div></div>
+            <div class="stat-card"><div class="num" id="ds-m">-</div><div class="lbl">✉️ Mesaj</div></div>
+          </div>
+          <div class="sc">
+            <div class="sc-head"><h3>🚀 Hızlı İşlemler</h3></div>
+            <div class="sc-body" style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="btn btn-primary" onclick="go('banners')">🎞️ Banner Ekle</button>
+              <button class="btn btn-primary" onclick="go('services')">⚙️ Hizmet Ekle</button>
+              <button class="btn btn-primary" onclick="go('refs')">📸 Referans Ekle</button>
+              <button class="btn btn-primary" onclick="go('projects')">🏗️ Proje Ekle</button>
+              <button class="btn btn-primary" onclick="go('brands')">🏷️ Marka Ekle</button>
+              <button class="btn btn-secondary" onclick="go('settings')">⚙️ Site Ayarları</button>
+              <button class="btn btn-secondary" onclick="go('logo')">🖼 Logo Değiştir</button>
+            </div>
+          </div>
+          <div class="sc">
+            <div class="sc-head"><h3>✉️ Son Mesajlar</h3><button class="btn btn-secondary btn-sm" onclick="go('messages')">Tümü</button></div>
+            <div class="sc-body" style="padding:0;"><table class="dt" id="dashMsgs"></table></div>
+          </div>
+        </div>
+
+        <!-- MESSAGES -->
+        <div class="ps" id="page-messages">
+          <div class="sc">
+            <div class="sc-head"><h3>✉️ Gelen Mesajlar</h3></div>
+            <div class="sc-body" style="padding:0;"><table class="dt" id="msgTable"></table></div>
+          </div>
+        </div>
+
+        <!-- LOGO -->
+        <div class="ps" id="page-logo">
+          <div class="sc" style="max-width:500px;">
+            <div class="sc-head"><h3>🖼 Logo Değiştir</h3></div>
+            <div class="sc-body">
+              <p style="color:var(--text2);font-size:12px;margin-bottom:14px;">Mevcut logo:</p>
+              <div class="logo-preview-box"><img id="logoPrevImg" src="logo.jpg" alt="Logo"></div>
+              <div class="af">
+                <div>
+                  <label>Logo URL (https:// veya logo.jpg gibi lokal dosya adı)</label>
+                  <input type="text" id="logoUrlInp" placeholder="https://example.com/logo.png veya logo.jpg">
+                </div>
+                <div style="background:rgba(245,166,35,.07);border:1px solid var(--border);border-radius:5px;padding:12px;font-size:12px;color:var(--text2);">
+                  💡 <strong style="color:var(--accent);">İpucu:</strong> Logonuzu <a href="https://imgbb.com/" target="_blank" style="color:var(--accent);">imgbb.com</a> veya <a href="https://imgur.com/" target="_blank" style="color:var(--accent);">imgur.com</a>'a yükleyip URL'yi yapıştırın. Ücretsiz ve kayıt gerektirmez!
+                </div>
+                <button class="btn btn-primary" onclick="saveLogo()">💾 Logoyu Kaydet</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BANNERS -->
+        <div class="ps" id="page-banners">
+          <div class="sc">
+            <div class="sc-head"><h3>🎞️ Banner Yönetimi</h3><button class="btn btn-primary" onclick="openBannerMod(null)">+ Yeni Banner</button></div>
+            <div class="sc-body" style="padding:0;"><table class="dt" id="bannerTable"></table></div>
+          </div>
+          <div class="sc" style="background:rgba(245,166,35,.05);border-color:rgba(245,166,35,.2);">
+            <div class="sc-body" style="font-size:12px;color:var(--text2);">
+              💡 <strong style="color:var(--accent);">Görsel URL nasıl alınır?</strong> Resminizi <a href="https://imgbb.com/" target="_blank" style="color:var(--accent);">imgbb.com</a>'a yükleyin → "Direct Link" URL'yi kopyalayın. Lokal dosya için: ref1.jpg, ref2.jpg... şeklinde yazabilirsiniz.
+            </div>
+          </div>
+        </div>
+
+        <!-- SERVICES -->
+        <div class="ps" id="page-services">
+          <div class="sc">
+            <div class="sc-head"><h3>⚙️ Hizmet Yönetimi</h3><button class="btn btn-primary" onclick="openServiceMod(null)">+ Yeni Hizmet</button></div>
+            <div class="sc-body" style="padding:0;"><table class="dt" id="serviceTable"></table></div>
+          </div>
+        </div>
+
+        <!-- REFS -->
+        <div class="ps" id="page-refs">
+          <div class="sc">
+            <div class="sc-head"><h3>📸 Referans Galerisi</h3><button class="btn btn-primary" onclick="openRefMod(null)">+ Yeni Referans</button></div>
+            <div class="sc-body"><div class="ref-grid-admin" id="refAdminGrid"></div></div>
+          </div>
+        </div>
+
+        <!-- PROJECTS -->
+        <div class="ps" id="page-projects">
+          <div class="sc">
+            <div class="sc-head"><h3>🏗️ Proje Yönetimi</h3><button class="btn btn-primary" onclick="openProjectMod(null)">+ Yeni Proje</button></div>
+            <div class="sc-body" style="padding:0;"><table class="dt" id="projectTable"></table></div>
+          </div>
+        </div>
+
+        <!-- BRANDS -->
+        <div class="ps" id="page-brands">
+          <div class="sc">
+            <div class="sc-head"><h3>🏷️ Marka Yönetimi</h3><button class="btn btn-primary" onclick="openBrandMod(null)">+ Yeni Marka</button></div>
+            <div class="sc-body" style="padding:0;"><table class="dt" id="brandTable"></table></div>
+          </div>
+        </div>
+
+        <!-- SETTINGS -->
+        <div class="ps" id="page-settings">
+          <div class="sc">
+            <div class="sc-head"><h3>⚙️ Site Genel Ayarları</h3></div>
+            <div class="sc-body">
+              <div class="af sg">
+                <div><label>Telefon</label><input type="text" id="set-phone"></div>
+                <div><label>E-posta</label><input type="email" id="set-email"></div>
+                <div><label>WhatsApp (90 ile başlayarak)</label><input type="text" id="set-wa"></div>
+                <div><label>Çalışma Saatleri</label><input type="text" id="set-hours"></div>
+                <div style="grid-column:1/-1"><label>Adres</label><input type="text" id="set-addr"></div>
+                <div style="grid-column:1/-1"><label>Hero Başlık (HTML — &lt;em&gt; ile vurgulayın)</label><input type="text" id="set-heroTitle"></div>
+                <div style="grid-column:1/-1"><label>Hero Açıklama</label><textarea id="set-heroDesc" style="min-height:70px;"></textarea></div>
+                <div><label>İstat. 1 (Projeler)</label><input type="text" id="set-s1"></div>
+                <div><label>İstat. 2 (Yıl)</label><input type="text" id="set-s2"></div>
+                <div><label>İstat. 3 (Markalar)</label><input type="text" id="set-s3"></div>
+                <div><label>İstat. 4</label><input type="text" id="set-s4"></div>
+              </div>
+              <div style="margin-top:18px;"><button class="btn btn-primary" onclick="saveSettings()">💾 Kaydet</button></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="ps" id="page-password">
+          <div class="sc" style="max-width:420px;">
+            <div class="sc-head"><h3>🔑 Şifre Değiştir</h3></div>
+            <div class="sc-body">
+              <div class="af">
+                <div><label>Mevcut Şifre</label><input type="password" id="pw-old"></div>
+                <div><label>Yeni Şifre</label><input type="password" id="pw-new"></div>
+                <div><label>Tekrar</label><input type="password" id="pw-new2"></div>
+                <button class="btn btn-primary" onclick="changePass()">🔐 Güncelle</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BANNER MOD -->
+<div class="mo" id="bannerMod">
+  <div class="mb">
+    <div class="mb-head"><h3 id="bmT">Banner</h3><button class="mb-close" onclick="closeMod('bannerMod')">✕</button></div>
+    <div class="mb-body"><div class="af">
+      <div><label>Başlık</label><input type="text" id="bm-title"></div>
+      <div><label>Alt Başlık</label><input type="text" id="bm-sub"></div>
+      <div><label>Etiket (opsiyonel)</label><input type="text" id="bm-tag" placeholder="Hizmetlerimiz"></div>
+      <div>
+        <label>Arkaplan Görsel URL (https:// veya ref1.jpg)</label>
+        <input type="text" id="bm-bg" oninput="prevBanner()">
+        <div class="banner-prev-box" id="bm-prev"><div class="banner-prev-overlay" id="bm-prev-t">Önizleme</div></div>
+      </div>
+      <div><label>Sıra</label><input type="number" id="bm-order" value="1" min="1"></div>
+      <div class="form-btns"><button class="btn btn-primary" onclick="saveBanner()">💾 Kaydet</button><button class="btn btn-secondary" onclick="closeMod('bannerMod')">İptal</button></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- SERVICE MOD -->
+<div class="mo" id="serviceMod">
+  <div class="mb">
+    <div class="mb-head"><h3 id="smT">Hizmet</h3><button class="mb-close" onclick="closeMod('serviceMod')">✕</button></div>
+    <div class="mb-body"><div class="af">
+      <div class="fr2">
+        <div><label>İkon (emoji)</label><input type="text" id="sm-icon" placeholder="🎵"></div>
+        <div><label>Hizmet Adı</label><input type="text" id="sm-title"></div>
+      </div>
+      <div>
+        <label>Görsel URL (https:// veya ref1.jpg)</label>
+        <input type="text" id="sm-img" oninput="prevSvc()">
+        <img id="sm-prev" class="img-prev" src="#" alt="">
+      </div>
+      <div><label>Açıklama</label><textarea id="sm-desc"></textarea></div>
+      <div><label>Sıra</label><input type="number" id="sm-order" value="1" min="1"></div>
+      <div class="form-btns"><button class="btn btn-primary" onclick="saveSvc()">💾 Kaydet</button><button class="btn btn-secondary" onclick="closeMod('serviceMod')">İptal</button></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- REF MOD -->
+<div class="mo" id="refMod">
+  <div class="mb">
+    <div class="mb-head"><h3 id="rmT">Referans</h3><button class="mb-close" onclick="closeMod('refMod')">✕</button></div>
+    <div class="mb-body"><div class="af">
+      <div>
+        <label>Görsel URL (https:// veya ref1.jpg)</label>
+        <input type="text" id="rm-img" oninput="prevRef()">
+        <img id="rm-prev" class="img-prev" src="#" alt="">
+      </div>
+      <div class="fr2">
+        <div><label>Proje Adı</label><input type="text" id="rm-name"></div>
+        <div><label>Kategori</label><input type="text" id="rm-cat" placeholder="Ses & Işık"></div>
+      </div>
+      <div class="form-btns"><button class="btn btn-primary" onclick="saveRef()">💾 Kaydet</button><button class="btn btn-secondary" onclick="closeMod('refMod')">İptal</button></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- BRAND MOD -->
+<div class="mo" id="brandMod">
+  <div class="mb">
+    <div class="mb-head"><h3 id="brT">Marka</h3><button class="mb-close" onclick="closeMod('brandMod')">✕</button></div>
+    <div class="mb-body"><div class="af">
+      <div class="fr2">
+        <div><label>Marka Adı</label><input type="text" id="brm-name"></div>
+        <div><label>Kategori</label><input type="text" id="brm-cat"></div>
+      </div>
+      <div class="form-btns"><button class="btn btn-primary" onclick="saveBrand()">💾 Kaydet</button><button class="btn btn-secondary" onclick="closeMod('brandMod')">İptal</button></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- PROJECT MOD -->
+<div class="mo" id="projectMod">
+  <div class="mb" style="max-width:640px;">
+    <div class="mb-head"><h3 id="prT">Proje</h3><button class="mb-close" onclick="closeMod('projectMod')">✕</button></div>
+    <div class="mb-body"><div class="af">
+      <div class="fr2">
+        <div><label>Proje Adı *</label><input type="text" id="prm-title" placeholder="Ankara Kültür Merkezi"></div>
+        <div><label>Kategori *</label><input type="text" id="prm-cat" placeholder="Ses & Işık"></div>
+      </div>
+      <div>
+        <label>Görsel URL (https:// veya ref1.jpg)</label>
+        <input type="text" id="prm-img" oninput="prevProject()">
+        <img id="prm-prev" class="img-prev" src="#" alt="">
+      </div>
+      <div><label>Açıklama</label><textarea id="prm-desc" placeholder="Proje hakkında kısa açıklama..."></textarea></div>
+      <div class="fr2">
+        <div><label>Konum</label><input type="text" id="prm-location" placeholder="Ankara"></div>
+        <div><label>Yıl</label><input type="text" id="prm-year" placeholder="2024"></div>
+      </div>
+      <div class="fr2">
+        <div><label>Müşteri / Kurum</label><input type="text" id="prm-client" placeholder="Ankara Büyükşehir Belediyesi"></div>
+        <div><label>Sıra</label><input type="number" id="prm-order" value="1" min="1"></div>
+      </div>
+      <div class="form-btns"><button class="btn btn-primary" onclick="saveProject()">💾 Kaydet</button><button class="btn btn-secondary" onclick="closeMod('projectMod')">İptal</button></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- MSG MOD -->
+<div class="mo" id="msgMod">
+  <div class="mb" style="max-width:480px;">
+    <div class="mb-head"><h3>✉️ Mesaj Detayı</h3><button class="mb-close" onclick="closeMod('msgMod')">✕</button></div>
+    <div class="mb-body" id="msgModBody"></div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, getDocs, getDoc, setDoc, addDoc, updateDoc, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const app = initializeApp({apiKey:"AIzaSyBAsJqfJ4Yj3F4nVr1fUHTXU3QH2WgK8mI",authDomain:"anadolu-6a4e5.firebaseapp.com",projectId:"anadolu-6a4e5",storageBucket:"anadolu-6a4e5.firebasestorage.app",messagingSenderId:"31400926527",appId:"1:31400926527:web:433f4c81d6fec9a72a878a",measurementId:"G-7V1XSXSBTD"});
+const db = getFirestore(app);
+
+// AUTH
+let PASS = localStorage.getItem('anadolu_adminPass')||'admin2026';
+window.doLogin = () => {
+  const u=document.getElementById('lu').value.trim(), p=document.getElementById('lp').value;
+  if(u==='admin'&&p===PASS){ document.getElementById('loginPage').style.display='none'; document.getElementById('adminApp').style.display='block'; loadAll(); toast('Hoş geldiniz! 👋','success'); }
+  else{ const e=document.getElementById('loginError'); e.style.display='block'; setTimeout(()=>e.style.display='none',3000); }
+};
+document.addEventListener('keydown',e=>{ if(e.key==='Enter'&&document.getElementById('loginPage').style.display!=='none') window.doLogin(); });
+window.doLogout = () => { document.getElementById('adminApp').style.display='none'; document.getElementById('loginPage').style.display='flex'; };
+window.changePass = () => {
+  const o=document.getElementById('pw-old').value, n=document.getElementById('pw-new').value, n2=document.getElementById('pw-new2').value;
+  if(o!==PASS){toast('Mevcut şifre hatalı!','error');return;}
+  if(!n||n.length<6){toast('En az 6 karakter!','error');return;}
+  if(n!==n2){toast('Şifreler eşleşmiyor!','error');return;}
+  PASS=n; localStorage.setItem('anadolu_adminPass',n);
+  ['pw-old','pw-new','pw-new2'].forEach(id=>document.getElementById(id).value='');
+  toast('Şifre güncellendi ✓','success');
+};
+
+// NAV
+window.go = page => {
+  document.querySelectorAll('.ps').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  const t={dashboard:'📊 Dashboard',messages:'✉️ Mesajlar',logo:'🖼 Logo Değiştir',banners:'🎞️ Bannerlar',services:'⚙️ Hizmetler',refs:'📸 Referans Galerisi',projects:'🏗️ Projeler',brands:'🏷️ Markalar',settings:'⚙️ Site Ayarları',password:'🔑 Şifre Değiştir'};
+  document.getElementById('pageTitle').textContent=t[page]||page;
+  document.querySelectorAll('.nav-item').forEach(n=>{ if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+page+"'")) n.classList.add('active'); });
+};
+
+// TOAST
+function toast(msg,type='info'){
+  const w=document.getElementById('tw'), t=document.createElement('div');
+  t.className='toast toast-'+type; t.innerHTML=(type==='success'?'✅':type==='error'?'❌':'ℹ️')+' '+msg;
+  w.appendChild(t); setTimeout(()=>t.remove(),3200);
+}
+window.openMod = id => document.getElementById(id).classList.add('open');
+window.closeMod = id => document.getElementById(id).classList.remove('open');
+document.querySelectorAll('.mo').forEach(m=>m.addEventListener('click',function(e){ if(e.target===this)this.classList.remove('open'); }));
+
+// DATA
+let bans=[], svcs=[], refs=[], brands=[], msgs=[], projs=[], siData={};
+
+function rDash(){
+  document.getElementById('ds-b').textContent=bans.length;
+  document.getElementById('ds-s').textContent=svcs.length;
+  document.getElementById('ds-r').textContent=refs.length;
+  document.getElementById('ds-pr').textContent=projs.length;
+  document.getElementById('ds-br').textContent=brands.length;
+  document.getElementById('ds-m').textContent=msgs.length;
+  const badge=document.getElementById('msgBadge');
+  if(msgs.length>0){badge.textContent=msgs.length;badge.style.display='inline-flex';}else badge.style.display='none';
+  document.getElementById('dashMsgs').innerHTML=`<thead><tr><th>Ad</th><th>Telefon</th><th>Hizmet</th><th>Tarih</th></tr></thead><tbody>${msgs.slice(0,5).map(m=>`<tr><td>${m.name||'-'}</td><td>${m.phone||'-'}</td><td>${m.service||'-'}</td><td style="color:var(--text2)">${(m.createdAt||'').substring(0,10)||'-'}</td></tr>`).join('')}</tbody>`;
+}
+
+// LOGO
+window.saveLogo = async () => {
+  const url=document.getElementById('logoUrlInp').value.trim();
+  if(!url){toast('URL girin!','error');return;}
+  try{ await setDoc(doc(db,'settings','main'),{logoUrl:url},{merge:true}); document.getElementById('logoPrevImg').src=url; document.getElementById('sidebarLogo').src=url; toast('Logo kaydedildi ✓','success'); }
+  catch(e){ toast('Hata: '+e.message,'error'); }
+};
+
+// BANNERS
+let eBId=null;
+function rBanners(){ document.getElementById('ds-b').textContent=bans.length; document.getElementById('bannerTable').innerHTML=`<thead><tr><th>#</th><th>Başlık</th><th>Görsel</th><th>İşlemler</th></tr></thead><tbody>${bans.map((b,i)=>`<tr><td><span class="badge badge-b">${i+1}</span></td><td><strong>${b.title}</strong></td><td style="color:var(--text2);font-size:11px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${b.bg}</td><td><div style="display:flex;gap:6px;"><button class="btn btn-secondary btn-sm" onclick="openBannerMod('${b.id}')">✏️</button><button class="btn btn-danger btn-sm" onclick="delBanner('${b.id}')">🗑️</button></div></td></tr>`).join('')}</tbody>`; }
+window.openBannerMod = id => {
+  eBId=id;
+  document.getElementById('bmT').textContent=id?'Banner Düzenle':'Banner Ekle';
+  const b=id?bans.find(x=>x.id===id):null;
+  document.getElementById('bm-title').value=b?.title||''; document.getElementById('bm-sub').value=b?.subtitle||''; document.getElementById('bm-tag').value=b?.tag||''; document.getElementById('bm-bg').value=b?.bg||''; document.getElementById('bm-order').value=b?.order||bans.length+1;
+  if(b?.bg){const p=document.getElementById('bm-prev');p.style.backgroundImage=`url('%24%7bb.html')`;p.classList.add('show');document.getElementById('bm-prev-t').textContent=b.title||'Önizleme';}else document.getElementById('bm-prev').classList.remove('show');
+  openMod('bannerMod');
+};
+window.prevBanner=()=>{const bg=document.getElementById('bm-bg').value,t=document.getElementById('bm-title').value,p=document.getElementById('bm-prev');if(bg){p.style.backgroundImage=`url('%24%7bbg%7d.html')`;p.classList.add('show');document.getElementById('bm-prev-t').textContent=t||'Önizleme';}else p.classList.remove('show');};
+window.saveBanner = async () => {
+  const d={title:document.getElementById('bm-title').value.trim(),subtitle:document.getElementById('bm-sub').value.trim(),tag:document.getElementById('bm-tag').value.trim()||'Hizmetlerimiz',bg:document.getElementById('bm-bg').value.trim(),order:parseInt(document.getElementById('bm-order').value)||1};
+  if(!d.title||!d.bg){toast('Başlık ve görsel zorunlu!','error');return;}
+  try{ if(eBId) await updateDoc(doc(db,'banners',eBId),d); else await addDoc(collection(db,'banners'),d); closeMod('bannerMod'); toast('Kaydedildi ✓','success'); }catch(e){toast('Hata: '+e.message,'error');}
+};
+window.delBanner = async id => { if(!confirm('Silinsin mi?'))return; try{await deleteDoc(doc(db,'banners',id));toast('Silindi.','info');}catch(e){toast('Hata','error');} };
+
+// SERVICES
+let eSId=null;
+function rServices(){ document.getElementById('ds-s').textContent=svcs.length; document.getElementById('serviceTable').innerHTML=`<thead><tr><th>İkon</th><th>Ad</th><th>Görsel</th><th>Sıra</th><th>İşlemler</th></tr></thead><tbody>${svcs.map(s=>`<tr><td style="font-size:18px">${s.icon}</td><td><strong>${s.title}</strong></td><td style="color:var(--text2);font-size:11px">${(s.img||'-').substring(0,25)}</td><td>${s.order||'-'}</td><td><div style="display:flex;gap:6px;"><button class="btn btn-secondary btn-sm" onclick="openServiceMod('${s.id}')">✏️</button><button class="btn btn-danger btn-sm" onclick="delSvc('${s.id}')">🗑️</button></div></td></tr>`).join('')}</tbody>`; }
+window.openServiceMod = id => {
+  eSId=id; document.getElementById('smT').textContent=id?'Hizmet Düzenle':'Hizmet Ekle';
+  const s=id?svcs.find(x=>x.id===id):null;
+  document.getElementById('sm-icon').value=s?.icon||''; document.getElementById('sm-title').value=s?.title||''; document.getElementById('sm-img').value=s?.img||''; document.getElementById('sm-desc').value=s?.desc||''; document.getElementById('sm-order').value=s?.order||svcs.length+1;
+  const p=document.getElementById('sm-prev');if(s?.img){p.src=s.img;p.classList.add('show');}else p.classList.remove('show');
+  openMod('serviceMod');
+};
+window.prevSvc=()=>{const u=document.getElementById('sm-img').value,p=document.getElementById('sm-prev');if(u){p.src=u;p.classList.add('show');}else p.classList.remove('show');};
+window.saveSvc = async () => {
+  const d={icon:document.getElementById('sm-icon').value.trim()||'⚙️',title:document.getElementById('sm-title').value.trim(),img:document.getElementById('sm-img').value.trim(),desc:document.getElementById('sm-desc').value.trim(),order:parseInt(document.getElementById('sm-order').value)||1};
+  if(!d.title){toast('Ad zorunlu!','error');return;}
+  try{ if(eSId) await updateDoc(doc(db,'services',eSId),d); else await addDoc(collection(db,'services'),d); closeMod('serviceMod'); toast('Kaydedildi ✓','success'); }catch(e){toast('Hata: '+e.message,'error');}
+};
+window.delSvc = async id => { if(!confirm('Silinsin mi?'))return; try{await deleteDoc(doc(db,'services',id));toast('Silindi.','info');}catch(e){toast('Hata','error');} };
+
+// REFS
+let eRId=null;
+function rRefs(){
+  document.getElementById('ds-r').textContent=refs.length;
+  document.getElementById('refAdminGrid').innerHTML=refs.map(r=>`<div class="ref-item"><img src="${r.img}" alt="${r.name}"><button class="rd" onclick="delRef('${r.id}')">✕</button><div class="ri"><div style="font-weight:600;font-size:11px;">${r.name}</div><div style="color:var(--text2);font-size:10px;">${r.cat}</div></div></div>`).join('')+`<div class="ref-add" onclick="openRefMod(null)"><span style="font-size:26px;">+</span><span>Ekle</span></div>`;
+}
+window.openRefMod = id => {
+  eRId=id; document.getElementById('rmT').textContent=id?'Referans Düzenle':'Referans Ekle';
+  const r=id?refs.find(x=>x.id===id):null;
+  document.getElementById('rm-img').value=r?.img||''; document.getElementById('rm-name').value=r?.name||''; document.getElementById('rm-cat').value=r?.cat||'';
+  const p=document.getElementById('rm-prev');if(r?.img){p.src=r.img;p.classList.add('show');}else p.classList.remove('show');
+  openMod('refMod');
+};
+window.prevRef=()=>{const u=document.getElementById('rm-img').value,p=document.getElementById('rm-prev');if(u){p.src=u;p.classList.add('show');}else p.classList.remove('show');};
+window.saveRef = async () => {
+  const d={img:document.getElementById('rm-img').value.trim(),name:document.getElementById('rm-name').value.trim(),cat:document.getElementById('rm-cat').value.trim(),order:eRId?refs.find(x=>x.id===eRId)?.order||refs.length+1:refs.length+1};
+  if(!d.img||!d.name){toast('Görsel ve isim zorunlu!','error');return;}
+  try{ if(eRId) await updateDoc(doc(db,'refs',eRId),d); else await addDoc(collection(db,'refs'),d); closeMod('refMod'); toast('Kaydedildi ✓','success'); }catch(e){toast('Hata: '+e.message,'error');}
+};
+window.delRef = async id => { if(!confirm('Silinsin mi?'))return; try{await deleteDoc(doc(db,'refs',id));toast('Silindi.','info');}catch(e){toast('Hata','error');} };
+
+// BRANDS
+let eBrId=null;
+function rBrands(){ document.getElementById('ds-br').textContent=brands.length; document.getElementById('brandTable').innerHTML=`<thead><tr><th>Marka</th><th>Kategori</th><th>İşlemler</th></tr></thead><tbody>${brands.map(b=>`<tr><td><strong>${b.name}</strong></td><td><span class="badge badge-b">${b.cat}</span></td><td><div style="display:flex;gap:6px;"><button class="btn btn-secondary btn-sm" onclick="openBrandMod('${b.id}')">✏️</button><button class="btn btn-danger btn-sm" onclick="delBrand('${b.id}')">🗑️</button></div></td></tr>`).join('')}</tbody>`; }
+window.openBrandMod = id => {
+  eBrId=id; document.getElementById('brT').textContent=id?'Marka Düzenle':'Marka Ekle';
+  const b=id?brands.find(x=>x.id===id):null;
+  document.getElementById('brm-name').value=b?.name||''; document.getElementById('brm-cat').value=b?.cat||'';
+  openMod('brandMod');
+};
+window.saveBrand = async () => {
+  const d={name:document.getElementById('brm-name').value.trim().toUpperCase(),cat:document.getElementById('brm-cat').value.trim(),order:eBrId?brands.find(x=>x.id===eBrId)?.order||brands.length+1:brands.length+1};
+  if(!d.name){toast('Ad zorunlu!','error');return;}
+  try{ if(eBrId) await updateDoc(doc(db,'brands',eBrId),d); else await addDoc(collection(db,'brands'),d); closeMod('brandMod'); toast('Kaydedildi ✓','success'); }catch(e){toast('Hata: '+e.message,'error');}
+};
+window.delBrand = async id => { if(!confirm('Silinsin mi?'))return; try{await deleteDoc(doc(db,'brands',id));toast('Silindi.','info');}catch(e){toast('Hata','error');} };
+
+// PROJECTS
+let ePrId=null;
+function rProjects(){
+  document.getElementById('ds-pr').textContent=projs.length;
+  document.getElementById('projectTable').innerHTML=`<thead><tr><th>#</th><th>Proje Adı</th><th>Kategori</th><th>Konum</th><th>Yıl</th><th>Müşteri</th><th>İşlemler</th></tr></thead><tbody>${projs.map((p,i)=>`<tr><td><span class="badge badge-b">${i+1}</span></td><td><strong>${p.title}</strong></td><td><span class="badge badge-a">${p.cat||'-'}</span></td><td style="color:var(--text2)">${p.location||'-'}</td><td style="color:var(--text2)">${p.year||'-'}</td><td style="color:var(--text2)">${p.client||'-'}</td><td><div style="display:flex;gap:6px;"><button class="btn btn-secondary btn-sm" onclick="openProjectMod('${p.id}')">✏️</button><button class="btn btn-danger btn-sm" onclick="delProject('${p.id}')">🗑️</button></div></td></tr>`).join('')}</tbody>`;
+}
+window.openProjectMod = id => {
+  ePrId=id; document.getElementById('prT').textContent=id?'Proje Düzenle':'Proje Ekle';
+  const p=id?projs.find(x=>x.id===id):null;
+  document.getElementById('prm-title').value=p?.title||'';
+  document.getElementById('prm-cat').value=p?.cat||'';
+  document.getElementById('prm-img').value=p?.img||'';
+  document.getElementById('prm-desc').value=p?.desc||'';
+  document.getElementById('prm-location').value=p?.location||'';
+  document.getElementById('prm-year').value=p?.year||'';
+  document.getElementById('prm-client').value=p?.client||'';
+  document.getElementById('prm-order').value=p?.order||projs.length+1;
+  const pv=document.getElementById('prm-prev');if(p?.img){pv.src=p.img;pv.classList.add('show');}else pv.classList.remove('show');
+  openMod('projectMod');
+};
+window.prevProject=()=>{const u=document.getElementById('prm-img').value,p=document.getElementById('prm-prev');if(u){p.src=u;p.classList.add('show');}else p.classList.remove('show');};
+window.saveProject = async () => {
+  const d={title:document.getElementById('prm-title').value.trim(),cat:document.getElementById('prm-cat').value.trim()||'Genel',img:document.getElementById('prm-img').value.trim(),desc:document.getElementById('prm-desc').value.trim(),location:document.getElementById('prm-location').value.trim(),year:document.getElementById('prm-year').value.trim(),client:document.getElementById('prm-client').value.trim(),order:parseInt(document.getElementById('prm-order').value)||1};
+  if(!d.title){toast('Proje adı zorunlu!','error');return;}
+  try{ if(ePrId) await updateDoc(doc(db,'projects',ePrId),d); else await addDoc(collection(db,'projects'),d); closeMod('projectMod'); toast('Kaydedildi ✓','success'); }catch(e){toast('Hata: '+e.message,'error');}
+};
+window.delProject = async id => { if(!confirm('Proje silinsin mi?'))return; try{await deleteDoc(doc(db,'projects',id));toast('Silindi.','info');}catch(e){toast('Hata','error');} };
+
+// MESSAGES
+function rMsgs(){
+  document.getElementById('ds-m').textContent=msgs.length;
+  const badge=document.getElementById('msgBadge');
+  if(msgs.length>0){badge.textContent=msgs.length;badge.style.display='inline-flex';}else badge.style.display='none';
+  document.getElementById('msgTable').innerHTML=`<thead><tr><th>Ad Soyad</th><th>Telefon</th><th>E-posta</th><th>Hizmet</th><th>Tarih</th><th>İşlem</th></tr></thead><tbody>${msgs.map((m,i)=>`<tr><td><strong>${m.name||'-'}</strong></td><td>${m.phone||'-'}</td><td style="color:var(--text2)">${m.email||'-'}</td><td><span class="badge badge-b">${m.service||'-'}</span></td><td style="color:var(--text2)">${(m.createdAt||'').substring(0,10)||'-'}</td><td><button class="btn btn-secondary btn-sm" onclick="viewMsg(${i})">Detay</button></td></tr>`).join('')}</tbody>`;
+  document.getElementById('dashMsgs').innerHTML=`<thead><tr><th>Ad</th><th>Telefon</th><th>Hizmet</th><th>Tarih</th></tr></thead><tbody>${msgs.slice(0,5).map(m=>`<tr><td>${m.name||'-'}</td><td>${m.phone||'-'}</td><td>${m.service||'-'}</td><td style="color:var(--text2)">${(m.createdAt||'').substring(0,10)||'-'}</td></tr>`).join('')}</tbody>`;
+}
+window.viewMsg = i => {
+  const m=msgs[i];
+  document.getElementById('msgModBody').innerHTML=`<div style="display:flex;flex-direction:column;gap:14px;">
+    <div><strong style="color:var(--text2);font-size:10px;text-transform:uppercase;letter-spacing:1px;">Ad Soyad</strong><p style="margin-top:4px;font-size:15px;">${m.name||'-'}</p></div>
+    <div><strong style="color:var(--text2);font-size:10px;text-transform:uppercase;letter-spacing:1px;">Telefon</strong><p style="margin-top:4px;">${m.phone||'-'}</p></div>
+    <div><strong style="color:var(--text2);font-size:10px;text-transform:uppercase;letter-spacing:1px;">E-posta</strong><p style="margin-top:4px;">${m.email||'-'}</p></div>
+    <div><strong style="color:var(--text2);font-size:10px;text-transform:uppercase;letter-spacing:1px;">Hizmet</strong><p style="margin-top:4px;">${m.service||'-'}</p></div>
+    <div><strong style="color:var(--text2);font-size:10px;text-transform:uppercase;letter-spacing:1px;">Mesaj</strong><p style="margin-top:4px;color:var(--text2);">${m.msg||'-'}</p></div>
+    <div><strong style="color:var(--text2);font-size:10px;text-transform:uppercase;letter-spacing:1px;">Tarih</strong><p style="margin-top:4px;color:var(--text2);">${m.createdAt||'-'}</p></div>
+    <div style="display:flex;gap:8px;margin-top:6px;">
+      <a href="tel:${m.phone}" class="btn btn-primary">📞 Ara</a>
+      <a href="https://wa.me/90${(m.phone||'').replace(/\D/g,'').replace(/^0/,'')}" target="_blank" class="btn btn-secondary">💬 WhatsApp</a>
+    </div>
+  </div>`;
+  openMod('msgMod');
+};
+
+// SETTINGS
+function loadSI(){
+  const f=(id,v)=>{const e=document.getElementById(id);if(e)e.value=v||'';};
+  f('set-phone',siData.phone);f('set-email',siData.email);f('set-wa',siData.whatsapp);
+  f('set-hours',siData.hours);f('set-addr',siData.address);
+  f('set-heroTitle',siData.heroTitle);f('set-heroDesc',siData.heroDesc);
+  f('set-s1',siData.stat1);f('set-s2',siData.stat2);f('set-s3',siData.stat3);f('set-s4',siData.stat4);
+  if(siData.logoUrl){document.getElementById('logoPrevImg').src=siData.logoUrl;document.getElementById('sidebarLogo').src=siData.logoUrl;document.getElementById('logoUrlInp').value=siData.logoUrl;}
+}
+window.saveSettings = async () => {
+  const d={phone:document.getElementById('set-phone').value.trim(),email:document.getElementById('set-email').value.trim(),whatsapp:document.getElementById('set-wa').value.trim(),hours:document.getElementById('set-hours').value.trim(),address:document.getElementById('set-addr').value.trim(),heroTitle:document.getElementById('set-heroTitle').value.trim(),heroDesc:document.getElementById('set-heroDesc').value.trim(),stat1:document.getElementById('set-s1').value.trim(),stat2:document.getElementById('set-s2').value.trim(),stat3:document.getElementById('set-s3').value.trim(),stat4:document.getElementById('set-s4').value.trim()};
+  try{ await setDoc(doc(db,'settings','main'),d,{merge:true}); toast('Kaydedildi ✓','success'); }catch(e){ toast('Hata: '+e.message,'error'); }
+};
+
+// LOAD + REALTIME
+async function loadAll(){
+  try{
+    const DEF_B=[{title:'Profesyonel Ses Çözümleri',subtitle:'Her mekan için özel ses tasarımı.',tag:'Hizmetlerimiz',bg:'ref1.jpg',order:1},{title:'Işık & Görüntü',subtitle:'Modern LED teknolojisi.',tag:'Çözümlerimiz',bg:'ref2.jpg',order:2},{title:'Konferans Sistemleri',subtitle:'Profesyonel toplantı çözümleri.',tag:'Sistemler',bg:'ref4.jpg',order:3}];
+    const DEF_S=[{icon:'🎵',title:'Profesyonel Ses Sistemleri',img:'ref3.jpg',desc:'Akustik hesaplama ve ses sistemi tasarımı.',order:1},{icon:'💡',title:'Işık & Sahne Sistemleri',img:'ref2.jpg',desc:'Sahne ışıklandırması ve LED sistemleri.',order:2},{icon:'📹',title:'Görüntü & Kamera',img:'ref11.jpg',desc:'LED ekran, projeksiyon ve kamera sistemleri.',order:3},{icon:'🎤',title:'Konferans Sistemleri',img:'ref4.jpg',desc:'Eş zamanlı tercüme sistemleri.',order:4},{icon:'🔔',title:'Hemşire Çağrı',img:'ref6.jpg',desc:'Hastane çağrı sistemleri.',order:5},{icon:'📢',title:'Acil Anons',img:'ref7.jpg',desc:'Yangın ve tahliye sistemleri.',order:6},{icon:'🔧',title:'Zayıf Akım',img:'ref8.jpg',desc:'Erişim kontrol ve interkom.',order:7},{icon:'🏗️',title:'Truss Sistemleri',img:'ref10.jpg',desc:'Sahne truss ve askı sistemleri.',order:8},{icon:'🎛️',title:'Akustik Tasarım',img:'ref9.jpg',desc:'Ses yalıtımı ve akustik düzenleme.',order:9}];
+    const DEF_R=[{img:'ref1.jpg',name:'Kültür Merkezi',cat:'Ses & Işık',order:1},{img:'ref2.jpg',name:'Tiyatro Salonu',cat:'Ses',order:2},{img:'ref3.jpg',name:'Üniversite Konferans',cat:'Konferans',order:3},{img:'ref4.jpg',name:'VIP Toplantı',cat:'Konferans',order:4},{img:'ref5.jpg',name:'Eğlence Mekanı',cat:'Ses',order:5},{img:'ref6.jpg',name:'Belediye Kültür',cat:'Işık',order:6},{img:'ref7.jpg',name:'Kongre Merkezi',cat:'Ses',order:7},{img:'ref8.jpg',name:'Sahne Kurulumu',cat:'Ses',order:8},{img:'ref9.jpg',name:'Konser Akustik',cat:'Akustik',order:9},{img:'ref10.jpg',name:'Güvenlik Kamera',cat:'Zayıf Akım',order:10},{img:'ref11.jpg',name:'Truss Sistemi',cat:'Truss',order:11}];
+    const DEF_BR=[{name:'BOSCH',cat:'Ses',order:1},{name:'BOSE',cat:'Ses',order:2},{name:'SHURE',cat:'Mikrofon',order:3},{name:'YAMAHA',cat:'Mixer',order:4},{name:'QSC',cat:'Amplifikatör',order:5},{name:'SENNHEISER',cat:'Wireless',order:6},{name:'CROWN',cat:'Amplifikatör',order:7},{name:'BEYERDYNAMIC',cat:'Mikrofon',order:8},{name:'PHILIPS',cat:'Işık',order:9},{name:'OSRAM',cat:'LED',order:10},{name:'SONY',cat:'Görüntü',order:11},{name:'PANASONIC',cat:'Projeksiyon',order:12}];
+    const DEF_SI={phone:'+90 (312) 442 15 13',email:'info@anadoluses.com',address:'Aziziye Mah, Cinnah Cad. No:4/11 Çankaya / Ankara',whatsapp:'903124421513',hours:'Pzt–Cum: 08:00–18:00',heroTitle:'GÜÇLÜ SES<br><em>KUSURSUZ</em><br>GÖRÜNTÜ',heroDesc:'Konferans salonlarından kültür merkezlerine kadar profesyonel ses, ışık ve görüntü sistemleri.',stat1:'300+',stat2:'15+',stat3:'50+',stat4:'7/24',logoUrl:'logo.jpg'};
+
+    const seed = async (name, data) => { try{ const s=await getDocs(collection(db,name)); if(s.empty) for(const d of data) await addDoc(collection(db,name),d); }catch(e){} };
+    const seedSI = async () => { try{ const s=await getDoc(doc(db,'settings','main')); if(!s.exists()) await setDoc(doc(db,'settings','main'),DEF_SI); }catch(e){} };
+    const DEF_P=[{title:'Ankara Kültür Merkezi',cat:'Ses & Işık',img:'ref1.jpg',desc:'Tam donanımlı ses ve sahne ışık sistemleri kurulumu.',location:'Ankara',year:'2024',client:'Ankara Büyükşehir',order:1},{title:'Üniversite Konferans Salonu',cat:'Konferans',img:'ref3.jpg',desc:'Eş zamanlı tercüme ve projeksiyon sistemi.',location:'Ankara',year:'2024',client:'Hacettepe Üniversitesi',order:2},{title:'VIP Toplantı Odası',cat:'Konferans',img:'ref4.jpg',desc:'Ses akustiği ve gömülü mikrofon sistemi.',location:'İstanbul',year:'2023',client:'Özel Sektör',order:3}];
+    await Promise.all([seed('banners',DEF_B),seed('services',DEF_S),seed('refs',DEF_R),seed('brands',DEF_BR),seed('projects',DEF_P),seedSI()]);
+    toast('Firebase bağlantısı kuruldu ✓','success');
+  }catch(e){ toast('Firebase: '+e.message,'error'); }
+
+  onSnapshot(collection(db,'banners'),s=>{bans=[];s.forEach(x=>bans.push({id:x.id,...x.data()}));bans.sort((a,b)=>(a.order||0)-(b.order||0));rBanners();rDash();});
+  onSnapshot(collection(db,'services'),s=>{svcs=[];s.forEach(x=>svcs.push({id:x.id,...x.data()}));svcs.sort((a,b)=>(a.order||0)-(b.order||0));rServices();rDash();});
+  onSnapshot(collection(db,'refs'),s=>{refs=[];s.forEach(x=>refs.push({id:x.id,...x.data()}));refs.sort((a,b)=>(a.order||0)-(b.order||0));rRefs();rDash();});
+  onSnapshot(collection(db,'projects'),s=>{projs=[];s.forEach(x=>projs.push({id:x.id,...x.data()}));projs.sort((a,b)=>(a.order||0)-(b.order||0));rProjects();rDash();});
+  onSnapshot(collection(db,'brands'),s=>{brands=[];s.forEach(x=>brands.push({id:x.id,...x.data()}));brands.sort((a,b)=>(a.order||0)-(b.order||0));rBrands();rDash();});
+  onSnapshot(collection(db,'messages'),s=>{msgs=[];s.forEach(x=>msgs.push({id:x.id,...x.data()}));msgs.sort((a,b)=>(b.createdAt||'').localeCompare(a.createdAt||''));rMsgs();rDash();});
+  onSnapshot(doc(db,'settings','main'),s=>{if(s.exists()){siData=s.data();loadSI();}});
+}
+</script>
+</body>
+
+<!-- Mirrored from anadoluses.com.tr/admin by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 02 May 2026 16:13:22 GMT -->
+</html>
