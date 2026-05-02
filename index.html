@@ -190,10 +190,10 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56p
 .footer-bottom p{font-size:12px;color:var(--text2);}
 .footer-bottom a{color:var(--accent);text-decoration:none;}
 /* BANNER */
-.banner-section{position:relative;overflow:hidden;height:490px;}
+.banner-section{position:relative;overflow:hidden;height:480px;}
 .banner-slide{position:absolute;inset:0;display:flex;align-items:center;opacity:0;transition:opacity 1s;}
 .banner-slide.active{opacity:1;}
-.banner-slide-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 8s;}
+.banner-slide-bg{position:absolute;inset:0;background-size:cover;background-position:center center;background-repeat:no-repeat;transition:transform 8s;}
 .banner-slide.active .banner-slide-bg{transform:scale(1.04);}
 .banner-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,10,10,.88) 0%,rgba(10,10,10,.2) 100%);}
 .banner-content{position:relative;z-index:1;}
@@ -562,12 +562,21 @@ function applyInfo(si){
 }
 
 let cb=0;
+function clImg(url, w=1400, h=600){
+  if(!url) return '';
+  // Cloudinary URL'sine otomatik boyutlandırma ekle
+  if(url.includes('res.cloudinary.com')){
+    return url.replace('/upload/', `/upload/w_${w},h_${h},c_fill,g_center/`);
+  }
+  return url;
+}
+
 function renderBanners(data){
   const sec=document.getElementById('bannerSection'),dots=document.getElementById('bannerDots');
   sec.querySelectorAll('.banner-slide').forEach(e=>e.remove()); dots.innerHTML='';
   data.forEach((b,i)=>{
     const s=document.createElement('div'); s.className='banner-slide'+(i===0?' active':'');
-    s.innerHTML=`<div class="banner-slide-bg" style="background-image:url('${b.bg}')"></div><div class="banner-overlay"></div><div class="container"><div class="banner-content"><div class="section-tag">${b.tag||'Hizmetlerimiz'}</div><h2>${b.title}</h2><p>${b.subtitle}</p><div style="margin-top:22px;"><a href="#iletisim" class="btn-primary">Teklif Al</a></div></div></div>`;
+    s.innerHTML=`<div class="banner-slide-bg" style="background-image:url('${clImg(b.bg,1400,600)}')"></div><div class="banner-overlay"></div><div class="container"><div class="banner-content"><div class="section-tag">${b.tag||'Hizmetlerimiz'}</div><h2>${b.title}</h2><p>${b.subtitle}</p><div style="margin-top:22px;"><a href="#iletisim" class="btn-primary">Teklif Al</a></div></div></div>`;
     sec.insertBefore(s,sec.querySelector('.banner-nav'));
     const d=document.createElement('div'); d.className='banner-dot'+(i===0?' active':'');
     d.onclick=()=>goBanner(i); dots.appendChild(d);
