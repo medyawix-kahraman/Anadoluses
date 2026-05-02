@@ -118,6 +118,7 @@ section{padding:90px 0;}
 .ref-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:52px;}
 .ref-card{position:relative;overflow:hidden;cursor:pointer;aspect-ratio:4/3;}
 .ref-card img{width:100%;height:100%;object-fit:cover;transition:transform .5s;display:block;}
+.ref-card img[src=""],.ref-card img:not([src]){display:none;}
 .ref-card:hover img{transform:scale(1.07);}
 .ref-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,10,.92) 0%,transparent 55%);display:flex;flex-direction:column;justify-content:flex-end;padding:14px;opacity:0;transition:opacity .3s;}
 .ref-card:hover .ref-overlay{opacity:1;}
@@ -555,6 +556,16 @@ function applyInfo(si){
   se('stat1',si.stat1);se('stat2',si.stat2);se('stat3',si.stat3);se('stat4',si.stat4);
   se('tb-phone','📞 '+(si.phone||''));se('tb-email','✉ '+(si.email||''));
   se('tb-address','📍 '+(si.address||''));se('tb-hours',si.hours||'');
+  if(si.heroImg){
+    const hv=document.getElementById('heroVisual');
+    const hi=document.getElementById('heroVisualImg');
+    if(hv&&hi){hi.src=si.heroImg;hv.style.display='flex';}
+  }
+  if(si.aboutImg){
+    const aw=document.getElementById('aboutImgWrap');
+    const ai=document.getElementById('about-img');
+    if(aw&&ai){ai.src=si.aboutImg;aw.style.display='block';}
+  }
   if(si.heroTitle) document.getElementById('hero-title').innerHTML=si.heroTitle;
   se('hero-desc',si.heroDesc);
   if(si.whatsapp){const w='https://wa.me/'+si.whatsapp;['waFloat','wa-btn','footer-wa'].forEach(id=>{const e=document.getElementById(id);if(e)e.href=w;});}
@@ -608,7 +619,7 @@ function getSvgIcon(key){
 function renderServices(data){
   document.getElementById('servicesGrid').innerHTML=data.map(s=>`
     <div class="service-card fade-in">
-      ${s.img?`<img src="${s.img}" alt="${s.title}" class="service-img">`:''}
+      ${s.img?`<img src="${s.img}" alt="${s.title}" class="service-img" onerror="this.style.display='none'">`:''}
       <div class="service-body">
         <div class="service-icon-wrap">${getSvgIcon(s.icon||'')}</div>
         <h3>${s.title}</h3>
@@ -619,23 +630,7 @@ function renderServices(data){
   obsFade();
 }
 function renderRefs(data){
-  // Set hero visual from first ref image
-  if(data && data.length > 0 && data[0].img){
-    const hv = document.getElementById('heroVisual');
-    const hi = document.getElementById('heroVisualImg');
-    if(hv && hi){ hi.src=data[0].img; hv.style.display='flex'; }
-  }
-  // Set about image from second ref image
-  if(data && data.length > 1 && data[1].img){
-    const aw = document.getElementById('aboutImgWrap');
-    const ai = document.getElementById('about-img');
-    if(aw && ai){ ai.src=data[1].img; aw.style.display='block'; }
-  } else if(data && data.length > 0 && data[0].img){
-    const aw = document.getElementById('aboutImgWrap');
-    const ai = document.getElementById('about-img');
-    if(aw && ai){ ai.src=data[0].img; aw.style.display='block'; }
-  }
-  document.getElementById('refGrid').innerHTML=data.map(r=>`<div class="ref-card fade-in" onclick="openRef('${r.img}','${r.name}','${r.cat}')"><img src="${r.img}" alt="${r.name}" loading="lazy"><div class="ref-overlay"><div class="ref-cat">${r.cat}</div><div class="ref-name">${r.name}</div></div></div>`).join('');
+  document.getElementById('refGrid').innerHTML=data.map(r=>`<div class="ref-card fade-in" onclick="openRef('${r.img}','${r.name}','${r.cat}')"><img src="${r.img}" alt="${r.name}" loading="lazy" onerror="this.closest('.ref-card').style.display='none'"><div class="ref-overlay"><div class="ref-cat">${r.cat}</div><div class="ref-name">${r.name}</div></div></div>`).join('');
   obsFade();
 }
 
@@ -655,7 +650,7 @@ window.filterProjects=function(cat){
   if(filtered.length===0){grid.innerHTML='<div class="projects-empty">Bu kategoride proje bulunamadı.</div>';return;}
   grid.innerHTML=filtered.map(p=>`<div class="project-card fade-in">
     <div class="project-img-wrap">
-      <img src="${p.img||'ref1.jpg'}" alt="${p.title}" class="project-img" loading="lazy">
+      <img src="${p.img||''}" alt="${p.title}" class="project-img" loading="lazy" onerror="this.style.display='none'">
       <span class="project-cat-badge">${p.cat||'Genel'}</span>
     </div>
     <div class="project-body">

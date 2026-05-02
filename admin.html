@@ -330,8 +330,16 @@ tr:hover td{background:rgba(255,255,255,.02);}
           </div>
         </div>
         <div class="settings-card">
-          <h4>🖼️ Logo</h4>
-          <div class="form-group"><label>Logo URL (örn: logo.jpg veya https://...)</label><input type="text" id="s-logoUrl"></div>
+          <h4>🖼️ Ana Sayfa Görselleri</h4>
+          <div class="form-group">
+            <label>Hero Görseli URL (sağ taraftaki büyük görsel)</label>
+            <input type="text" id="s-heroImg" placeholder="https://res.cloudinary.com/...">
+            <div class="form-hint">Admin panelinden görsel yükleyip URL'sini buraya yapıştırın</div>
+          </div>
+          <div class="form-group">
+            <label>Hakkımızda Görseli URL</label>
+            <input type="text" id="s-aboutImg" placeholder="https://res.cloudinary.com/...">
+          </div>
         </div>
         <button class="btn btn-primary" onclick="saveSettings()" style="padding:12px 32px;font-size:15px;">💾 Ayarları Kaydet</button>
       </div>
@@ -548,7 +556,8 @@ async function loadSettings(){
       document.getElementById('s-stat2').value=d.stat2||'';
       document.getElementById('s-stat3').value=d.stat3||'';
       document.getElementById('s-stat4').value=d.stat4||'';
-      document.getElementById('s-logoUrl').value=d.logoUrl||'';
+      document.getElementById('s-heroImg').value=d.heroImg||'';
+      document.getElementById('s-aboutImg').value=d.aboutImg||'';
     }
   }catch(e){toast('Ayarlar yüklenemedi','error');}
 }
@@ -566,7 +575,8 @@ window.saveSettings = async function(){
       stat2:document.getElementById('s-stat2').value,
       stat3:document.getElementById('s-stat3').value,
       stat4:document.getElementById('s-stat4').value,
-      logoUrl:document.getElementById('s-logoUrl').value,
+      heroImg:document.getElementById('s-heroImg').value,
+      aboutImg:document.getElementById('s-aboutImg').value,
     });
     toast('Ayarlar kaydedildi!');
   }catch(e){toast('Hata: '+e.message,'error');}
