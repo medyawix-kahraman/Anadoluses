@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Paneli — Anadolu Ses Işık</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--surface3:#30363d;
+  --accent:#f5a623;--accent2:#c87d0e;--red:#f85149;--green:#3fb950;
+  --text:#e6edf3;--text2:#8b949e;--border:#30363d;
+  --radius:8px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);}
+
+/* ── LOGIN ── */
+#loginScreen{
+  position:fixed;inset:0;z-index:9999;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+}
+.login-box{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:48px 40px;width:100%;max-width:380px;
+  text-align:center;
+}
+.login-logo{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;color:var(--accent);letter-spacing:2px;margin-bottom:4px;}
+.login-sub{font-size:12px;color:var(--text2);letter-spacing:1px;margin-bottom:32px;}
+.login-box input{
+  width:100%;background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:12px 14px;color:var(--text);
+  font-size:15px;font-family:'Barlow',sans-serif;outline:none;
+  transition:border-color .2s;text-align:center;letter-spacing:4px;margin-bottom:14px;
+}
+.login-box input:focus{border-color:var(--accent);}
+.login-box button{
+  width:100%;background:var(--accent);color:#000;border:none;
+  border-radius:var(--radius);padding:13px;font-size:15px;font-weight:700;
+  font-family:'Barlow',sans-serif;cursor:pointer;transition:background .2s;
+}
+.login-box button:hover{background:var(--accent2);}
+.login-err{color:var(--red);font-size:13px;margin-top:10px;display:none;}
+
+/* ── LAYOUT ── */
+#app{display:none;height:100%;flex-direction:row;}
+#app.show{display:flex;}
+
+/* SIDEBAR */
+.sidebar{
+  width:230px;min-height:100vh;background:var(--surface);
+  border-right:1px solid var(--border);display:flex;flex-direction:column;
+  flex-shrink:0;position:sticky;top:0;height:100vh;
+}
+.sidebar-logo{
+  padding:22px 20px 18px;border-bottom:1px solid var(--border);
+  font-family:'Barlow Condensed',sans-serif;
+}
+.sidebar-logo .brand{font-size:17px;font-weight:900;color:var(--accent);}
+.sidebar-logo .sub{font-size:10px;color:var(--text2);letter-spacing:1px;margin-top:2px;}
+.sidebar-nav{flex:1;padding:12px 8px;overflow-y:auto;}
+.nav-section{font-size:10px;color:var(--text2);letter-spacing:2px;text-transform:uppercase;padding:16px 12px 6px;}
+.nav-item{
+  display:flex;align-items:center;gap:10px;padding:9px 12px;
+  border-radius:6px;cursor:pointer;font-size:13px;font-weight:500;
+  color:var(--text2);transition:all .15s;margin-bottom:2px;
+}
+.nav-item:hover{background:var(--surface2);color:var(--text);}
+.nav-item.active{background:rgba(245,166,35,.12);color:var(--accent);}
+.nav-item .icon{font-size:16px;width:20px;text-align:center;}
+.sidebar-footer{padding:14px 16px;border-top:1px solid var(--border);}
+.logout-btn{
+  width:100%;background:transparent;border:1px solid var(--border);
+  border-radius:6px;padding:8px;color:var(--text2);font-size:12px;
+  cursor:pointer;font-family:'Barlow',sans-serif;transition:all .2s;
+}
+.logout-btn:hover{border-color:var(--red);color:var(--red);}
+
+/* MAIN */
+.main{flex:1;min-height:100vh;display:flex;flex-direction:column;overflow-y:auto;}
+.topbar{
+  padding:16px 28px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--surface);position:sticky;top:0;z-index:100;
+}
+.page-title{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(63,185,80,.1);border:1px solid rgba(63,185,80,.3);color:var(--green);font-size:11px;padding:3px 10px;border-radius:50px;}
+.badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);}
+.content{padding:28px;flex:1;}
+
+/* CARDS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;}
+.stat-card .num{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:900;color:var(--accent);}
+.stat-card .lbl{font-size:12px;color:var(--text2);margin-top:2px;}
+
+/* SECTIONS */
+.section{display:none;}
+.section.active{display:block;}
+
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
+.toolbar-left{display:flex;align-items:center;gap:10px;}
+.btn{
+  display:inline-flex;align-items:center;gap:6px;padding:8px 16px;
+  border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;
+  font-family:'Barlow',sans-serif;border:none;transition:all .2s;
+}
+.btn-primary{background:var(--accent);color:#000;}
+.btn-primary:hover{background:var(--accent2);}
+.btn-danger{background:transparent;border:1px solid var(--red);color:var(--red);}
+.btn-danger:hover{background:var(--red);color:#fff;}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text2);}
+.btn-ghost:hover{border-color:var(--text2);color:var(--text);}
+.btn-sm{padding:5px 10px;font-size:11px;}
+
+/* TABLE */
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+table{width:100%;border-collapse:collapse;}
+th{background:var(--surface2);padding:10px 14px;text-align:left;font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:600;border-bottom:1px solid var(--border);}
+td{padding:11px 14px;border-bottom:1px solid rgba(48,54,61,.5);font-size:13px;vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,.02);}
+.td-img{width:52px;height:38px;object-fit:cover;border-radius:4px;}
+.td-actions{display:flex;gap:6px;}
+.order-num{font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--text2);font-size:14px;}
+
+/* MODAL */
+.modal-bg{
+  position:fixed;inset:0;z-index:5000;background:rgba(0,0,0,.8);
+  backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px;
+}
+.modal-bg.open{display:flex;}
+.modal{
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  width:100%;max-width:560px;max-height:90vh;overflow-y:auto;
+}
+.modal-head{
+  padding:20px 24px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;background:var(--surface);z-index:1;
+}
+.modal-head h3{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;}
+.modal-close{background:none;border:none;color:var(--text2);font-size:22px;cursor:pointer;line-height:1;padding:4px;}
+.modal-close:hover{color:var(--text);}
+.modal-body{padding:24px;}
+.modal-foot{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;position:sticky;bottom:0;background:var(--surface);}
+
+/* FORM */
+.form-group{margin-bottom:16px;}
+.form-group label{display:block;font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.form-group input,.form-group textarea,.form-group select{
+  width:100%;background:var(--surface2);border:1px solid var(--border);
+  border-radius:6px;padding:10px 12px;color:var(--text);font-size:14px;
+  font-family:'Barlow',sans-serif;outline:none;transition:border-color .2s;
+}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--accent);}
+.form-group textarea{resize:vertical;min-height:80px;}
+.form-group select option{background:var(--surface);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.form-hint{font-size:11px;color:var(--text2);margin-top:4px;}
+
+/* MESSAGES */
+.msg-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:18px 20px;margin-bottom:12px;
+  transition:border-color .2s;
+}
+.msg-card:hover{border-color:rgba(245,166,35,.3);}
+.msg-card.unread{border-left:3px solid var(--accent);}
+.msg-meta{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:8px;}
+.msg-meta span{font-size:12px;color:var(--text2);}
+.msg-meta strong{color:var(--text);}
+.msg-text{font-size:13px;color:var(--text2);line-height:1.6;}
+.msg-service{display:inline-block;background:rgba(245,166,35,.1);color:var(--accent);font-size:11px;padding:2px 8px;border-radius:50px;margin-bottom:6px;}
+.msg-date{font-size:11px;color:var(--text2);margin-top:8px;}
+.msg-actions{margin-top:10px;display:flex;gap:8px;}
+
+/* SETTINGS */
+.settings-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px;}
+.settings-card h4{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;margin-bottom:18px;color:var(--accent);}
+
+/* TOAST */
+#toast{
+  position:fixed;bottom:28px;right:28px;z-index:9999;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:8px;padding:12px 18px;font-size:13px;
+  display:none;align-items:center;gap:8px;max-width:320px;
+  box-shadow:0 8px 32px rgba(0,0,0,.4);
+}
+#toast.show{display:flex;}
+#toast.success{border-color:var(--green);color:var(--green);}
+#toast.error{border-color:var(--red);color:var(--red);}
+
+/* EMPTY */
+.empty{text-align:center;padding:60px 20px;color:var(--text2);font-size:14px;}
+.empty .icon{font-size:40px;margin-bottom:12px;}
+
+/* CONFIRM */
+.confirm-bg{position:fixed;inset:0;z-index:6000;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;}
+.confirm-bg.open{display:flex;}
+.confirm-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:28px 32px;max-width:380px;width:90%;text-align:center;}
+.confirm-box h4{font-size:17px;font-weight:700;margin-bottom:8px;}
+.confirm-box p{font-size:13px;color:var(--text2);margin-bottom:22px;line-height:1.6;}
+.confirm-btns{display:flex;gap:10px;justify-content:center;}
+
+/* LOADING */
+.spinner{display:inline-block;width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-row{text-align:center;padding:40px;color:var(--text2);}
+
+@media(max-width:768px){
+  .sidebar{display:none;}
+  .stats-row{grid-template-columns:repeat(2,1fr);}
+  .form-row{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">ANADOLU SES IŞIK</div>
+    <div class="login-sub">YÖNETİM PANELİ</div>
+    <input type="password" id="pwdInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    <button onclick="doLogin()">Giriş Yap</button>
+    <div class="login-err" id="loginErr">Şifre hatalı!</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="brand">ANADOLU SES IŞIK</div>
+      <div class="sub">ADMİN PANELİ</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">Genel</div>
+      <div class="nav-item active" onclick="showSection('dashboard')"><span class="icon">📊</span> Dashboard</div>
+      <div class="nav-item" onclick="showSection('messages')"><span class="icon">💬</span> Mesajlar <span id="msgBadge" style="margin-left:auto;background:var(--red);color:#fff;font-size:10px;padding:1px 6px;border-radius:50px;display:none"></span></div>
+      <div class="nav-section">İçerik</div>
+      <div class="nav-item" onclick="showSection('settings')"><span class="icon">⚙️</span> Site Ayarları</div>
+      <div class="nav-item" onclick="showSection('banners')"><span class="icon">🖼️</span> Bannerlar</div>
+      <div class="nav-item" onclick="showSection('services')"><span class="icon">🔧</span> Hizmetler</div>
+      <div class="nav-item" onclick="showSection('refs')"><span class="icon">📷</span> Galeri</div>
+      <div class="nav-item" onclick="showSection('projects')"><span class="icon">🏗️</span> Projeler</div>
+      <div class="nav-item" onclick="showSection('brands')"><span class="icon">🏷️</span> Markalar</div>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="doLogout()">🚪 Çıkış Yap</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="page-title" id="pageTitle">Dashboard</div>
+      <div class="badge">Canlı Bağlantı</div>
+    </div>
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div class="section active" id="sec-dashboard">
+        <div class="stats-row">
+          <div class="stat-card"><div class="num" id="ds-banners">—</div><div class="lbl">Banner</div></div>
+          <div class="stat-card"><div class="num" id="ds-services">—</div><div class="lbl">Hizmet</div></div>
+          <div class="stat-card"><div class="num" id="ds-projects">—</div><div class="lbl">Proje</div></div>
+          <div class="stat-card"><div class="num" id="ds-msgs">—</div><div class="lbl">Mesaj</div></div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
+          <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;margin-bottom:16px;">Hızlı Erişim</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;">
+            <div class="nav-item" onclick="showSection('messages')" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;cursor:pointer;"><span class="icon">💬</span> Gelen Mesajlar</div>
+            <div class="nav-item" onclick="showSection('services')" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;cursor:pointer;"><span class="icon">🔧</span> Hizmet Ekle</div>
+            <div class="nav-item" onclick="showSection('projects')" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;cursor:pointer;"><span class="icon">🏗️</span> Proje Ekle</div>
+            <div class="nav-item" onclick="showSection('refs')" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;cursor:pointer;"><span class="icon">📷</span> Galeri Ekle</div>
+            <div class="nav-item" onclick="showSection('settings')" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;cursor:pointer;"><span class="icon">⚙️</span> Site Ayarları</div>
+            <a href="index.html" target="_blank" class="nav-item" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;text-decoration:none;"><span class="icon">🌐</span> Siteyi Gör</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- MESSAGES -->
+      <div class="section" id="sec-messages">
+        <div class="toolbar">
+          <div style="font-size:13px;color:var(--text2);">Siteden gelen teklif/bilgi talepleri</div>
+          <button class="btn btn-ghost" onclick="loadMessages()">↻ Yenile</button>
+        </div>
+        <div id="msgList"><div class="loading-row"><div class="spinner"></div></div></div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="section" id="sec-settings">
+        <div class="settings-card">
+          <h4>📞 İletişim Bilgileri</h4>
+          <div class="form-row">
+            <div class="form-group"><label>Telefon</label><input type="text" id="s-phone"></div>
+            <div class="form-group"><label>WhatsApp (başında 90)</label><input type="text" id="s-wa"></div>
+          </div>
+          <div class="form-group"><label>E-posta</label><input type="text" id="s-email"></div>
+          <div class="form-group"><label>Adres</label><input type="text" id="s-address"></div>
+          <div class="form-group"><label>Çalışma Saatleri</label><input type="text" id="s-hours"></div>
+        </div>
+        <div class="settings-card">
+          <h4>🦸 Hero Bölümü</h4>
+          <div class="form-group"><label>Başlık (HTML kullanabilirsiniz, &lt;em&gt; = altın renk)</label><input type="text" id="s-heroTitle"></div>
+          <div class="form-group"><label>Açıklama Metni</label><textarea id="s-heroDesc"></textarea></div>
+          <div class="form-row">
+            <div class="form-group"><label>İstatistik 1 (ör: 300+)</label><input type="text" id="s-stat1"></div>
+            <div class="form-group"><label>İstatistik 2 (ör: 15+)</label><input type="text" id="s-stat2"></div>
+            <div class="form-group"><label>İstatistik 3 (ör: 50+)</label><input type="text" id="s-stat3"></div>
+            <div class="form-group"><label>İstatistik 4 (ör: 7/24)</label><input type="text" id="s-stat4"></div>
+          </div>
+        </div>
+        <div class="settings-card">
+          <h4>🖼️ Logo</h4>
+          <div class="form-group"><label>Logo URL (örn: logo.jpg veya https://...)</label><input type="text" id="s-logoUrl"></div>
+        </div>
+        <button class="btn btn-primary" onclick="saveSettings()" style="padding:12px 32px;font-size:15px;">💾 Ayarları Kaydet</button>
+      </div>
+
+      <!-- BANNERS -->
+      <div class="section" id="sec-banners">
+        <div class="toolbar">
+          <div></div>
+          <button class="btn btn-primary" onclick="openModal('banner')">+ Banner Ekle</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Başlık</th><th>Altyazı</th><th>Arkaplan</th><th>İşlemler</th></tr></thead>
+            <tbody id="bannersBody"><tr><td colspan="5" class="loading-row"><div class="spinner"></div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SERVICES -->
+      <div class="section" id="sec-services">
+        <div class="toolbar">
+          <div></div>
+          <button class="btn btn-primary" onclick="openModal('service')">+ Hizmet Ekle</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>İkon</th><th>Başlık</th><th>Görsel</th><th>İşlemler</th></tr></thead>
+            <tbody id="servicesBody"><tr><td colspan="5" class="loading-row"><div class="spinner"></div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- REFS -->
+      <div class="section" id="sec-refs">
+        <div class="toolbar">
+          <div></div>
+          <button class="btn btn-primary" onclick="openModal('ref')">+ Galeri Ekle</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Görsel</th><th>İsim</th><th>Kategori</th><th>İşlemler</th></tr></thead>
+            <tbody id="refsBody"><tr><td colspan="5" class="loading-row"><div class="spinner"></div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PROJECTS -->
+      <div class="section" id="sec-projects">
+        <div class="toolbar">
+          <div></div>
+          <button class="btn btn-primary" onclick="openModal('project')">+ Proje Ekle</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Görsel</th><th>Başlık</th><th>Kategori</th><th>Konum</th><th>Yıl</th><th>İşlemler</th></tr></thead>
+            <tbody id="projectsBody"><tr><td colspan="7" class="loading-row"><div class="spinner"></div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- BRANDS -->
+      <div class="section" id="sec-brands">
+        <div class="toolbar">
+          <div></div>
+          <button class="btn btn-primary" onclick="openModal('brand')">+ Marka Ekle</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Marka Adı</th><th>Kategori</th><th>İşlemler</th></tr></thead>
+            <tbody id="brandsBody"><tr><td colspan="4" class="loading-row"><div class="spinner"></div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- MODAL -->
+<div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modalTitle">Ekle</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal()">İptal</button>
+      <button class="btn btn-primary" onclick="saveModal()">💾 Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM -->
+<div class="confirm-bg" id="confirmBg">
+  <div class="confirm-box">
+    <h4>Silmek istediğinize emin misiniz?</h4>
+    <p id="confirmText">Bu kayıt kalıcı olarak silinecek.</p>
+    <div class="confirm-btns">
+      <button class="btn btn-ghost" onclick="closeConfirm()">Vazgeç</button>
+      <button class="btn btn-danger" onclick="confirmDelete()">Sil</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, getDocs, getDoc, setDoc, addDoc, updateDoc, deleteDoc, doc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const ADMIN_PASSWORD = "anadolu2026";
+
+const app = initializeApp({
+  apiKey:"AIzaSyBAsJqfJ4Yj3F4nVr1fUHTXU3QH2WgK8mI",
+  authDomain:"anadolu-6a4e5.firebaseapp.com",
+  projectId:"anadolu-6a4e5",
+  storageBucket:"anadolu-6a4e5.firebasestorage.app",
+  messagingSenderId:"31400926527",
+  appId:"1:31400926527:web:433f4c81d6fec9a72a878a"
+});
+const db = getFirestore(app);
+
+// ── AUTH ──
+window.doLogin = function(){
+  const pwd = document.getElementById('pwdInput').value;
+  if(pwd === ADMIN_PASSWORD){
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').classList.add('show');
+    sessionStorage.setItem('admin_auth','1');
+    initAdmin();
+  } else {
+    document.getElementById('loginErr').style.display = 'block';
+    document.getElementById('pwdInput').value = '';
+  }
+};
+window.doLogout = function(){
+  sessionStorage.removeItem('admin_auth');
+  location.reload();
+};
+
+// Auto-login if session exists
+if(sessionStorage.getItem('admin_auth')==='1'){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('app').classList.add('show');
+  initAdmin();
+}
+
+// ── NAVIGATION ──
+window.showSection = function(name){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('sec-'+name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>{
+    if(n.textContent.trim().toLowerCase().includes(name.toLowerCase().replace('refs','galeri').replace('brands','marka').replace('services','hizmet').replace('projects','proje').replace('banners','banner').replace('settings','ayar').replace('messages','mesaj').replace('dashboard','dashboard')))
+      n.classList.add('active');
+  });
+  const titles={dashboard:'Dashboard',messages:'Mesajlar',settings:'Site Ayarları',banners:'Bannerlar',services:'Hizmetler',refs:'Galeri',projects:'Projeler',brands:'Markalar'};
+  document.getElementById('pageTitle').textContent = titles[name]||name;
+  if(name==='messages') loadMessages();
+  if(name==='settings') loadSettings();
+};
+
+// ── TOAST ──
+function toast(msg, type='success'){
+  const t=document.getElementById('toast');
+  t.textContent=(type==='success'?'✓ ':'✕ ')+msg;
+  t.className='show '+type;
+  setTimeout(()=>t.className='',3000);
+}
+
+// ── GENERIC CRUD ──
+async function getCol(name){
+  const s=await getDocs(collection(db,name));
+  const d=[];s.forEach(x=>d.push({id:x.id,...x.data()}));
+  d.sort((a,b)=>(a.order||0)-(b.order||0));
+  return d;
+}
+
+// ── INIT ──
+async function initAdmin(){
+  // Load dashboard counts
+  Promise.all([
+    getCol('banners'),getCol('services'),getCol('projects'),getCol('messages')
+  ]).then(([b,sv,p,m])=>{
+    document.getElementById('ds-banners').textContent=b.length;
+    document.getElementById('ds-services').textContent=sv.length;
+    document.getElementById('ds-projects').textContent=p.length;
+    document.getElementById('ds-msgs').textContent=m.length;
+    if(m.length>0){
+      const badge=document.getElementById('msgBadge');
+      badge.textContent=m.length;badge.style.display='';
+    }
+  });
+  loadBanners();loadServices();loadRefs();loadProjects();loadBrands();
+  loadSettings();
+}
+
+// ── SETTINGS ──
+async function loadSettings(){
+  try{
+    const s=await getDoc(doc(db,'settings','main'));
+    if(s.exists()){
+      const d=s.data();
+      document.getElementById('s-phone').value=d.phone||'';
+      document.getElementById('s-wa').value=d.whatsapp||'';
+      document.getElementById('s-email').value=d.email||'';
+      document.getElementById('s-address').value=d.address||'';
+      document.getElementById('s-hours').value=d.hours||'';
+      document.getElementById('s-heroTitle').value=d.heroTitle||'';
+      document.getElementById('s-heroDesc').value=d.heroDesc||'';
+      document.getElementById('s-stat1').value=d.stat1||'';
+      document.getElementById('s-stat2').value=d.stat2||'';
+      document.getElementById('s-stat3').value=d.stat3||'';
+      document.getElementById('s-stat4').value=d.stat4||'';
+      document.getElementById('s-logoUrl').value=d.logoUrl||'';
+    }
+  }catch(e){toast('Ayarlar yüklenemedi','error');}
+}
+window.saveSettings = async function(){
+  try{
+    await setDoc(doc(db,'settings','main'),{
+      phone:document.getElementById('s-phone').value,
+      whatsapp:document.getElementById('s-wa').value,
+      email:document.getElementById('s-email').value,
+      address:document.getElementById('s-address').value,
+      hours:document.getElementById('s-hours').value,
+      heroTitle:document.getElementById('s-heroTitle').value,
+      heroDesc:document.getElementById('s-heroDesc').value,
+      stat1:document.getElementById('s-stat1').value,
+      stat2:document.getElementById('s-stat2').value,
+      stat3:document.getElementById('s-stat3').value,
+      stat4:document.getElementById('s-stat4').value,
+      logoUrl:document.getElementById('s-logoUrl').value,
+    });
+    toast('Ayarlar kaydedildi!');
+  }catch(e){toast('Hata: '+e.message,'error');}
+};
+
+// ── MESSAGES ──
+window.loadMessages = async function(){
+  const list=document.getElementById('msgList');
+  list.innerHTML='<div class="loading-row"><div class="spinner"></div></div>';
+  try{
+    const msgs=await getCol('messages');
+    document.getElementById('ds-msgs').textContent=msgs.length;
+    if(msgs.length===0){list.innerHTML='<div class="empty"><div class="icon">📭</div>Henüz mesaj yok.</div>';return;}
+    list.innerHTML=msgs.reverse().map(m=>`
+      <div class="msg-card">
+        <div class="msg-meta">
+          <span><strong>${m.name||'—'}</strong></span>
+          ${m.phone?`<span>📞 ${m.phone}</span>`:''}
+          ${m.email?`<span>✉ ${m.email}</span>`:''}
+        </div>
+        ${m.service?`<div class="msg-service">${m.service}</div>`:''}
+        <div class="msg-text">${m.msg||'(Mesaj yok)'}</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:10px;">
+          <span class="msg-date">${m.createdAt?new Date(m.createdAt).toLocaleString('tr-TR'):''}</span>
+          <div style="display:flex;gap:8px;">
+            ${m.phone?`<a href="tel:${m.phone}" class="btn btn-ghost btn-sm">📞 Ara</a>`:''}
+            ${m.email?`<a href="mailto:${m.email}" class="btn btn-ghost btn-sm">✉ E-posta</a>`:''}
+            <button class="btn btn-danger btn-sm" onclick="askDelete('messages','${m.id}','Bu mesaj silinecek.')">Sil</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }catch(e){list.innerHTML='<div class="empty">Mesajlar yüklenemedi.</div>';}
+};
+
+// ── BANNERS ──
+async function loadBanners(){
+  const data=await getCol('banners');
+  document.getElementById('ds-banners').textContent=data.length;
+  document.getElementById('bannersBody').innerHTML = data.length===0
+    ? '<tr><td colspan="5"><div class="empty">Banner bulunamadı.</div></td></tr>'
+    : data.map(b=>`<tr>
+        <td class="order-num">${b.order||0}</td>
+        <td><strong>${b.title||'—'}</strong></td>
+        <td style="color:var(--text2);font-size:12px;max-width:200px;">${b.subtitle||''}</td>
+        <td style="font-size:12px;color:var(--text2);">${b.bg||''}</td>
+        <td><div class="td-actions">
+          <button class="btn btn-ghost btn-sm" onclick="openModal('banner','${b.id}')">Düzenle</button>
+          <button class="btn btn-danger btn-sm" onclick="askDelete('banners','${b.id}','Bu banner silinecek.')">Sil</button>
+        </div></td>
+      </tr>`).join('');
+}
+
+// ── SERVICES ──
+async function loadServices(){
+  const data=await getCol('services');
+  document.getElementById('ds-services').textContent=data.length;
+  document.getElementById('servicesBody').innerHTML = data.length===0
+    ? '<tr><td colspan="5"><div class="empty">Hizmet bulunamadı.</div></td></tr>'
+    : data.map(s=>`<tr>
+        <td class="order-num">${s.order||0}</td>
+        <td style="font-size:22px;">${s.icon||'⚙️'}</td>
+        <td><strong>${s.title||'—'}</strong><br><span style="font-size:11px;color:var(--text2);">${(s.desc||'').slice(0,60)}…</span></td>
+        <td>${s.img?`<img src="${s.img}" class="td-img" onerror="this.style.display='none'">`:'—'}</td>
+        <td><div class="td-actions">
+          <button class="btn btn-ghost btn-sm" onclick="openModal('service','${s.id}')">Düzenle</button>
+          <button class="btn btn-danger btn-sm" onclick="askDelete('services','${s.id}','Bu hizmet silinecek.')">Sil</button>
+        </div></td>
+      </tr>`).join('');
+}
+
+// ── REFS ──
+async function loadRefs(){
+  const data=await getCol('refs');
+  document.getElementById('refsBody').innerHTML = data.length===0
+    ? '<tr><td colspan="5"><div class="empty">Galeri boş.</div></td></tr>'
+    : data.map(r=>`<tr>
+        <td class="order-num">${r.order||0}</td>
+        <td>${r.img?`<img src="${r.img}" class="td-img" onerror="this.style.display='none'">`:'—'}</td>
+        <td><strong>${r.name||'—'}</strong></td>
+        <td style="color:var(--text2);font-size:12px;">${r.cat||''}</td>
+        <td><div class="td-actions">
+          <button class="btn btn-ghost btn-sm" onclick="openModal('ref','${r.id}')">Düzenle</button>
+          <button class="btn btn-danger btn-sm" onclick="askDelete('refs','${r.id}','Bu galeri öğesi silinecek.')">Sil</button>
+        </div></td>
+      </tr>`).join('');
+}
+
+// ── PROJECTS ──
+async function loadProjects(){
+  const data=await getCol('projects');
+  document.getElementById('ds-projects').textContent=data.length;
+  document.getElementById('projectsBody').innerHTML = data.length===0
+    ? '<tr><td colspan="7"><div class="empty">Proje bulunamadı.</div></td></tr>'
+    : data.map(p=>`<tr>
+        <td class="order-num">${p.order||0}</td>
+        <td>${p.img?`<img src="${p.img}" class="td-img" onerror="this.style.display='none'">`:'—'}</td>
+        <td><strong>${p.title||'—'}</strong></td>
+        <td style="font-size:12px;color:var(--text2);">${p.cat||''}</td>
+        <td style="font-size:12px;color:var(--text2);">${p.location||''}</td>
+        <td style="font-size:12px;color:var(--text2);">${p.year||''}</td>
+        <td><div class="td-actions">
+          <button class="btn btn-ghost btn-sm" onclick="openModal('project','${p.id}')">Düzenle</button>
+          <button class="btn btn-danger btn-sm" onclick="askDelete('projects','${p.id}','Bu proje silinecek.')">Sil</button>
+        </div></td>
+      </tr>`).join('');
+}
+
+// ── BRANDS ──
+async function loadBrands(){
+  const data=await getCol('brands');
+  document.getElementById('brandsBody').innerHTML = data.length===0
+    ? '<tr><td colspan="4"><div class="empty">Marka bulunamadı.</div></td></tr>'
+    : data.map(b=>`<tr>
+        <td class="order-num">${b.order||0}</td>
+        <td><strong style="font-family:\'Barlow Condensed\',sans-serif;font-size:16px;">${b.name||'—'}</strong></td>
+        <td style="color:var(--text2);font-size:12px;">${b.cat||''}</td>
+        <td><div class="td-actions">
+          <button class="btn btn-ghost btn-sm" onclick="openModal('brand','${b.id}')">Düzenle</button>
+          <button class="btn btn-danger btn-sm" onclick="askDelete('brands','${b.id}','Bu marka silinecek.')">Sil</button>
+        </div></td>
+      </tr>`).join('');
+}
+
+// ── MODAL SYSTEM ──
+let currentModalType = null;
+let currentModalId = null;
+
+const MODAL_CONFIGS = {
+  banner:{
+    title:'Banner',col:'banners',
+    fields:[
+      {id:'title',label:'Başlık',type:'text',required:true},
+      {id:'subtitle',label:'Altyazı',type:'text'},
+      {id:'tag',label:'Etiket (ör: Hizmetlerimiz)',type:'text'},
+      {id:'bg',label:'Arkaplan Görseli (dosya adı: ref1.jpg)',type:'text'},
+      {id:'order',label:'Sıra No',type:'number'},
+    ]
+  },
+  service:{
+    title:'Hizmet',col:'services',
+    fields:[
+      {id:'icon',label:'İkon (emoji)',type:'text'},
+      {id:'title',label:'Başlık',type:'text',required:true},
+      {id:'desc',label:'Açıklama',type:'textarea'},
+      {id:'img',label:'Görsel (dosya adı: ref1.jpg)',type:'text'},
+      {id:'order',label:'Sıra No',type:'number'},
+    ]
+  },
+  ref:{
+    title:'Galeri Öğesi',col:'refs',
+    fields:[
+      {id:'img',label:'Görsel (dosya adı: ref1.jpg)',type:'text',required:true},
+      {id:'name',label:'Proje Adı',type:'text',required:true},
+      {id:'cat',label:'Kategori (ör: Ses & Işık)',type:'text'},
+      {id:'order',label:'Sıra No',type:'number'},
+    ]
+  },
+  project:{
+    title:'Proje',col:'projects',
+    fields:[
+      {id:'title',label:'Proje Başlığı',type:'text',required:true},
+      {id:'cat',label:'Kategori',type:'text'},
+      {id:'desc',label:'Açıklama',type:'textarea'},
+      {id:'img',label:'Görsel (dosya adı)',type:'text'},
+      {id:'location',label:'Konum',type:'text'},
+      {id:'year',label:'Yıl',type:'text'},
+      {id:'client',label:'Müşteri',type:'text'},
+      {id:'order',label:'Sıra No',type:'number'},
+    ]
+  },
+  brand:{
+    title:'Marka',col:'brands',
+    fields:[
+      {id:'name',label:'Marka Adı',type:'text',required:true},
+      {id:'cat',label:'Kategori (ör: Ses)',type:'text'},
+      {id:'order',label:'Sıra No',type:'number'},
+    ]
+  }
+};
+
+window.openModal = async function(type, id=null){
+  currentModalType=type; currentModalId=id;
+  const cfg=MODAL_CONFIGS[type];
+  document.getElementById('modalTitle').textContent=(id?'Düzenle: ':'Ekle: ')+cfg.title;
+  
+  let existing={};
+  if(id){
+    try{
+      const s=await getDoc(doc(db,cfg.col,id));
+      if(s.exists()) existing=s.data();
+    }catch(e){}
+  }
+
+  document.getElementById('modalBody').innerHTML = cfg.fields.map(f=>`
+    <div class="form-group">
+      <label>${f.label}${f.required?' *':''}</label>
+      ${f.type==='textarea'
+        ? `<textarea id="mf-${f.id}" placeholder="${f.label}">${existing[f.id]||''}</textarea>`
+        : `<input type="${f.type||'text'}" id="mf-${f.id}" placeholder="${f.label}" value="${existing[f.id]||''}">`
+      }
+    </div>
+  `).join('');
+
+  document.getElementById('modalBg').classList.add('open');
+};
+
+window.closeModal = function(){
+  document.getElementById('modalBg').classList.remove('open');
+  currentModalType=null; currentModalId=null;
+};
+
+window.saveModal = async function(){
+  const cfg=MODAL_CONFIGS[currentModalType];
+  const data={};
+  for(const f of cfg.fields){
+    const el=document.getElementById('mf-'+f.id);
+    if(!el) continue;
+    let val=el.value.trim();
+    if(f.required && !val){toast(f.label+' zorunludur!','error');return;}
+    if(f.type==='number') val=parseInt(val)||0;
+    data[f.id]=val;
+  }
+  try{
+    if(currentModalId){
+      await updateDoc(doc(db,cfg.col,currentModalId),data);
+      toast(cfg.title+' güncellendi!');
+    } else {
+      await addDoc(collection(db,cfg.col),data);
+      toast(cfg.title+' eklendi!');
+    }
+    closeModal();
+    // Reload the relevant list
+    const loaders={banners:loadBanners,services:loadServices,refs:loadRefs,projects:loadProjects,brands:loadBrands};
+    if(loaders[cfg.col]) loaders[cfg.col]();
+  }catch(e){toast('Hata: '+e.message,'error');}
+};
+
+// ── DELETE ──
+let deleteTarget={col:null,id:null};
+window.askDelete = function(col,id,msg){
+  deleteTarget={col,id};
+  document.getElementById('confirmText').textContent=msg;
+  document.getElementById('confirmBg').classList.add('open');
+};
+window.closeConfirm=function(){document.getElementById('confirmBg').classList.remove('open');};
+window.confirmDelete=async function(){
+  try{
+    await deleteDoc(doc(db,deleteTarget.col,deleteTarget.id));
+    toast('Silindi!');
+    closeConfirm();
+    const loaders={banners:loadBanners,services:loadServices,refs:loadRefs,projects:loadProjects,brands:loadBrands,messages:loadMessages};
+    if(loaders[deleteTarget.col]) loaders[deleteTarget.col]();
+  }catch(e){toast('Silinemedi: '+e.message,'error');}
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anadolu Ses Işık Görüntü Sistemleri</title>
+<meta name="description" content="Ses, ışık ve görüntü sistemlerinde 15+ yıllık tecrübeyle profesyonel çözümler.">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&amp;family=Barlow:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+:root{--black:#0a0a0a;--dark:#111318;--dark2:#1a1e27;--accent:#f5a623;--accent2:#e8891a;--navy:#1a2540;--text:#e8e8e8;--text2:#9aa0ad;--white:#fff;--card:#161b24;--border:rgba(245,166,35,.18);}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Barlow',sans-serif;background:var(--black);color:var(--text);overflow-x:hidden;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--dark);}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px;}
+.container{max-width:1200px;margin:0 auto;padding:0 24px;}
+/* TOPBAR */
+.topbar{background:var(--navy);padding:8px 0;font-size:13px;}
+.topbar .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
+.topbar a{color:rgba(255,255,255,.8);text-decoration:none;transition:color .2s;}.topbar a:hover{color:var(--accent);}
+.topbar-left,.topbar-right{display:flex;align-items:center;gap:20px;}
+/* HEADER */
+header{position:fixed;top:36px;left:0;right:0;z-index:1000;background:rgba(10,10,10,.97);border-bottom:2px solid var(--accent);backdrop-filter:blur(20px);transition:top .3s;}
+header.scrolled{top:0;}
+.nav-wrap{display:flex;align-items:center;justify-content:space-between;padding:11px 0;}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.logo img{height:52px;object-fit:contain;}
+.logo-text .brand{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:900;color:var(--white);}
+.logo-text .sub{font-size:10px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;}
+nav{display:flex;align-items:center;gap:2px;}
+nav a{padding:7px 12px;color:var(--text);text-decoration:none;font-size:13px;font-weight:500;border-radius:3px;transition:color .2s;position:relative;}
+nav a::after{content:'';position:absolute;bottom:3px;left:12px;right:12px;height:2px;background:var(--accent);transform:scaleX(0);transition:transform .2s;}
+nav a:hover{color:var(--accent);}nav a:hover::after{transform:scaleX(1);}
+.nav-cta{background:var(--accent)!important;color:#000!important;font-weight:700!important;padding:9px 18px!important;border-radius:4px!important;}
+.nav-cta::after{display:none!important;}.nav-cta:hover{background:var(--accent2)!important;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;}
+.hamburger span{display:block;width:24px;height:2px;background:var(--accent);}
+.mobile-menu{display:none;position:fixed;inset:0;background:rgba(10,10,10,.98);z-index:2000;flex-direction:column;align-items:center;justify-content:center;gap:22px;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:2px;}
+.mobile-menu a:hover{color:var(--accent);}
+.close-menu{position:absolute;top:22px;right:22px;background:none;border:none;color:var(--accent);font-size:34px;cursor:pointer;}
+/* HERO */
+.hero{min-height:100vh;position:relative;display:flex;align-items:center;overflow:hidden;padding-top:120px;}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0a0a0a 0%,#111827 40%,#1a2a4a 100%);}
+.hero-pattern{position:absolute;inset:0;opacity:.04;background-image:linear-gradient(var(--accent) 1px,transparent 1px),linear-gradient(90deg,var(--accent) 1px,transparent 1px);background-size:60px 60px;}
+.hero-glow{position:absolute;right:-200px;top:50%;transform:translateY(-50%);width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(26,37,64,.6) 0%,transparent 70%);}
+.hero-inner{display:flex;align-items:center;justify-content:space-between;gap:40px;width:100%;}
+.hero-content{position:relative;z-index:1;max-width:580px;flex-shrink:0;}
+.hero-visual{position:relative;z-index:1;flex:1;min-width:0;max-width:460px;display:flex;align-items:center;justify-content:flex-end;}
+.hero-visual-wrap{position:relative;width:100%;}
+.hero-visual-img{width:100%;height:520px;object-fit:cover;border-radius:4px;display:block;}
+.hero-visual-border{position:absolute;inset:0;border-radius:4px;border:1px solid rgba(245,166,35,.25);}
+.hero-visual-accent{position:absolute;bottom:-16px;left:-16px;width:80px;height:80px;border-bottom:3px solid var(--accent);border-left:3px solid var(--accent);border-radius:0 0 0 4px;}
+.hero-visual-accent2{position:absolute;top:-16px;right:-16px;width:80px;height:80px;border-top:3px solid var(--accent);border-right:3px solid var(--accent);border-radius:0 4px 0 0;}
+.hero-visual-badge{position:absolute;bottom:24px;right:24px;background:rgba(10,10,10,.9);border:1px solid var(--border);border-radius:4px;padding:12px 16px;text-align:center;}
+.hero-visual-badge .hb-num{font-family:"Barlow Condensed",sans-serif;font-size:30px;font-weight:900;color:var(--accent);line-height:1;}
+.hero-visual-badge .hb-lbl{font-size:10px;color:var(--text2);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,166,35,.1);border:1px solid var(--border);border-radius:50px;padding:6px 18px;font-size:12px;color:var(--accent);letter-spacing:1px;text-transform:uppercase;margin-bottom:28px;}
+.hero-badge span{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.4);}}
+.hero h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(42px,8vw,86px);font-weight:900;line-height:.95;letter-spacing:-1px;margin-bottom:22px;}
+.hero h1 em{font-style:normal;-webkit-text-stroke:2px var(--accent);color:transparent;}
+.hero p{font-size:17px;color:var(--text2);line-height:1.7;max-width:540px;margin-bottom:36px;}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#000;font-weight:700;font-size:15px;padding:14px 30px;border-radius:4px;text-decoration:none;transition:all .3s;border:none;cursor:pointer;font-family:'Barlow',sans-serif;}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-2px);box-shadow:0 12px 36px rgba(245,166,35,.35);}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;border:2px solid rgba(255,255,255,.2);color:var(--text);font-weight:500;font-size:15px;padding:12px 28px;border-radius:4px;text-decoration:none;transition:all .3s;cursor:pointer;background:none;font-family:'Barlow',sans-serif;}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);}
+.hero-stats{display:flex;gap:48px;margin-top:56px;padding-top:36px;border-top:1px solid rgba(255,255,255,.08);}
+.stat-num{font-family:'Barlow Condensed',sans-serif;font-size:42px;font-weight:900;color:var(--accent);line-height:1;}
+.stat-label{font-size:12px;color:var(--text2);margin-top:3px;}
+.scroll-ind{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--text2);font-size:10px;letter-spacing:2px;text-transform:uppercase;animation:bounce 2s infinite;}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(8px);}}
+.scroll-ind::after{content:'';display:block;width:2px;height:32px;background:linear-gradient(var(--accent),transparent);}
+/* SECTIONS */
+section{padding:90px 0;}
+.section-tag{display:inline-block;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:12px;}
+.section-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(30px,5vw,50px);font-weight:900;line-height:1.05;}
+.section-title em{font-style:normal;color:var(--accent);}
+.section-sub{font-size:16px;color:var(--text2);max-width:570px;margin-top:12px;line-height:1.7;}
+/* ABOUT */
+.about{background:var(--dark);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:76px;align-items:center;}
+.about-img-wrap{position:relative;}
+.about-img-wrap img{width:100%;height:450px;object-fit:cover;border-radius:4px;}
+.about-badge{position:absolute;bottom:-18px;right:-18px;background:var(--accent);color:#000;padding:20px 24px;border-radius:4px;text-align:center;}
+.about-badge .num{font-family:'Barlow Condensed',sans-serif;font-size:42px;font-weight:900;line-height:1;}
+.about-badge .label{font-size:12px;font-weight:700;letter-spacing:1px;}
+.about-features{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:28px;}
+.feat-item{display:flex;align-items:center;gap:10px;font-size:13px;}
+.feat-item::before{content:'✓';width:20px;height:20px;border-radius:50%;background:rgba(245,166,35,.12);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}
+/* SERVICES */
+.services{background:var(--black);}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:52px;}
+.service-card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:4px;overflow:hidden;transition:all .35s;position:relative;}
+.service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .35s;z-index:1;}
+.service-card:hover::before{transform:scaleX(1);}
+.service-card:hover{background:var(--dark2);border-color:rgba(245,166,35,.2);transform:translateY(-4px);box-shadow:0 18px 48px rgba(0,0,0,.4);}
+.service-img{width:100%;height:170px;object-fit:cover;display:block;transition:transform .4s;}
+.service-card:hover .service-img{transform:scale(1.04);}
+.service-no-img{width:100%;height:120px;background:var(--dark2);display:flex;align-items:center;justify-content:center;font-size:44px;}
+.service-body{padding:22px 20px;}
+.service-icon{font-size:28px;margin-bottom:12px;display:block;}
+.service-card h3{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:700;margin-bottom:9px;}
+.service-card p{font-size:13px;color:var(--text2);line-height:1.6;}
+.service-learn{display:inline-flex;align-items:center;gap:5px;margin-top:14px;font-size:12px;color:var(--accent);font-weight:600;text-decoration:none;}
+/* GALLERY */
+.references{background:var(--dark);}
+.ref-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:52px;}
+.ref-card{position:relative;overflow:hidden;cursor:pointer;aspect-ratio:4/3;}
+.ref-card img{width:100%;height:100%;object-fit:cover;transition:transform .5s;display:block;}
+.ref-card:hover img{transform:scale(1.07);}
+.ref-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,10,.92) 0%,transparent 55%);display:flex;flex-direction:column;justify-content:flex-end;padding:14px;opacity:0;transition:opacity .3s;}
+.ref-card:hover .ref-overlay{opacity:1;}
+.ref-cat{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:3px;}
+.ref-name{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;}
+/* PROJECTS */
+.projects{background:var(--black);}
+.projects-filter{display:flex;gap:8px;flex-wrap:wrap;margin:36px 0 28px;justify-content:center;}
+.pf-btn{padding:8px 18px;border-radius:50px;font-size:12px;font-weight:600;border:1px solid rgba(255,255,255,.12);background:none;color:var(--text2);cursor:pointer;transition:all .2s;font-family:'Barlow',sans-serif;}
+.pf-btn:hover,.pf-btn.active{background:var(--accent);color:#000;border-color:var(--accent);}
+.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.project-card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:6px;overflow:hidden;transition:all .35s;position:relative;}
+.project-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .35s;z-index:1;}
+.project-card:hover::before{transform:scaleX(1);}
+.project-card:hover{transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,0,0,.5);border-color:rgba(245,166,35,.2);}
+.project-img-wrap{position:relative;overflow:hidden;}
+.project-img{width:100%;height:210px;object-fit:cover;display:block;transition:transform .5s;}
+.project-card:hover .project-img{transform:scale(1.06);}
+.project-cat-badge{position:absolute;top:12px;left:12px;background:var(--accent);color:#000;font-size:10px;font-weight:700;padding:3px 10px;border-radius:50px;letter-spacing:.5px;text-transform:uppercase;}
+.project-body{padding:20px 18px;}
+.project-title{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;margin-bottom:7px;}
+.project-desc{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:12px;}
+.project-meta{display:flex;gap:14px;flex-wrap:wrap;}
+.project-meta-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);}
+.project-meta-item span{color:var(--accent);}
+.projects-empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text2);font-size:14px;}
+
+/* BRANDS */
+.brands{background:var(--dark);}
+.brands-track{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.06);margin-top:52px;}
+.brand-item{background:var(--card);padding:30px 18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transition:background .3s;}
+.brand-item:hover{background:var(--dark2);}
+.brand-logo{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:900;color:var(--text2);letter-spacing:1px;transition:color .3s;}
+.brand-item:hover .brand-logo{color:var(--accent);}
+.brand-cat{font-size:10px;color:var(--text2);letter-spacing:1px;}
+/* CONTACT */
+.contact{background:var(--dark);}
+.contact-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:56px;}
+.contact-info{display:flex;flex-direction:column;gap:26px;}
+.contact-item{display:flex;gap:16px;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.06);}
+.contact-item:last-child{border:none;padding:0;}
+.contact-icon{width:46px;height:46px;border-radius:4px;background:rgba(245,166,35,.08);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
+.contact-detail h4{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.contact-detail p,.contact-detail a{font-size:15px;color:var(--text);text-decoration:none;transition:color .2s;}
+.contact-detail a:hover{color:var(--accent);}
+.contact-form{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:4px;padding:36px;}
+.contact-form h3{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:800;margin-bottom:22px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.form-group{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+.form-group label{font-size:11px;color:var(--text2);font-weight:500;letter-spacing:.5px;}
+.form-group input,.form-group select,.form-group textarea{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:11px 13px;color:var(--text);font-size:14px;font-family:'Barlow',sans-serif;transition:border-color .2s;outline:none;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent);}
+.form-group select option{background:var(--dark);}
+.form-group textarea{resize:vertical;min-height:95px;}
+.form-submit{display:flex;gap:10px;margin-top:4px;flex-wrap:wrap;}
+.map-wrap{height:290px;border-radius:4px;overflow:hidden;border:1px solid rgba(255,255,255,.06);margin-top:52px;}
+.map-wrap iframe{width:100%;height:100%;border:none;filter:grayscale(1);}
+/* FOOTER */
+footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56px 0 0;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.06);}
+.footer-brand p{font-size:13px;color:var(--text2);line-height:1.7;max-width:260px;margin-top:14px;}
+.footer-socials{display:flex;gap:7px;margin-top:18px;}
+.social-btn{width:34px;height:34px;border-radius:4px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;color:var(--text2);text-decoration:none;font-size:14px;transition:all .2s;}
+.social-btn:hover{background:var(--accent);color:#000;}
+.footer-col h4{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;margin-bottom:16px;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.footer-col ul li a{font-size:13px;color:var(--text2);text-decoration:none;transition:color .2s;}
+.footer-col ul li a:hover{color:var(--accent);}
+.footer-bottom{padding:20px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.footer-bottom p{font-size:12px;color:var(--text2);}
+.footer-bottom a{color:var(--accent);text-decoration:none;}
+/* BANNER */
+.banner-section{position:relative;overflow:hidden;height:490px;}
+.banner-slide{position:absolute;inset:0;display:flex;align-items:center;opacity:0;transition:opacity 1s;}
+.banner-slide.active{opacity:1;}
+.banner-slide-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 8s;}
+.banner-slide.active .banner-slide-bg{transform:scale(1.04);}
+.banner-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,10,10,.88) 0%,rgba(10,10,10,.2) 100%);}
+.banner-content{position:relative;z-index:1;}
+.banner-content h2{font-family:'Barlow Condensed',sans-serif;font-size:46px;font-weight:900;margin-bottom:12px;}
+.banner-content p{font-size:16px;color:var(--text2);max-width:440px;}
+.banner-dots{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:10;}
+.banner-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.25);cursor:pointer;transition:all .3s;}
+.banner-dot.active{background:var(--accent);width:24px;border-radius:4px;}
+.banner-nav{position:absolute;top:50%;z-index:10;transform:translateY(-50%);background:rgba(245,166,35,.12);border:1px solid var(--accent);color:var(--accent);width:42px;height:42px;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;transition:all .2s;}
+.banner-nav:hover{background:var(--accent);color:#000;}
+.banner-prev{left:22px;}.banner-next{right:22px;}
+/* WA */
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,.92);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+/* COOKIE */
+.cookie-bar{position:fixed;bottom:0;left:0;right:0;z-index:2000;background:var(--dark2);border-top:2px solid var(--accent);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;transform:translateY(100%);transition:transform .5s;}
+.cookie-bar.show{transform:translateY(0);}
+.cookie-bar p{font-size:13px;color:var(--text2);max-width:680px;}
+.cookie-btns{display:flex;gap:8px;}
+/* FADE */
+.fade-in{opacity:0;transform:translateY(26px);transition:opacity .7s,transform .7s;}
+.fade-in.visible{opacity:1;transform:translateY(0);}
+@media(max-width:1024px){.services-grid{grid-template-columns:repeat(2,1fr);}.brands-track{grid-template-columns:repeat(3,1fr);}.footer-grid{grid-template-columns:1fr 1fr;}.ref-grid{grid-template-columns:repeat(3,1fr);}.projects-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:768px){.topbar .topbar-right{display:none;}header{top:0;}nav{display:none;}.hamburger{display:flex;}.about-grid,.contact-grid{grid-template-columns:1fr;}.hero-inner{flex-direction:column;}.hero-content{max-width:100%;}.hero-visual{display:none;}.hero-stats{gap:24px;}.form-row{grid-template-columns:1fr;}.footer-grid{grid-template-columns:1fr 1fr;}.banner-section{height:340px;}.banner-content h2{font-size:30px;}.about-badge{bottom:-14px;right:0;}.ref-grid{grid-template-columns:repeat(2,1fr);}.contact-form{padding:22px 16px;}.projects-grid{grid-template-columns:1fr;}}
+@media(max-width:520px){.services-grid{grid-template-columns:1fr;}.brands-track{grid-template-columns:repeat(2,1fr);}.footer-grid{grid-template-columns:1fr;}.hero-stats{flex-direction:column;gap:16px;}.about-features{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container">
+    <div class="topbar-left">
+      <a href="tel:+903124421513" id="tb-phone">📞 +90 (312) 442 15 13</a>
+      <a href="mailto:info@anadoluses.com" id="tb-email">✉ info@anadoluses.com</a>
+    </div>
+    <div class="topbar-right">
+      <a href="#" id="tb-address">📍 Cinnah Cad. No:4/11 Çankaya / Ankara</a>
+      <a href="#" id="tb-hours">Pzt–Cum: 08:00–18:00</a>
+    </div>
+  </div>
+</div>
+
+<header id="header">
+  <div class="container">
+    <div class="nav-wrap">
+      <a href="#" class="logo">
+        <img src="logo.jpg" alt="Logo" id="site-logo">
+        <div class="logo-text">
+          <div class="brand">ANADOLU SES IŞIK</div>
+          <div class="sub">Ses Işık Görüntü Sistemleri</div>
+        </div>
+      </a>
+      <nav>
+        <a href="#anasayfa">Anasayfa</a>
+        <a href="#hakkimizda">Kurumsal</a>
+        <a href="#hizmetler">Hizmetler</a>
+        <a href="#referanslar">Galeri</a>
+        <a href="#projeler">Projeler</a>
+        <a href="#markalar">Markalar</a>
+        <a href="#iletisim">İletişim</a>
+        <a href="#iletisim" class="nav-cta">Teklif Al</a>
+      </nav>
+      <div class="hamburger" onclick="openMenu()"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-menu" onclick="closeMenu()">✕</button>
+  <a href="#anasayfa" onclick="closeMenu()">Anasayfa</a>
+  <a href="#hakkimizda" onclick="closeMenu()">Kurumsal</a>
+  <a href="#hizmetler" onclick="closeMenu()">Hizmetler</a>
+  <a href="#referanslar" onclick="closeMenu()">Galeri</a>
+  <a href="#projeler" onclick="closeMenu()">Projeler</a>
+  <a href="#markalar" onclick="closeMenu()">Markalar</a>
+  <a href="#iletisim" onclick="closeMenu()">İletişim</a>
+  <a href="#iletisim" onclick="closeMenu()" style="color:var(--accent)">📞 Teklif Al</a>
+</div>
+
+<section class="hero" id="anasayfa">
+  <div class="hero-bg"></div><div class="hero-pattern"></div><div class="hero-glow"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge"><span></span> 15+ Yıllık Güvenilir Deneyim</div>
+        <h1 id="hero-title">GÜÇLÜ SES<br><em>KUSURSUZ</em><br>GÖRÜNTÜ</h1>
+        <p id="hero-desc">Konferans salonlarından kültür merkezlerine, eğitim kurumlarından kamu binalarına kadar profesyonel ses, ışık ve görüntü sistemleri kurulumu ve tasarımı.</p>
+        <div class="hero-btns">
+          <a href="#iletisim" class="btn-primary">🎯 Ücretsiz Teklif Al</a>
+          <a href="#referanslar" class="btn-outline">📁 Galeri</a>
+        </div>
+        <div class="hero-stats">
+          <div><div class="stat-num" id="stat1">300+</div><div class="stat-label">Tamamlanan Proje</div></div>
+          <div><div class="stat-num" id="stat2">15+</div><div class="stat-label">Yıl Tecrübe</div></div>
+          <div><div class="stat-num" id="stat3">50+</div><div class="stat-label">Marka Ortağı</div></div>
+          <div><div class="stat-num" id="stat4">7/24</div><div class="stat-label">Teknik Destek</div></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-visual-wrap">
+          <img src="ref1.jpg" alt="Profesyonel Ses Işık Sistemi" class="hero-visual-img">
+          <div class="hero-visual-border"></div>
+          <div class="hero-visual-accent"></div>
+          <div class="hero-visual-accent2"></div>
+          <div class="hero-visual-badge">
+            <div class="hb-num">300+</div>
+            <div class="hb-lbl">Tamamlanan Proje</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-ind">Keşfet</div>
+</section>
+
+<div class="banner-section" id="bannerSection">
+  <div class="banner-nav banner-prev" onclick="prevBanner()">‹</div>
+  <div class="banner-nav banner-next" onclick="nextBanner()">›</div>
+  <div class="banner-dots" id="bannerDots"></div>
+</div>
+
+<section class="about" id="hakkimizda">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img-wrap fade-in">
+        <img src="ref2.jpg" alt="Hakkımızda" id="about-img">
+        <div class="about-badge"><div class="num">15+</div><div class="label">Yıl Tecrübe</div></div>
+      </div>
+      <div class="fade-in" style="transition-delay:.15s">
+        <div class="section-tag">Kurumsal</div>
+        <h2 class="section-title" id="about-title">KİMİZ? <em>HAKKIMIZDA</em></h2>
+        <p class="section-sub" id="about-text">ANADOLU SES IŞIK, ses, ışık ve görüntü sistemleri alanında 15+ yıllık tecrübe ve uzman kadrosu ile profesyonel çözümler sunmaktadır. Konferans salonları, kültür merkezleri, eğitim kurumları ve kamu binalarında 300'ü aşkın proje tamamlanmıştır.</p>
+        <div class="about-features" id="about-features">
+          <div class="feat-item">Anahtar Teslim Kurulum</div>
+          <div class="feat-item">Uzman Teknik Ekip</div>
+          <div class="feat-item">Kaliteli Ekipman</div>
+          <div class="feat-item">7/24 Teknik Destek</div>
+          <div class="feat-item">Hızlı Teslim</div>
+          <div class="feat-item">Satış Sonrası Hizmet</div>
+        </div>
+        <div style="margin-top:28px;"><a href="#iletisim" class="btn-primary">📞 Teklif İste</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="hizmetler">
+  <div class="container">
+    <div class="fade-in" style="text-align:center;">
+      <div class="section-tag">Hizmetlerimiz</div>
+      <h2 class="section-title">HİZMET <em>ALANLARIMIZ</em></h2>
+      <p class="section-sub" style="margin:12px auto 0;text-align:center;">Ses, ışık, görüntü, konferans ve zayıf akım sistemlerinde anahtar teslim profesyonel çözümler.</p>
+    </div>
+    <div class="services-grid" id="servicesGrid"></div>
+  </div>
+</section>
+
+<section class="references" id="referanslar">
+  <div class="container">
+    <div class="fade-in" style="text-align:center;">
+      <div class="section-tag">Proje Galerisi</div>
+      <h2 class="section-title">REFERANS <em>GALERİMİZ</em></h2>
+      <p class="section-sub" style="margin:12px auto 0;text-align:center;">Gerçekleştirdiğimiz projelerden fotoğraflarla tamamlanan çalışmalarımız.</p>
+    </div>
+    <div class="ref-grid fade-in" id="refGrid" style="transition-delay:.1s;"></div>
+    <div style="text-align:center;margin-top:36px;"><a href="#iletisim" class="btn-outline">Daha Fazla Bilgi İçin İletişime Geçin</a></div>
+  </div>
+</section>
+
+<section class="projects" id="projeler">
+  <div class="container">
+    <div class="fade-in" style="text-align:center;">
+      <div class="section-tag">Portföy</div>
+      <h2 class="section-title">TAMAMLANAN <em>PROJELERİMİZ</em></h2>
+      <p class="section-sub" style="margin:12px auto 0;text-align:center;">Gerçekleştirdiğimiz projelerin detaylarına göz atın, kategorilere göre filtreleyin.</p>
+    </div>
+    <div class="projects-filter fade-in" id="projectsFilter">
+      <button class="pf-btn active" onclick="filterProjects('tumu')">Tümü</button>
+    </div>
+    <div class="projects-grid fade-in" id="projectsGrid" style="transition-delay:.1s;"></div>
+    <div style="text-align:center;margin-top:40px;"><a href="#iletisim" class="btn-outline">Sizin İçin de Proje Yapalım →</a></div>
+  </div>
+</section>
+
+<section class="brands" id="markalar">
+  <div class="container">
+    <div class="fade-in" style="text-align:center;">
+      <div class="section-tag">Markalar</div>
+      <h2 class="section-title">ÇALIŞTIĞIMIZ <em>MARKALAR</em></h2>
+      <p class="section-sub" style="margin:12px auto 0;text-align:center;">Dünya standartlarındaki markalarla iş birliği yapıyoruz.</p>
+    </div>
+    <div class="brands-track fade-in" id="brandsGrid"></div>
+  </div>
+</section>
+
+<section class="contact" id="iletisim">
+  <div class="container">
+    <div class="fade-in" style="text-align:center;margin-bottom:52px;">
+      <div class="section-tag">İletişim</div>
+      <h2 class="section-title">BİZE <em>ULAŞIN</em></h2>
+      <p class="section-sub" style="margin:12px auto 0;text-align:center;">Projeniz için ücretsiz keşif ve teklif almak için iletişime geçin.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info fade-in">
+        <div class="contact-item"><div class="contact-icon">📍</div><div class="contact-detail"><h4>Adres</h4><p id="contact-address">Aziziye Mah, Cinnah Cad. No:4/11 Çankaya / Ankara</p></div></div>
+        <div class="contact-item"><div class="contact-icon">📞</div><div class="contact-detail"><h4>Telefon</h4><a href="tel:+903124421513" id="contact-phone">+90 (312) 442 15 13</a></div></div>
+        <div class="contact-item"><div class="contact-icon">✉</div><div class="contact-detail"><h4>E-posta</h4><a href="mailto:info@anadoluses.com" id="contact-email">info@anadoluses.com</a></div></div>
+        <div class="contact-item"><div class="contact-icon">💬</div><div class="contact-detail"><h4>WhatsApp</h4><a href="https://wa.me/903124421513" id="contact-whatsapp">+90 (312) 442 15 13</a></div></div>
+        <div class="contact-item"><div class="contact-icon">🕐</div><div class="contact-detail"><h4>Çalışma Saatleri</h4><p id="contact-hours">Pzt–Cum: 08:00–18:00</p></div></div>
+      </div>
+      <div class="contact-form fade-in" style="transition-delay:.15s">
+        <h3>💬 Teklif / Bilgi Formu</h3>
+        <div class="form-row">
+          <div class="form-group"><label>Ad Soyad *</label><input type="text" id="f-name" placeholder="Ad Soyad"></div>
+          <div class="form-group"><label>Telefon</label><input type="tel" id="f-phone" placeholder="05XX XXX XX XX"></div>
+        </div>
+        <div class="form-group"><label>E-posta</label><input type="email" id="f-email" placeholder="email@domain.com"></div>
+        <div class="form-group"><label>Hizmet Türü</label>
+          <select id="f-service">
+            <option>Profesyonel Ses Sistemi</option><option>Işıklandırma Sistemleri</option>
+            <option>Kamera & Görüntü</option><option>Konferans Sistemleri</option>
+            <option>Hemşire Çağrı Sistemi</option><option>Acil Anons Sistemi</option>
+            <option>Zayıf Akım Sistemleri</option><option>Truss Sistemleri</option><option>Diğer</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Mesajınız</label><textarea id="f-msg" placeholder="Projeniz hakkında bilgi verin..."></textarea></div>
+        <div class="form-submit">
+          <a href="https://wa.me/903124421513" class="btn-primary" id="wa-btn">💬 WhatsApp ile Gönder</a>
+          <button class="btn-outline" onclick="submitForm()">📧 Gönder</button>
+        </div>
+      </div>
+    </div>
+    <div class="map-wrap fade-in">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3059.0!2d32.859!3d39.902!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14d34f190371b5f1%3A0xb31e7bf0e2c7b4c1!2sCinnah%20Cd.%2C%2006680%20%C3%87ankaya%2FAnkara!5e0!3m2!1str!2str!4v1700000000000" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo"><img src="logo.jpg" alt="Logo" id="footer-logo" style="height:42px;">
+          <div class="logo-text"><div class="brand">ANADOLU SES IŞIK</div><div class="sub">Ses Işık Görüntü Sistemleri</div></div>
+        </a>
+        <p>Ses, ışık ve görüntü sistemlerinde 15+ yıllık tecrübemizle profesyonel çözümler sunuyoruz.</p>
+        <div class="footer-socials">
+          <a href="https://wa.me/903124421513" class="social-btn" id="footer-wa">💬</a>
+          <a href="https://instagram.com/" class="social-btn">📸</a>
+          <a href="https://youtube.com/" class="social-btn">▶</a>
+          <a href="https://facebook.com/" class="social-btn">🔵</a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Hızlı Bağlantılar</h4><ul>
+        <li><a href="#anasayfa">Anasayfa</a></li><li><a href="#hakkimizda">Kurumsal</a></li>
+        <li><a href="#hizmetler">Hizmetler</a></li><li><a href="#referanslar">Galeri</a></li>
+        <li><a href="#projeler">Projeler</a></li><li><a href="#markalar">Markalar</a></li><li><a href="#iletisim">İletişim</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Hizmetlerimiz</h4><ul>
+        <li><a href="#hizmetler">Ses Sistemleri</a></li><li><a href="#hizmetler">Işık Sistemleri</a></li>
+        <li><a href="#hizmetler">Görüntü Sistemleri</a></li><li><a href="#hizmetler">Konferans Sistemleri</a></li>
+        <li><a href="#hizmetler">Zayıf Akım</a></li><li><a href="#hizmetler">Acil Anons</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>İletişim</h4><ul>
+        <li><a href="tel:+903124421513">📞 +90 (312) 442 15 13</a></li>
+        <li><a href="mailto:info@anadoluses.com">✉ info@anadoluses.com</a></li>
+        <li><a href="#">📍 Cinnah Cad. No:4/11 Çankaya</a></li>
+        <li><a href="#">🕐 Pzt–Cum: 08:00–18:00</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Anadolu Ses Işık Görüntü Sistemleri. Tüm hakları saklıdır.</p>
+      <p>Tasarım: <a href="#">Anadolu Ses Işık</a></p>
+    </div>
+  </div>
+</footer>
+
+
+
+<div class="cookie-bar" id="cookieBar">
+  <p>Bu site çerezler kullanmaktadır. Devam ederek kabul etmiş olursunuz.</p>
+  <div class="cookie-btns">
+    <button class="btn-primary" onclick="acceptCookie()" style="padding:8px 16px;font-size:12px;">Kabul Et</button>
+    <button class="btn-outline" onclick="declineCookie()" style="padding:6px 14px;font-size:12px;">Reddet</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="refModal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div style="max-width:900px;width:90%;position:relative;">
+    <button onclick="document.getElementById('refModal').classList.remove('open')" style="position:absolute;top:-38px;right:0;background:none;border:none;color:var(--accent);font-size:26px;cursor:pointer;">✕</button>
+    <img id="refModalImg" src="#" alt="" style="width:100%;border-radius:4px;max-height:80vh;object-fit:contain;">
+    <p style="text-align:center;margin-top:10px;color:var(--text2);font-size:13px;" id="refModalCap"></p>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, getDocs, getDoc, setDoc, addDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+
+const app = initializeApp({apiKey:"AIzaSyBAsJqfJ4Yj3F4nVr1fUHTXU3QH2WgK8mI",authDomain:"anadolu-6a4e5.firebaseapp.com",projectId:"anadolu-6a4e5",storageBucket:"anadolu-6a4e5.firebasestorage.app",messagingSenderId:"31400926527",appId:"1:31400926527:web:433f4c81d6fec9a72a878a",measurementId:"G-7V1XSXSBTD"});
+const db = getFirestore(app);
+try{ getAnalytics(app); }catch(e){}
+
+const DEF = {
+  services:[
+    {icon:'🎵',title:'Profesyonel Ses Sistemleri',img:'ref3.jpg',desc:'Salon, konferans, AVM ve okul için akustik hesaplama ve ses sistemi tasarımı, kurulum ve devreye alma.',order:1},
+    {icon:'💡',title:'Işık & Sahne Sistemleri',img:'ref2.jpg',desc:'Sahne ışıklandırması, LED sistemleri, efekt ışıkları ve ışık kontrolörü kurulumu.',order:2},
+    {icon:'📹',title:'Görüntü & Kamera Sistemleri',img:'ref11.jpg',desc:'LED ekranlar, projeksiyon, güvenlik kameraları ve video konferans sistemleri.',order:3},
+    {icon:'🎤',title:'Konferans Sistemleri',img:'ref4.jpg',desc:'Eş zamanlı tercüme, mikrofonlama ve modern konferans salon sistemleri.',order:4},
+    {icon:'🔔',title:'Hemşire Çağrı Sistemi',img:'ref6.jpg',desc:'Hastane ve sağlık tesisleri için hemşire çağrı ve hasta takip sistemleri.',order:5},
+    {icon:'📢',title:'Acil Anons Sistemleri',img:'ref7.jpg',desc:'Yangın, tahliye ve acil durum anons sistemleri kurulumu.',order:6},
+    {icon:'🔧',title:'Zayıf Akım Sistemleri',img:'ref8.jpg',desc:'Erişim kontrol, interkom ve bina otomasyon zayıf akım sistemleri.',order:7},
+    {icon:'🏗️',title:'Truss & Askı Sistemleri',img:'ref10.jpg',desc:'Sahne kurulum, truss sistemleri ve ekipman askı sistemleri.',order:8},
+    {icon:'🎛️',title:'Akustik Tasarım',img:'ref9.jpg',desc:'Oda akustiği, ses yalıtımı ve akustik panel tasarım & uygulama.',order:9}
+  ],
+  refs:[
+    {img:'ref1.jpg',name:'Kültür Merkezi Ses Sistemi',cat:'Ses & Işık',order:1},
+    {img:'ref2.jpg',name:'Tiyatro Salonu Akustik',cat:'Ses',order:2},
+    {img:'ref3.jpg',name:'Üniversite Konferans Salonu',cat:'Konferans',order:3},
+    {img:'ref4.jpg',name:'VIP Toplantı Odası',cat:'Konferans',order:4},
+    {img:'ref5.jpg',name:'Eğlence Mekanı Ses',cat:'Ses',order:5},
+    {img:'ref6.jpg',name:'Belediye Kültür Merkezi',cat:'Işık & Ses',order:6},
+    {img:'ref7.jpg',name:'Kongre Merkezi',cat:'Ses',order:7},
+    {img:'ref8.jpg',name:'Sahne Ses Kurulumu',cat:'Ses',order:8},
+    {img:'ref9.jpg',name:'Konser Salonu Akustik',cat:'Akustik',order:9},
+    {img:'ref10.jpg',name:'Güvenlik Kamera Sistemi',cat:'Zayıf Akım',order:10},
+    {img:'ref11.jpg',name:'Truss & Sahne Sistemi',cat:'Truss',order:11}
+  ],
+  banners:[
+    {title:'Profesyonel Ses Çözümleri',subtitle:'Her mekan için özel ses tasarımı ve kurulum.',tag:'Hizmetlerimiz',bg:'ref1.jpg',order:1},
+    {title:'Işık & Görüntü Sistemleri',subtitle:'Modern LED teknolojisi ile mekanlarınızı dönüştürüyoruz.',tag:'Çözümlerimiz',bg:'ref2.jpg',order:2},
+    {title:'Konferans & Tercüme',subtitle:'Profesyonel konferans sistemleri ile toplantılarınızı üst seviyeye taşıyın.',tag:'Sistemler',bg:'ref4.jpg',order:3}
+  ],
+  brands:[
+    {name:'BOSCH',cat:'Ses',order:1},{name:'BOSE',cat:'Ses',order:2},{name:'SHURE',cat:'Mikrofon',order:3},
+    {name:'YAMAHA',cat:'Mixer',order:4},{name:'QSC',cat:'Amplifikatör',order:5},{name:'SENNHEISER',cat:'Wireless',order:6},
+    {name:'CROWN',cat:'Amplifikatör',order:7},{name:'BEYERDYNAMIC',cat:'Mikrofon',order:8},
+    {name:'PHILIPS',cat:'Işık',order:9},{name:'OSRAM',cat:'LED',order:10},{name:'SONY',cat:'Görüntü',order:11},{name:'PANASONIC',cat:'Projeksiyon',order:12}
+  ],
+  settings:{phone:'+90 (312) 442 15 13',email:'info@anadoluses.com',address:'Aziziye Mah, Cinnah Cad. No:4/11 Çankaya / Ankara',whatsapp:'903124421513',hours:'Pzt–Cum: 08:00–18:00',heroTitle:'GÜÇLÜ SES<br><em>KUSURSUZ</em><br>GÖRÜNTÜ',heroDesc:'Konferans salonlarından kültür merkezlerine, eğitim kurumlarından kamu binalarına kadar profesyonel ses, ışık ve görüntü sistemleri.',stat1:'300+',stat2:'15+',stat3:'50+',stat4:'7/24',logoUrl:'logo.jpg'},
+  projects:[
+    {title:'Ankara Kültür Merkezi',cat:'Ses & Işık',img:'ref1.jpg',desc:'Tam donanımlı ses ve sahne ışık sistemleri kurulumu. 800 kişilik kapasiteli kültür merkezine hat boyu ses sistemi.',location:'Ankara',year:'2024',client:'Ankara Büyükşehir',order:1},
+    {title:'Üniversite Konferans Salonu',cat:'Konferans',img:'ref3.jpg',desc:'300 kişilik konferans salonu için eş zamanlı tercüme sistemi, delegasyon mikrofonu ve projeksiyon kurulumu.',location:'Ankara',year:'2024',client:'Hacettepe Üniv.',order:2},
+    {title:'VIP Toplantı Odası',cat:'Konferans',img:'ref4.jpg',desc:'Ses akustiği, gömülü mikrofon sistemi ve LED ekran kurulumu ile donatılmış kurumsal toplantı odası.',location:'İstanbul',year:'2023',client:'Özel Sektör',order:3},
+    {title:'Tiyatro Salonu Akustik',cat:'Akustik',img:'ref2.jpg',desc:'Sahne, pit ve salon akustik düzenlemesi, ses yalıtımı ve profesyonel hoparlör sistemi kurulumu.',location:'Konya',year:'2023',client:'Şehir Tiyatrosu',order:4},
+    {title:'Kongre Merkezi Ses',cat:'Ses & Işık',img:'ref7.jpg',desc:'Çok salonlu kongre merkezinde bölge bazlı ses dağıtım sistemi ve anons altyapısı.',location:'Ankara',year:'2022',client:'Kamu',order:5},
+    {title:'Sahne Truss Kurulumu',cat:'Truss',img:'ref10.jpg',desc:'Açık hava etkinliği için modüler truss sistemi, LED par sahne aydınlatması ve çelik halat askı sistemi.',location:'Konya',year:'2022',client:'Etkinlik Firması',order:6}
+  ]
+};
+
+async function getCol(name){ try{ const s=await getDocs(collection(db,name)); if(s.empty) return null; const d=[]; s.forEach(x=>d.push({id:x.id,...x.data()})); d.sort((a,b)=>(a.order||0)-(b.order||0)); return d; }catch(e){ return null; } }
+
+function applyInfo(si){
+  const se=(id,t)=>{const e=document.getElementById(id);if(e&&t!=null)e.textContent=t;};
+  se('contact-address',si.address);se('contact-phone',si.phone);se('contact-email',si.email);
+  se('contact-whatsapp',si.phone);se('contact-hours',si.hours);
+  se('stat1',si.stat1);se('stat2',si.stat2);se('stat3',si.stat3);se('stat4',si.stat4);
+  se('tb-phone','📞 '+(si.phone||''));se('tb-email','✉ '+(si.email||''));
+  se('tb-address','📍 '+(si.address||''));se('tb-hours',si.hours||'');
+  if(si.heroTitle) document.getElementById('hero-title').innerHTML=si.heroTitle;
+  se('hero-desc',si.heroDesc);
+  if(si.whatsapp){const w='https://wa.me/'+si.whatsapp;['waFloat','wa-btn','footer-wa'].forEach(id=>{const e=document.getElementById(id);if(e)e.href=w;});}
+  if(si.logoUrl) document.querySelectorAll('#site-logo,#footer-logo').forEach(e=>e.src=si.logoUrl);
+}
+
+let cb=0;
+function renderBanners(data){
+  const sec=document.getElementById('bannerSection'),dots=document.getElementById('bannerDots');
+  sec.querySelectorAll('.banner-slide').forEach(e=>e.remove()); dots.innerHTML='';
+  data.forEach((b,i)=>{
+    const s=document.createElement('div'); s.className='banner-slide'+(i===0?' active':'');
+    s.innerHTML=`<div class="banner-slide-bg" style="background-image:url('${b.bg}')"></div><div class="banner-overlay"></div><div class="container"><div class="banner-content"><div class="section-tag">${b.tag||'Hizmetlerimiz'}</div><h2>${b.title}</h2><p>${b.subtitle}</p><div style="margin-top:22px;"><a href="#iletisim" class="btn-primary">Teklif Al</a></div></div></div>`;
+    sec.insertBefore(s,sec.querySelector('.banner-nav'));
+    const d=document.createElement('div'); d.className='banner-dot'+(i===0?' active':'');
+    d.onclick=()=>goBanner(i); dots.appendChild(d);
+  });
+  cb=0;
+}
+window.goBanner=function(i){document.querySelectorAll('.banner-slide').forEach((s,idx)=>s.classList.toggle('active',idx===i));document.querySelectorAll('.banner-dot').forEach((d,idx)=>d.classList.toggle('active',idx===i));cb=i;};
+window.nextBanner=function(){goBanner((cb+1)%(document.querySelectorAll('.banner-slide').length||1));};
+window.prevBanner=function(){const l=document.querySelectorAll('.banner-slide').length||1;goBanner((cb-1+l)%l);};
+setInterval(window.nextBanner,5000);
+
+function renderServices(data){
+  document.getElementById('servicesGrid').innerHTML=data.map(s=>`<div class="service-card fade-in">${s.img?`<img src="${s.img}" alt="${s.title}" class="service-img">`:`<div class="service-no-img">${s.icon||'⚙️'}</div>`}<div class="service-body"><span class="service-icon">${s.icon||'⚙️'}</span><h3>${s.title}</h3><p>${s.desc}</p><a href="#iletisim" class="service-learn">Teklif İste →</a></div></div>`).join('');
+  obsFade();
+}
+function renderRefs(data){
+  document.getElementById('refGrid').innerHTML=data.map(r=>`<div class="ref-card fade-in" onclick="openRef('${r.img}','${r.name}','${r.cat}')"><img src="${r.img}" alt="${r.name}" loading="lazy"><div class="ref-overlay"><div class="ref-cat">${r.cat}</div><div class="ref-name">${r.name}</div></div></div>`).join('');
+  obsFade();
+}
+
+let allProjects=[];
+function renderProjects(data){
+  allProjects=data;
+  // Build filter buttons
+  const cats=['tumu',...[...new Set(data.map(p=>p.cat||'Genel'))]];
+  const filterDiv=document.getElementById('projectsFilter');
+  filterDiv.innerHTML=cats.map(c=>`<button class="pf-btn${c==='tumu'?' active':''}" onclick="filterProjects('${c}')">${c==='tumu'?'Tümü':c}</button>`).join('');
+  filterProjects('tumu');
+}
+window.filterProjects=function(cat){
+  document.querySelectorAll('.pf-btn').forEach(b=>b.classList.toggle('active',b.textContent===(cat==='tumu'?'Tümü':cat)));
+  const filtered=cat==='tumu'?allProjects:allProjects.filter(p=>(p.cat||'Genel')===cat);
+  const grid=document.getElementById('projectsGrid');
+  if(filtered.length===0){grid.innerHTML='<div class="projects-empty">Bu kategoride proje bulunamadı.</div>';return;}
+  grid.innerHTML=filtered.map(p=>`<div class="project-card fade-in">
+    <div class="project-img-wrap">
+      <img src="${p.img||'ref1.jpg'}" alt="${p.title}" class="project-img" loading="lazy">
+      <span class="project-cat-badge">${p.cat||'Genel'}</span>
+    </div>
+    <div class="project-body">
+      <div class="project-title">${p.title}</div>
+      <div class="project-desc">${p.desc||''}</div>
+      <div class="project-meta">
+        ${p.location?`<div class="project-meta-item"><span>📍</span>${p.location}</div>`:''}
+        ${p.year?`<div class="project-meta-item"><span>📅</span>${p.year}</div>`:''}
+        ${p.client?`<div class="project-meta-item"><span>🏢</span>${p.client}</div>`:''}
+      </div>
+    </div>
+  </div>`).join('');
+  obsFade();
+};
+function renderBrands(data){
+  document.getElementById('brandsGrid').innerHTML=data.map(b=>`<div class="brand-item fade-in"><div class="brand-logo">${b.name}</div><div class="brand-cat">${b.cat}</div></div>`).join('');
+  obsFade();
+}
+
+window.openRef=function(img,name,cat){document.getElementById('refModalImg').src=img;document.getElementById('refModalCap').textContent=name+' — '+cat;document.getElementById('refModal').classList.add('open');};
+window.submitForm=async function(){
+  const name=document.getElementById('f-name').value.trim();
+  if(!name){alert('Ad Soyad zorunludur!');return;}
+  try{
+    await addDoc(collection(db,'messages'),{name,phone:document.getElementById('f-phone').value.trim(),email:document.getElementById('f-email').value.trim(),service:document.getElementById('f-service').value,msg:document.getElementById('f-msg').value.trim(),createdAt:new Date().toISOString()});
+    alert('Mesajınız iletildi! En kısa sürede dönüş yapacağız.');
+    ['f-name','f-phone','f-email','f-msg'].forEach(id=>document.getElementById(id).value='');
+  }catch(e){alert('Hata: '+e.message);}
+};
+
+window.openMenu=function(){document.getElementById('mobileMenu').classList.add('open');document.body.style.overflow='hidden';};
+window.closeMenu=function(){document.getElementById('mobileMenu').classList.remove('open');document.body.style.overflow='';};
+window.addEventListener('scroll',()=>document.getElementById('header').classList.toggle('scrolled',scrollY>50));
+const fObs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:.1});
+function obsFade(){document.querySelectorAll('.fade-in:not(.visible)').forEach(el=>{if(!el._o){el._o=true;fObs.observe(el);}});}
+window.acceptCookie=()=>{localStorage.setItem('ck','1');document.getElementById('cookieBar').classList.remove('show');};
+window.declineCookie=()=>document.getElementById('cookieBar').classList.remove('show');
+setTimeout(()=>{if(!localStorage.getItem('ck'))document.getElementById('cookieBar').classList.add('show');},2500);
+
+async function seedIfEmpty(name,data){ try{ const s=await getDocs(collection(db,name)); if(s.empty) for(const d of data) await addDoc(collection(db,name),d); }catch(e){} }
+async function seedSettings(){ try{ const s=await getDoc(doc(db,'settings','main')); if(!s.exists()) await setDoc(doc(db,'settings','main'),DEF.settings); }catch(e){} }
+
+async function init(){
+  try{
+    await Promise.all([seedIfEmpty('banners',DEF.banners),seedIfEmpty('services',DEF.services),seedIfEmpty('refs',DEF.refs),seedIfEmpty('brands',DEF.brands),seedIfEmpty('projects',DEF.projects),seedSettings()]);
+    const [bans,svcs,refs,brs,projs,siSnap]=await Promise.all([getCol('banners'),getCol('services'),getCol('refs'),getCol('brands'),getCol('projects'),getDoc(doc(db,'settings','main'))]);
+    renderBanners(bans||DEF.banners); renderServices(svcs||DEF.services); renderRefs(refs||DEF.refs); renderBrands(brs||DEF.brands); renderProjects(projs||DEF.projects);
+    if(siSnap&&siSnap.exists()) applyInfo(siSnap.data()); else applyInfo(DEF.settings);
+    onSnapshot(collection(db,'banners'),s=>{const d=[];s.forEach(x=>d.push({id:x.id,...x.data()}));d.sort((a,b)=>(a.order||0)-(b.order||0));renderBanners(d);});
+    onSnapshot(collection(db,'services'),s=>{const d=[];s.forEach(x=>d.push({id:x.id,...x.data()}));d.sort((a,b)=>(a.order||0)-(b.order||0));renderServices(d);});
+    onSnapshot(collection(db,'refs'),s=>{const d=[];s.forEach(x=>d.push({id:x.id,...x.data()}));d.sort((a,b)=>(a.order||0)-(b.order||0));renderRefs(d);});
+    onSnapshot(collection(db,'brands'),s=>{const d=[];s.forEach(x=>d.push({id:x.id,...x.data()}));d.sort((a,b)=>(a.order||0)-(b.order||0));renderBrands(d);});
+    onSnapshot(collection(db,'projects'),s=>{const d=[];s.forEach(x=>d.push({id:x.id,...x.data()}));d.sort((a,b)=>(a.order||0)-(b.order||0));renderProjects(d);});
+    onSnapshot(doc(db,'settings','main'),s=>{if(s.exists())applyInfo(s.data());});
+  }catch(e){ renderBanners(DEF.banners);renderServices(DEF.services);renderRefs(DEF.refs);renderBrands(DEF.brands);renderProjects(DEF.projects);applyInfo(DEF.settings); }
+  finally{ obsFade(); }
+}
+init();
+</script>
+</body>
+
+</html>
