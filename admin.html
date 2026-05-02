@@ -358,8 +358,8 @@ tr:hover td{background:rgba(255,255,255,.02);}
         </div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>#</th><th>İkon</th><th>Başlık</th><th>Görsel</th><th>İşlemler</th></tr></thead>
-            <tbody id="servicesBody"><tr><td colspan="5" class="loading-row"><div class="spinner"></div></td></tr></tbody>
+            <thead><tr><th>#</th><th>Başlık</th><th>Görsel</th><th>İşlemler</th></tr></thead>
+            <tbody id="servicesBody"><tr><td colspan="4" class="loading-row"><div class="spinner"></div></td></tr></tbody>
           </table>
         </div>
       </div>
@@ -625,11 +625,10 @@ async function loadServices(){
   const data=await getCol('services');
   document.getElementById('ds-services').textContent=data.length;
   document.getElementById('servicesBody').innerHTML = data.length===0
-    ? '<tr><td colspan="5"><div class="empty">Hizmet bulunamadı.</div></td></tr>'
+    ? '<tr><td colspan="4"><div class="empty">Hizmet bulunamadı.</div></td></tr>'
     : data.map(s=>`<tr>
         <td class="order-num">${s.order||0}</td>
-        <td style="font-size:22px;">${s.icon||'⚙️'}</td>
-        <td><strong>${s.title||'—'}</strong><br><span style="font-size:11px;color:var(--text2);">${(s.desc||'').slice(0,60)}…</span></td>
+        <td><strong>${s.title||'—'}</strong><br><span style="font-size:12px;color:var(--text2);">${(s.desc||'').slice(0,60)}…</span></td>
         <td>${s.img?`<img src="${s.img}" class="td-img" onerror="this.style.display='none'">`:'—'}</td>
         <td><div class="td-actions">
           <button class="btn btn-ghost btn-sm" onclick="openModal('service','${s.id}')">Düzenle</button>
@@ -810,7 +809,6 @@ const MODAL_CONFIGS = {
   service:{
     title:'Hizmet',col:'services',
     fields:[
-      {id:'icon',label:'İkon (emoji)',type:'text'},
       {id:'title',label:'Başlık',type:'text',required:true},
       {id:'desc',label:'Açıklama',type:'textarea'},
       {id:'order',label:'Sıra No',type:'number'},

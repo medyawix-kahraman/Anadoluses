@@ -99,11 +99,20 @@ section{padding:90px 0;}
 .service-img{width:100%;height:170px;object-fit:cover;display:block;transition:transform .4s;}
 .service-card:hover .service-img{transform:scale(1.04);}
 .service-no-img{width:100%;height:120px;background:var(--dark2);display:flex;align-items:center;justify-content:center;font-size:44px;}
-.service-body{padding:22px 20px;}
-.service-icon{font-size:28px;margin-bottom:12px;display:block;}
-.service-card h3{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:700;margin-bottom:9px;}
-.service-card p{font-size:13px;color:var(--text2);line-height:1.6;}
-.service-learn{display:inline-flex;align-items:center;gap:5px;margin-top:14px;font-size:12px;color:var(--accent);font-weight:600;text-decoration:none;}
+.service-body{padding:26px 24px;}
+.service-icon-wrap{
+  width:52px;height:52px;border-radius:10px;
+  background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.2);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:16px;transition:all .3s;
+}
+.service-card:hover .service-icon-wrap{background:rgba(245,166,35,.15);border-color:rgba(245,166,35,.4);}
+.service-icon-wrap svg{width:26px;height:26px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.service-card h3{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;margin-bottom:10px;letter-spacing:.3px;}
+.service-card p{font-size:13.5px;color:var(--text2);line-height:1.65;}
+.service-learn{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:13px;color:var(--accent);font-weight:600;text-decoration:none;letter-spacing:.3px;}
+.service-learn::after{content:'→';transition:transform .2s;}
+.service-card:hover .service-learn::after{transform:translateX(4px);}
 /* GALLERY */
 .references{background:var(--dark);}
 .ref-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:52px;}
@@ -492,15 +501,15 @@ try{ getAnalytics(app); }catch(e){}
 
 const DEF = {
   services:[
-    {icon:'🎵',title:'Profesyonel Ses Sistemleri',img:'ref3.jpg',desc:'Salon, konferans, AVM ve okul için akustik hesaplama ve ses sistemi tasarımı, kurulum ve devreye alma.',order:1},
-    {icon:'💡',title:'Işık & Sahne Sistemleri',img:'ref2.jpg',desc:'Sahne ışıklandırması, LED sistemleri, efekt ışıkları ve ışık kontrolörü kurulumu.',order:2},
-    {icon:'📹',title:'Görüntü & Kamera Sistemleri',img:'ref11.jpg',desc:'LED ekranlar, projeksiyon, güvenlik kameraları ve video konferans sistemleri.',order:3},
-    {icon:'🎤',title:'Konferans Sistemleri',img:'ref4.jpg',desc:'Eş zamanlı tercüme, mikrofonlama ve modern konferans salon sistemleri.',order:4},
-    {icon:'🔔',title:'Hemşire Çağrı Sistemi',img:'ref6.jpg',desc:'Hastane ve sağlık tesisleri için hemşire çağrı ve hasta takip sistemleri.',order:5},
-    {icon:'📢',title:'Acil Anons Sistemleri',img:'ref7.jpg',desc:'Yangın, tahliye ve acil durum anons sistemleri kurulumu.',order:6},
-    {icon:'🔧',title:'Zayıf Akım Sistemleri',img:'ref8.jpg',desc:'Erişim kontrol, interkom ve bina otomasyon zayıf akım sistemleri.',order:7},
-    {icon:'🏗️',title:'Truss & Askı Sistemleri',img:'ref10.jpg',desc:'Sahne kurulum, truss sistemleri ve ekipman askı sistemleri.',order:8},
-    {icon:'🎛️',title:'Akustik Tasarım',img:'ref9.jpg',desc:'Oda akustiği, ses yalıtımı ve akustik panel tasarım & uygulama.',order:9}
+    {icon:'ses',title:'Profesyonel Ses Sistemleri',img:'ref3.jpg',desc:'Salon, konferans, AVM ve okul için akustik hesaplama ve ses sistemi tasarımı, kurulum ve devreye alma.',order:1},
+    {icon:'isik',title:'Işık & Sahne Sistemleri',img:'ref2.jpg',desc:'Sahne ışıklandırması, LED sistemleri, efekt ışıkları ve ışık kontrolörü kurulumu.',order:2},
+    {icon:'goruntu',title:'Görüntü & Kamera Sistemleri',img:'ref11.jpg',desc:'LED ekranlar, projeksiyon, güvenlik kameraları ve video konferans sistemleri.',order:3},
+    {icon:'konferans',title:'Konferans Sistemleri',img:'ref4.jpg',desc:'Eş zamanlı tercüme, mikrofonlama ve modern konferans salon sistemleri.',order:4},
+    {icon:'hemsire',title:'Hemşire Çağrı Sistemi',img:'ref6.jpg',desc:'Hastane ve sağlık tesisleri için hemşire çağrı ve hasta takip sistemleri.',order:5},
+    {icon:'anons',title:'Acil Anons Sistemleri',img:'ref7.jpg',desc:'Yangın, tahliye ve acil durum anons sistemleri kurulumu.',order:6},
+    {icon:'zayif',title:'Zayıf Akım Sistemleri',img:'ref8.jpg',desc:'Erişim kontrol, interkom ve bina otomasyon zayıf akım sistemleri.',order:7},
+    {icon:'truss',title:'Truss & Askı Sistemleri',img:'ref10.jpg',desc:'Sahne kurulum, truss sistemleri ve ekipman askı sistemleri.',order:8},
+    {icon:'akustik',title:'Akustik Tasarım',img:'ref9.jpg',desc:'Oda akustiği, ses yalıtımı ve akustik panel tasarım & uygulama.',order:9}
   ],
   refs:[
     {img:'ref1.jpg',name:'Kültür Merkezi Ses Sistemi',cat:'Ses & Işık',order:1},
@@ -570,8 +579,34 @@ window.nextBanner=function(){goBanner((cb+1)%(document.querySelectorAll('.banner
 window.prevBanner=function(){const l=document.querySelectorAll('.banner-slide').length||1;goBanner((cb-1+l)%l);};
 setInterval(window.nextBanner,5000);
 
+const SVG_ICONS = {
+  ses:`<svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>`,
+  isik:`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>`,
+  goruntu:`<svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>`,
+  konferans:`<svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+  hemsire:`<svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
+  anons:`<svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 1 0 8"/><path d="M14.54 9.46a3 3 0 0 1 0 4.24"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/></svg>`,
+  zayif:`<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 7h.01M12 7h.01M17 7h.01M7 11h10"/></svg>`,
+  truss:`<svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`,
+  akustik:`<svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><path d="M5 9v6"/><path d="M8 8v8"/><path d="M2 10v4"/></svg>`,
+  default:`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>`
+};
+
+function getSvgIcon(key){
+  return SVG_ICONS[key] || SVG_ICONS[Object.keys(SVG_ICONS).find(k=>key&&key.toLowerCase().includes(k))||'default'] || SVG_ICONS.default;
+}
+
 function renderServices(data){
-  document.getElementById('servicesGrid').innerHTML=data.map(s=>`<div class="service-card fade-in">${s.img?`<img src="${s.img}" alt="${s.title}" class="service-img">`:`<div class="service-no-img">${s.icon||'⚙️'}</div>`}<div class="service-body"><span class="service-icon">${s.icon||'⚙️'}</span><h3>${s.title}</h3><p>${s.desc}</p><a href="#iletisim" class="service-learn">Teklif İste →</a></div></div>`).join('');
+  document.getElementById('servicesGrid').innerHTML=data.map(s=>`
+    <div class="service-card fade-in">
+      ${s.img?`<img src="${s.img}" alt="${s.title}" class="service-img">`:''}
+      <div class="service-body">
+        <div class="service-icon-wrap">${getSvgIcon(s.icon||'')}</div>
+        <h3>${s.title}</h3>
+        <p>${s.desc}</p>
+        <a href="#iletisim" class="service-learn">Teklif İste</a>
+      </div>
+    </div>`).join('');
   obsFade();
 }
 function renderRefs(data){
