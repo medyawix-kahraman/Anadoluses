@@ -207,6 +207,24 @@ tr:hover td{background:rgba(255,255,255,.02);}
 /* LOADING */
 .spinner{display:inline-block;width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
+
+/* UPLOAD */
+.upload-zone{
+  border:2px dashed var(--border);border-radius:8px;padding:28px 16px;
+  text-align:center;cursor:pointer;transition:all .2s;position:relative;
+  background:var(--surface2);
+}
+.upload-zone:hover,.upload-zone.dragover{border-color:var(--accent);background:rgba(245,166,35,.05);}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.upload-zone .uz-icon{font-size:32px;margin-bottom:8px;}
+.upload-zone .uz-text{font-size:13px;color:var(--text2);}
+.upload-zone .uz-sub{font-size:11px;color:var(--text2);margin-top:4px;opacity:.6;}
+.upload-preview{margin-top:12px;position:relative;display:none;}
+.upload-preview img{width:100%;max-height:180px;object-fit:cover;border-radius:6px;border:1px solid var(--border);}
+.upload-preview .remove-img{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.7);border:none;color:#fff;border-radius:50%;width:24px;height:24px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;}
+.upload-progress{height:3px;background:var(--border);border-radius:3px;margin-top:8px;display:none;overflow:hidden;}
+.upload-progress-bar{height:100%;background:var(--accent);border-radius:3px;transition:width .3s;width:0;}
+.upload-url{margin-top:8px;font-size:11px;color:var(--green);display:none;word-break:break-all;}
 .loading-row{text-align:center;padding:40px;color:var(--text2);}
 
 @media(max-width:768px){
@@ -677,6 +695,107 @@ async function loadBrands(){
       </tr>`).join('');
 }
 
+// ── CLOUDINARY ──
+const CL_CLOUD = 'djyze370l';
+const CL_PRESET = 'ml_default';
+
+async function uploadToCloudinary(file, progressBar){
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', CL_PRESET);
+  fd.append('folder', 'anadoluses');
+
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', `https://api.cloudinary.com/v1_1/${CL_CLOUD}/image/upload`);
+    xhr.upload.onprogress = e => {
+      if(e.lengthComputable && progressBar){
+        progressBar.style.width = Math.round(e.loaded/e.total*100)+'%';
+      }
+    };
+    xhr.onload = () => {
+      const res = JSON.parse(xhr.responseText);
+      if(res.secure_url) resolve(res.secure_url);
+      else reject(new Error(res.error?.message||'Yükleme hatası'));
+    };
+    xhr.onerror = () => reject(new Error('Ağ hatası'));
+    xhr.send(fd);
+  });
+}
+
+function makeUploadField(fieldId, existingUrl=''){
+  const uid = 'upz_'+fieldId;
+  return `
+    <div class="form-group">
+      <label>Görsel *</label>
+      <div class="upload-zone" id="${uid}_zone"
+        ondragover="event.preventDefault();this.classList.add('dragover')"
+        ondragleave="this.classList.remove('dragover')"
+        ondrop="handleDrop(event,'${fieldId}')">
+        <input type="file" accept="image/*" onchange="handleFileSelect(this,'${fieldId}')">
+        <div class="uz-icon">📁</div>
+        <div class="uz-text">Görseli buraya sürükle veya tıkla</div>
+        <div class="uz-sub">JPG, PNG, WEBP · Maks 10MB</div>
+      </div>
+      <div class="upload-progress" id="${uid}_prog"><div class="upload-progress-bar" id="${uid}_bar"></div></div>
+      <div class="upload-preview" id="${uid}_preview">
+        <img id="${uid}_previewImg" src="" alt="">
+        <button class="remove-img" onclick="removeImg('${fieldId}')">✕</button>
+      </div>
+      <div class="upload-url" id="${uid}_url"></div>
+      <input type="hidden" id="mf-${fieldId}" value="${existingUrl}">
+      ${existingUrl ? `<div style="margin-top:8px;"><img src="${existingUrl}" style="width:100%;max-height:140px;object-fit:cover;border-radius:6px;border:1px solid var(--border);" onerror="this.style.display='none'"><div style="font-size:11px;color:var(--text2);margin-top:4px;">Mevcut görsel — yeni yüklerseniz değişir</div></div>` : ''}
+    </div>
+  `;
+}
+
+window.handleDrop = function(e, fieldId){
+  e.preventDefault();
+  const uid='upz_'+fieldId;
+  document.getElementById(uid+'_zone').classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if(file) processFile(file, fieldId);
+};
+window.handleFileSelect = function(input, fieldId){
+  const file = input.files[0];
+  if(file) processFile(file, fieldId);
+};
+window.removeImg = function(fieldId){
+  const uid='upz_'+fieldId;
+  document.getElementById('mf-'+fieldId).value='';
+  document.getElementById(uid+'_preview').style.display='none';
+  document.getElementById(uid+'_url').style.display='none';
+  document.getElementById(uid+'_prog').style.display='none';
+};
+
+async function processFile(file, fieldId){
+  const uid = 'upz_'+fieldId;
+  const prog = document.getElementById(uid+'_prog');
+  const bar = document.getElementById(uid+'_bar');
+  const preview = document.getElementById(uid+'_preview');
+  const previewImg = document.getElementById(uid+'_previewImg');
+  const urlEl = document.getElementById(uid+'_url');
+
+  // Show local preview immediately
+  const reader = new FileReader();
+  reader.onload = e => { previewImg.src=e.target.result; preview.style.display='block'; };
+  reader.readAsDataURL(file);
+
+  // Upload
+  prog.style.display='block'; bar.style.width='0';
+  try{
+    const url = await uploadToCloudinary(file, bar);
+    document.getElementById('mf-'+fieldId).value = url;
+    urlEl.textContent = '✓ Yüklendi: '+url;
+    urlEl.style.display='block';
+    bar.style.width='100%';
+    toast('Görsel yüklendi!');
+  }catch(err){
+    toast('Yükleme hatası: '+err.message,'error');
+    prog.style.display='none';
+  }
+}
+
 // ── MODAL SYSTEM ──
 let currentModalType = null;
 let currentModalId = null;
@@ -688,9 +807,9 @@ const MODAL_CONFIGS = {
       {id:'title',label:'Başlık',type:'text',required:true},
       {id:'subtitle',label:'Altyazı',type:'text'},
       {id:'tag',label:'Etiket (ör: Hizmetlerimiz)',type:'text'},
-      {id:'bg',label:'Arkaplan Görseli (dosya adı: ref1.jpg)',type:'text'},
       {id:'order',label:'Sıra No',type:'number'},
-    ]
+    ],
+    imgField:'bg'
   },
   service:{
     title:'Hizmet',col:'services',
@@ -698,18 +817,19 @@ const MODAL_CONFIGS = {
       {id:'icon',label:'İkon (emoji)',type:'text'},
       {id:'title',label:'Başlık',type:'text',required:true},
       {id:'desc',label:'Açıklama',type:'textarea'},
-      {id:'img',label:'Görsel (dosya adı: ref1.jpg)',type:'text'},
       {id:'order',label:'Sıra No',type:'number'},
-    ]
+    ],
+    imgField:'img'
   },
   ref:{
     title:'Galeri Öğesi',col:'refs',
     fields:[
-      {id:'img',label:'Görsel (dosya adı: ref1.jpg)',type:'text',required:true},
       {id:'name',label:'Proje Adı',type:'text',required:true},
       {id:'cat',label:'Kategori (ör: Ses & Işık)',type:'text'},
       {id:'order',label:'Sıra No',type:'number'},
-    ]
+    ],
+    imgField:'img',
+    imgRequired:true
   },
   project:{
     title:'Proje',col:'projects',
@@ -717,12 +837,12 @@ const MODAL_CONFIGS = {
       {id:'title',label:'Proje Başlığı',type:'text',required:true},
       {id:'cat',label:'Kategori',type:'text'},
       {id:'desc',label:'Açıklama',type:'textarea'},
-      {id:'img',label:'Görsel (dosya adı)',type:'text'},
       {id:'location',label:'Konum',type:'text'},
       {id:'year',label:'Yıl',type:'text'},
       {id:'client',label:'Müşteri',type:'text'},
       {id:'order',label:'Sıra No',type:'number'},
-    ]
+    ],
+    imgField:'img'
   },
   brand:{
     title:'Marka',col:'brands',
@@ -747,7 +867,7 @@ window.openModal = async function(type, id=null){
     }catch(e){}
   }
 
-  document.getElementById('modalBody').innerHTML = cfg.fields.map(f=>`
+  let html = cfg.fields.map(f=>`
     <div class="form-group">
       <label>${f.label}${f.required?' *':''}</label>
       ${f.type==='textarea'
@@ -757,6 +877,12 @@ window.openModal = async function(type, id=null){
     </div>
   `).join('');
 
+  // Add image upload field if needed
+  if(cfg.imgField){
+    html = makeUploadField(cfg.imgField, existing[cfg.imgField]||'') + html;
+  }
+
+  document.getElementById('modalBody').innerHTML = html;
   document.getElementById('modalBg').classList.add('open');
 };
 
@@ -768,6 +894,14 @@ window.closeModal = function(){
 window.saveModal = async function(){
   const cfg=MODAL_CONFIGS[currentModalType];
   const data={};
+
+  // Get image URL from upload field if exists
+  if(cfg.imgField){
+    const imgVal = document.getElementById('mf-'+cfg.imgField)?.value?.trim()||'';
+    if(cfg.imgRequired && !imgVal){toast('Görsel zorunludur!','error');return;}
+    data[cfg.imgField]=imgVal;
+  }
+
   for(const f of cfg.fields){
     const el=document.getElementById('mf-'+f.id);
     if(!el) continue;
@@ -785,7 +919,6 @@ window.saveModal = async function(){
       toast(cfg.title+' eklendi!');
     }
     closeModal();
-    // Reload the relevant list
     const loaders={banners:loadBanners,services:loadServices,refs:loadRefs,projects:loadProjects,brands:loadBrands};
     if(loaders[cfg.col]) loaders[cfg.col]();
   }catch(e){toast('Hata: '+e.message,'error');}
