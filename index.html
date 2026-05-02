@@ -58,7 +58,7 @@ nav a:hover{color:var(--accent);}nav a:hover::after{transform:scaleX(1);}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,166,35,.1);border:1px solid var(--border);border-radius:50px;padding:6px 18px;font-size:12px;color:var(--accent);letter-spacing:1px;text-transform:uppercase;margin-bottom:28px;}
 .hero-badge span{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.4);}}
-.hero h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(42px,8vw,86px);font-weight:900;line-height:.95;letter-spacing:-1px;margin-bottom:22px;}
+.hero h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(36px,5.5vw,68px);font-weight:900;line-height:1;letter-spacing:-1px;margin-bottom:22px;}
 .hero h1 em{font-style:normal;-webkit-text-stroke:2px var(--accent);color:transparent;}
 .hero p{font-size:17px;color:var(--text2);line-height:1.7;max-width:540px;margin-bottom:36px;}
 .hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
@@ -293,14 +293,14 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56p
           <div><div class="stat-num" id="stat4">7/24</div><div class="stat-label">Teknik Destek</div></div>
         </div>
       </div>
-      <div class="hero-visual">
+      <div class="hero-visual" id="heroVisual" style="display:none;">
         <div class="hero-visual-wrap">
-          <img src="ref1.jpg" alt="Profesyonel Ses Işık Sistemi" class="hero-visual-img">
+          <img src="" alt="Profesyonel Ses Işık Sistemi" class="hero-visual-img" id="heroVisualImg">
           <div class="hero-visual-border"></div>
           <div class="hero-visual-accent"></div>
           <div class="hero-visual-accent2"></div>
           <div class="hero-visual-badge">
-            <div class="hb-num">300+</div>
+            <div class="hb-num" id="stat1b">300+</div>
             <div class="hb-lbl">Tamamlanan Proje</div>
           </div>
         </div>
@@ -319,8 +319,8 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56p
 <section class="about" id="hakkimizda">
   <div class="container">
     <div class="about-grid">
-      <div class="about-img-wrap fade-in">
-        <img src="ref2.jpg" alt="Hakkımızda" id="about-img">
+      <div class="about-img-wrap fade-in" id="aboutImgWrap" style="display:none;">
+        <img src="" alt="Hakkımızda" id="about-img">
         <div class="about-badge"><div class="num">15+</div><div class="label">Yıl Tecrübe</div></div>
       </div>
       <div class="fade-in" style="transition-delay:.15s">
@@ -610,6 +610,22 @@ function renderServices(data){
   obsFade();
 }
 function renderRefs(data){
+  // Set hero visual from first ref image
+  if(data && data.length > 0 && data[0].img){
+    const hv = document.getElementById('heroVisual');
+    const hi = document.getElementById('heroVisualImg');
+    if(hv && hi){ hi.src=data[0].img; hv.style.display='flex'; }
+  }
+  // Set about image from second ref image
+  if(data && data.length > 1 && data[1].img){
+    const aw = document.getElementById('aboutImgWrap');
+    const ai = document.getElementById('about-img');
+    if(aw && ai){ ai.src=data[1].img; aw.style.display='block'; }
+  } else if(data && data.length > 0 && data[0].img){
+    const aw = document.getElementById('aboutImgWrap');
+    const ai = document.getElementById('about-img');
+    if(aw && ai){ ai.src=data[0].img; aw.style.display='block'; }
+  }
   document.getElementById('refGrid').innerHTML=data.map(r=>`<div class="ref-card fade-in" onclick="openRef('${r.img}','${r.name}','${r.cat}')"><img src="${r.img}" alt="${r.name}" loading="lazy"><div class="ref-overlay"><div class="ref-cat">${r.cat}</div><div class="ref-name">${r.name}</div></div></div>`).join('');
   obsFade();
 }
