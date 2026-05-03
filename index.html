@@ -333,8 +333,8 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56p
 <section class="about" id="hakkimizda">
   <div class="container">
     <div class="about-grid">
-      <div class="about-img-wrap fade-in">
-        <img src="ref2.jpg" alt="Hakkımızda" id="about-img">
+      <div class="about-img-wrap fade-in" id="aboutImgWrap" style="display:none;">
+        <img src="" alt="Hakkımızda" id="about-img" onerror="this.closest('.about-img-wrap').style.display='none'">
         <div class="about-badge"><div class="num">15+</div><div class="label">Yıl Tecrübe</div></div>
       </div>
       <div class="fade-in" style="transition-delay:.15s">
@@ -572,7 +572,11 @@ function applyInfo(si){
   if(si.heroTitle) document.getElementById('hero-title').innerHTML=si.heroTitle;
   se('hero-desc',si.heroDesc);
   if(si.whatsapp){const w='https://wa.me/'+si.whatsapp;['waFloat','wa-btn','footer-wa'].forEach(id=>{const e=document.getElementById(id);if(e)e.href=w;});}
-  if(si.logoUrl) document.querySelectorAll('#site-logo,#footer-logo').forEach(e=>e.src=si.logoUrl);
+  if(si.aboutImg){
+    const wrap=document.getElementById('aboutImgWrap');
+    const img=document.getElementById('about-img');
+    if(wrap&&img){img.src=si.aboutImg;wrap.style.display='block';}
+  }
 }
 
 let cb=0;
@@ -596,7 +600,7 @@ setInterval(window.nextBanner,5000);
 function renderServices(data){
   const dd=document.getElementById('hizmetDropdown');
   if(dd) dd.innerHTML=data.map(s=>`<a href="hizmet.html?id=${s.id}">${s.title}</a>`).join('');
-  document.getElementById('servicesGrid').innerHTML=data.map((s,i)=>`<div class="service-card fade-in" id="svc-${i}">${s.img?`<img src="${s.img}" alt="${s.title}" class="service-img">`:`<div class="service-no-img">${s.icon||'⚙️'}</div>`}<div class="service-body"><span class="service-icon">${s.icon||'⚙️'}</span><h3>${s.title}</h3><p>${s.desc}</p><a href="#iletisim" class="service-learn">Teklif İste →</a></div></div>`).join('');
+  document.getElementById('servicesGrid').innerHTML=data.map((s,i)=>`<div class="service-card fade-in" id="svc-${i}">${s.img?`<img src="${s.img}" alt="${s.title}" class="service-img" onerror="this.style.display='none'">`:''}"<div class="service-body"><h3>${s.title}</h3><p>${s.desc}</p><a href="hizmet.html?id=${s.id}" class="service-learn">Detaylar →</a></div></div>`).join('');
   obsFade();
 }
 function renderRefs(data){
