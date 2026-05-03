@@ -595,7 +595,7 @@ setInterval(window.nextBanner,5000);
 
 function renderServices(data){
   const dd=document.getElementById('hizmetDropdown');
-  if(dd) dd.innerHTML=data.map((s,i)=>`<a href="javascript:void(0)" onclick="scrollToService(${i})">${s.title}</a>`).join('');
+  if(dd) dd.innerHTML=data.map(s=>`<a href="hizmet.html?id=${s.id}">${s.title}</a>`).join('');
   document.getElementById('servicesGrid').innerHTML=data.map((s,i)=>`<div class="service-card fade-in" id="svc-${i}">${s.img?`<img src="${s.img}" alt="${s.title}" class="service-img">`:`<div class="service-no-img">${s.icon||'⚙️'}</div>`}<div class="service-body"><span class="service-icon">${s.icon||'⚙️'}</span><h3>${s.title}</h3><p>${s.desc}</p><a href="#iletisim" class="service-learn">Teklif İste →</a></div></div>`).join('');
   obsFade();
 }

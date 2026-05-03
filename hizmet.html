@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hizmet Detayı — Anadolu Ses Işık</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0a0a0a;--dark:#111318;--dark2:#1a1e27;--accent:#f5a623;--accent2:#e8891a;--navy:#1a2540;--text:#e8e8e8;--text2:#9aa0ad;--white:#fff;--card:#161b24;--border:rgba(245,166,35,.18);}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Barlow',sans-serif;background:var(--black);color:var(--text);overflow-x:hidden;}
+.container{max-width:1100px;margin:0 auto;padding:0 24px;}
+
+/* TOPBAR */
+.topbar{background:var(--navy);padding:8px 0;font-size:13px;}
+.topbar .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
+.topbar a{color:rgba(255,255,255,.8);text-decoration:none;}.topbar a:hover{color:var(--accent);}
+.topbar-left,.topbar-right{display:flex;align-items:center;gap:20px;}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:1000;background:rgba(10,10,10,.97);border-bottom:2px solid var(--accent);backdrop-filter:blur(20px);}
+.nav-wrap{display:flex;align-items:center;justify-content:space-between;padding:11px 0;}
+.logo{text-decoration:none;}
+.logo-brand{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;letter-spacing:3px;text-transform:uppercase;background:linear-gradient(90deg,#fff,#f5a623);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+nav{display:flex;align-items:center;gap:2px;}
+nav a{padding:7px 12px;color:var(--text);text-decoration:none;font-size:13px;font-weight:500;border-radius:3px;transition:color .2s;}
+nav a:hover{color:var(--accent);}
+.nav-cta{background:var(--accent)!important;color:#000!important;font-weight:700!important;padding:9px 18px!important;border-radius:4px!important;}
+.nav-cta:hover{background:var(--accent2)!important;}
+
+/* HERO */
+.hizmet-hero{position:relative;height:420px;overflow:hidden;display:flex;align-items:flex-end;}
+.hizmet-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.45);}
+.hizmet-hero-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,10,10,.95) 0%,transparent 60%);}
+.hizmet-hero-content{position:relative;z-index:1;padding:40px 0;}
+.hizmet-hero-content .tag{font-size:12px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;}
+.hizmet-hero-content h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(32px,5vw,58px);font-weight:900;line-height:1;}
+
+/* CONTENT */
+.hizmet-body{padding:60px 0;}
+.hizmet-grid{display:grid;grid-template-columns:2fr 1fr;gap:48px;align-items:start;}
+.hizmet-desc{font-size:16px;color:var(--text2);line-height:1.8;}
+.hizmet-desc p{margin-bottom:16px;}
+.hizmet-sidebar{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:28px;}
+.hizmet-sidebar h3{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;color:var(--accent);margin-bottom:16px;}
+.sidebar-list{list-style:none;}
+.sidebar-list li{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:14px;color:var(--text2);display:flex;align-items:center;gap:10px;}
+.sidebar-list li:last-child{border-bottom:none;}
+.sidebar-list li::before{content:'✓';color:var(--accent);font-weight:700;}
+.btn-cta{display:inline-block;background:var(--accent);color:#000;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;padding:14px 32px;border-radius:4px;text-decoration:none;margin-top:24px;letter-spacing:1px;transition:background .2s;}
+.btn-cta:hover{background:var(--accent2);}
+
+/* DİĞER HİZMETLER */
+.other-services{padding:48px 0;border-top:1px solid rgba(255,255,255,.07);}
+.other-services h2{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;margin-bottom:24px;}
+.other-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+.other-card{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:16px;text-decoration:none;color:var(--text2);font-size:14px;transition:all .2s;}
+.other-card:hover{color:var(--accent);border-color:var(--accent);padding-left:20px;}
+
+/* LOADING */
+.loading{text-align:center;padding:100px 0;color:var(--text2);}
+.spinner{display:inline-block;width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;margin-bottom:16px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* FOOTER */
+footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.07);padding:24px 0;text-align:center;color:var(--text2);font-size:13px;}
+
+@media(max-width:768px){
+  .topbar .topbar-right{display:none;}
+  nav{display:none;}
+  .hizmet-grid{grid-template-columns:1fr;}
+  .hizmet-hero{height:280px;}
+  .other-grid{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container">
+    <div class="topbar-left">
+      <a href="tel:+903124421513">📞 +90 (312) 442 15 13</a>
+      <a href="mailto:info@anadoluses.com">✉ info@anadoluses.com</a>
+    </div>
+    <div class="topbar-right">
+      <a href="#">📍 Cinnah Cad. No:4/11 Çankaya / Ankara</a>
+      <a href="#">Pzt–Cum: 08:00–18:00</a>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="container">
+    <div class="nav-wrap">
+      <a href="index.html" class="logo">
+        <div class="logo-brand">ANADOLU SES IŞIK SİSTEMLERİ</div>
+      </a>
+      <nav>
+        <a href="index.html">Anasayfa</a>
+        <a href="index.html#hakkimizda">Kurumsal</a>
+        <a href="index.html#hizmetler">Hizmetler</a>
+        <a href="index.html#referanslar">Galeri</a>
+        <a href="index.html#projeler">Projeler</a>
+        <a href="index.html#markalar">Markalar</a>
+        <a href="index.html#iletisim">İletişim</a>
+        <a href="index.html#iletisim" class="nav-cta">Teklif Al</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<div id="pageContent">
+  <div class="loading">
+    <div class="spinner"></div>
+    <div>Yükleniyor...</div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Anadolu Ses Işık Görüntü Sistemleri. Tüm hakları saklıdır.</p>
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const app = initializeApp({
+  apiKey:"AIzaSyBAsJqfJ4Yj3F4nVr1fUHTXU3QH2WgK8mI",
+  authDomain:"anadolu-6a4e5.firebaseapp.com",
+  projectId:"anadolu-6a4e5",
+  storageBucket:"anadolu-6a4e5.firebasestorage.app",
+  messagingSenderId:"31400926527",
+  appId:"1:31400926527:web:433f4c81d6fec9a72a878a"
+});
+const db = getFirestore(app);
+
+// URL'den id al
+const params = new URLSearchParams(window.location.search);
+const serviceId = params.get('id');
+
+async function loadPage(){
+  try{
+    // Tüm hizmetleri çek
+    const snap = await getDocs(collection(db,'services'));
+    const allServices = [];
+    snap.forEach(x=>allServices.push({id:x.id,...x.data()}));
+    allServices.sort((a,b)=>(a.order||0)-(b.order||0));
+
+    // İlgili hizmeti bul
+    const service = allServices.find(s=>s.id===serviceId);
+    if(!service){ notFound(); return; }
+
+    // Sayfa başlığı
+    document.title = service.title + ' — Anadolu Ses Işık';
+
+    // Diğer hizmetler
+    const others = allServices.filter(s=>s.id!==serviceId);
+
+    document.getElementById('pageContent').innerHTML = `
+      <div class="hizmet-hero">
+        <div class="hizmet-hero-bg" style="background-image:url('${service.img||''}')"></div>
+        <div class="hizmet-hero-overlay"></div>
+        <div class="container hizmet-hero-content">
+          <div class="tag">Hizmetlerimiz</div>
+          <h1>${service.title}</h1>
+        </div>
+      </div>
+
+      <section class="hizmet-body">
+        <div class="container">
+          <div class="hizmet-grid">
+            <div>
+              <div class="hizmet-desc">
+                <p>${service.desc||''}</p>
+                <p>Anadolu Ses Işık olarak ${service.title.toLowerCase()} alanında 15+ yıllık deneyimimizle profesyonel çözümler sunuyoruz. Projelerinizi anahtar teslim olarak hayata geçiriyoruz.</p>
+              </div>
+              <a href="index.html#iletisim" class="btn-cta">🎯 Ücretsiz Teklif Al</a>
+            </div>
+            <div class="hizmet-sidebar">
+              <h3>Neden Biz?</h3>
+              <ul class="sidebar-list">
+                <li>15+ Yıl Tecrübe</li>
+                <li>Anahtar Teslim Kurulum</li>
+                <li>Uzman Teknik Ekip</li>
+                <li>7/24 Teknik Destek</li>
+                <li>Satış Sonrası Hizmet</li>
+                <li>Kaliteli Markalar</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="other-services">
+        <div class="container">
+          <h2>Diğer <em style="font-style:normal;color:var(--accent)">Hizmetlerimiz</em></h2>
+          <div class="other-grid">
+            ${others.map(s=>`<a href="hizmet.html?id=${s.id}" class="other-card">${s.title}</a>`).join('')}
+          </div>
+        </div>
+      </section>
+    `;
+  }catch(e){
+    notFound();
+  }
+}
+
+function notFound(){
+  document.getElementById('pageContent').innerHTML = `
+    <div class="loading">
+      <p style="font-size:18px;">Hizmet bulunamadı.</p>
+      <a href="index.html" style="color:var(--accent);margin-top:16px;display:inline-block;">← Ana Sayfaya Dön</a>
+    </div>
+  `;
+}
+
+loadPage();
+</script>
+</body>
+</html>
