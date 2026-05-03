@@ -595,8 +595,8 @@ setInterval(window.nextBanner,5000);
 
 function renderServices(data){
   const dd=document.getElementById('hizmetDropdown');
-  if(dd) dd.innerHTML=data.map(s=>`<a href="#hizmet-${s.id}" onclick="event.preventDefault();scrollToService('${s.id}')">${s.title}</a>`).join('');
-  document.getElementById('servicesGrid').innerHTML=data.map(s=>`<div class="service-card fade-in" id="hizmet-${s.id}">${s.img?`<img src="${s.img}" alt="${s.title}" class="service-img">`:`<div class="service-no-img">${s.icon||'⚙️'}</div>`}<div class="service-body"><span class="service-icon">${s.icon||'⚙️'}</span><h3>${s.title}</h3><p>${s.desc}</p><a href="#iletisim" class="service-learn">Teklif İste →</a></div></div>`).join('');
+  if(dd) dd.innerHTML=data.map((s,i)=>`<a href="#hizmetler" onclick="event.preventDefault();scrollToService(${i})">${s.title}</a>`).join('');
+  document.getElementById('servicesGrid').innerHTML=data.map((s,i)=>`<div class="service-card fade-in" id="svc-${i}">${s.img?`<img src="${s.img}" alt="${s.title}" class="service-img">`:`<div class="service-no-img">${s.icon||'⚙️'}</div>`}<div class="service-body"><span class="service-icon">${s.icon||'⚙️'}</span><h3>${s.title}</h3><p>${s.desc}</p><a href="#iletisim" class="service-learn">Teklif İste →</a></div></div>`).join('');
   obsFade();
 }
 function renderRefs(data){
@@ -657,8 +657,8 @@ window.openMenu=function(){document.getElementById('mobileMenu').classList.add('
 window.closeMenu=function(){document.getElementById('mobileMenu').classList.remove('open');document.body.style.overflow='';};
 window.addEventListener('scroll',()=>document.getElementById('header').classList.toggle('scrolled',scrollY>50));
 const fObs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:.1});
-function scrollToService(id){
-  const el=document.getElementById('hizmet-'+id);
+function scrollToService(i){
+  const el=document.getElementById('svc-'+i);
   if(el){ el.scrollIntoView({behavior:'smooth',block:'center'}); }
   else{ document.getElementById('hizmetler').scrollIntoView({behavior:'smooth'}); }
 }
