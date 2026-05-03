@@ -43,6 +43,19 @@ nav a::after{content:'';position:absolute;bottom:3px;left:12px;right:12px;height
 nav a:hover{color:var(--accent);}nav a:hover::after{transform:scaleX(1);}
 .nav-cta{background:var(--accent)!important;color:#000!important;font-weight:700!important;padding:9px 18px!important;border-radius:4px!important;}
 .nav-cta::after{display:none!important;}.nav-cta:hover{background:var(--accent2)!important;}
+/* DROPDOWN */
+.nav-dropdown{position:relative;display:inline-flex;align-items:center;}
+.nav-dropdown-toggle{padding:7px 12px;color:var(--text);text-decoration:none;font-size:13px;font-weight:500;border-radius:3px;transition:color .2s;cursor:pointer;user-select:none;}
+.nav-dropdown-toggle:hover{color:var(--accent);}
+.nav-dropdown-menu{position:absolute;top:calc(100% + 6px);left:0;min-width:260px;background:#111318;border:1px solid rgba(245,166,35,.2);border-radius:6px;padding:6px 0;z-index:2000;box-shadow:0 12px 40px rgba(0,0,0,.6);opacity:0;visibility:hidden;transform:translateY(-6px);transition:all .2s;}
+.nav-dropdown:hover .nav-dropdown-menu{opacity:1;visibility:visible;transform:translateY(0);}
+.nav-dropdown-menu a{display:block;padding:9px 18px;color:#9aa0ad;text-decoration:none;font-size:13px;transition:all .15s;border-bottom:1px solid rgba(255,255,255,.04);}
+.nav-dropdown-menu a:last-child{border-bottom:none;}
+.nav-dropdown-menu a:hover{color:var(--accent);background:rgba(245,166,35,.06);padding-left:24px;}
+/* MOBILE HIZMET LİSTESİ */
+.mobile-hizmet-list{display:flex;flex-direction:column;gap:0;width:100%;text-align:center;}
+.mobile-hizmet-list a{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:600;color:#9aa0ad;text-decoration:none;padding:8px 0;letter-spacing:1px;}
+.mobile-hizmet-list a:hover{color:var(--accent);}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;}
 .hamburger span{display:block;width:24px;height:2px;background:var(--accent);}
 .mobile-menu{display:none;position:fixed;inset:0;background:rgba(10,10,10,.98);z-index:2000;flex-direction:column;align-items:center;justify-content:center;gap:22px;}
@@ -247,7 +260,12 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56p
       <nav>
         <a href="#anasayfa">Anasayfa</a>
         <a href="#hakkimizda">Kurumsal</a>
-        <a href="#hizmetler">Hizmetler</a>
+        <div class="nav-dropdown">
+          <span class="nav-dropdown-toggle">Hizmetler ▾</span>
+          <div class="nav-dropdown-menu" id="navHizmetMenu">
+            <a href="#hizmetler">Tüm Hizmetler</a>
+          </div>
+        </div>
         <a href="#referanslar">Galeri</a>
         <a href="#projeler">Projeler</a>
         <a href="#markalar">Markalar</a>
@@ -264,6 +282,7 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56p
   <a href="#anasayfa" onclick="closeMenu()">Anasayfa</a>
   <a href="#hakkimizda" onclick="closeMenu()">Kurumsal</a>
   <a href="#hizmetler" onclick="closeMenu()">Hizmetler</a>
+  <div class="mobile-hizmet-list" id="mobileHizmetList"></div>
   <a href="#referanslar" onclick="closeMenu()">Galeri</a>
   <a href="#projeler" onclick="closeMenu()">Projeler</a>
   <a href="#markalar" onclick="closeMenu()">Markalar</a>
@@ -575,6 +594,17 @@ window.prevBanner=function(){const l=document.querySelectorAll('.banner-slide').
 setInterval(window.nextBanner,5000);
 
 function renderServices(data){
+  // Dropdown menüyü doldur
+  const navMenu = document.getElementById('navHizmetMenu');
+  const mobileMenu = document.getElementById('mobileHizmetList');
+  if(navMenu){
+    navMenu.innerHTML = '<a href="#hizmetler">Tüm Hizmetler</a>' +
+      data.map(s=>`<a href="#hizmetler" onclick="document.getElementById('hizmetler').scrollIntoView({behavior:'smooth'})">${s.title}</a>`).join('');
+  }
+  if(mobileMenu){
+    mobileMenu.innerHTML = data.map(s=>`<a href="#hizmetler" onclick="closeMenu()">${s.title}</a>`).join('');
+  }
+  // Hizmet kartlarını render et
   document.getElementById('servicesGrid').innerHTML=data.map(s=>`<div class="service-card fade-in">${s.img?`<img src="${s.img}" alt="${s.title}" class="service-img">`:`<div class="service-no-img">${s.icon||'⚙️'}</div>`}<div class="service-body"><span class="service-icon">${s.icon||'⚙️'}</span><h3>${s.title}</h3><p>${s.desc}</p><a href="#iletisim" class="service-learn">Teklif İste →</a></div></div>`).join('');
   obsFade();
 }
