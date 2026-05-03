@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
 
-
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 <head>
 <meta charset="UTF-8">
@@ -15,22 +14,13 @@
 body{font-family:'Barlow',sans-serif;background:var(--black);color:var(--text);overflow-x:hidden;}
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--dark);}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px;}
 .container{max-width:1200px;margin:0 auto;padding:0 24px;}
-
-/* LOGO YENI */
-.logo-text-only{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:20px;font-weight:900;letter-spacing:3px;
-  text-transform:uppercase;text-decoration:none;
-  background:linear-gradient(90deg,#ffffff 0%,var(--accent) 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
 /* TOPBAR */
 .topbar{background:var(--navy);padding:8px 0;font-size:13px;}
 .topbar .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
 .topbar a{color:rgba(255,255,255,.8);text-decoration:none;transition:color .2s;}.topbar a:hover{color:var(--accent);}
 .topbar-left,.topbar-right{display:flex;align-items:center;gap:20px;}
 /* HEADER */
-header{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,10,.97);border-bottom:2px solid var(--accent);backdrop-filter:blur(20px);transition:top .3s;}
+header{position:fixed;top:36px;left:0;right:0;z-index:1000;background:rgba(10,10,10,.97);border-bottom:2px solid var(--accent);backdrop-filter:blur(20px);transition:top .3s;}
 header.scrolled{top:0;}
 .nav-wrap{display:flex;align-items:center;justify-content:space-between;padding:11px 0;}
 .logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
@@ -43,19 +33,6 @@ nav a::after{content:'';position:absolute;bottom:3px;left:12px;right:12px;height
 nav a:hover{color:var(--accent);}nav a:hover::after{transform:scaleX(1);}
 .nav-cta{background:var(--accent)!important;color:#000!important;font-weight:700!important;padding:9px 18px!important;border-radius:4px!important;}
 .nav-cta::after{display:none!important;}.nav-cta:hover{background:var(--accent2)!important;}
-/* DROPDOWN */
-.nav-dropdown{position:relative;display:inline-flex;align-items:center;}
-.nav-dropdown-toggle{padding:7px 12px;color:var(--text);text-decoration:none;font-size:13px;font-weight:500;border-radius:3px;transition:color .2s;cursor:pointer;user-select:none;}
-.nav-dropdown-toggle:hover{color:var(--accent);}
-.nav-dropdown-menu{position:absolute;top:calc(100% + 6px);left:0;min-width:260px;background:#111318;border:1px solid rgba(245,166,35,.2);border-radius:6px;padding:6px 0;z-index:2000;box-shadow:0 12px 40px rgba(0,0,0,.6);opacity:0;visibility:hidden;transform:translateY(-6px);transition:all .2s;}
-.nav-dropdown:hover .nav-dropdown-menu{opacity:1;visibility:visible;transform:translateY(0);}
-.nav-dropdown-menu a{display:block;padding:9px 18px;color:#9aa0ad;text-decoration:none;font-size:13px;transition:all .15s;border-bottom:1px solid rgba(255,255,255,.04);}
-.nav-dropdown-menu a:last-child{border-bottom:none;}
-.nav-dropdown-menu a:hover{color:var(--accent);background:rgba(245,166,35,.06);padding-left:24px;}
-/* MOBILE HIZMET LİSTESİ */
-.mobile-hizmet-list{display:flex;flex-direction:column;gap:0;width:100%;text-align:center;}
-.mobile-hizmet-list a{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:600;color:#9aa0ad;text-decoration:none;padding:8px 0;letter-spacing:1px;}
-.mobile-hizmet-list a:hover{color:var(--accent);}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;}
 .hamburger span{display:block;width:24px;height:2px;background:var(--accent);}
 .mobile-menu{display:none;position:fixed;inset:0;background:rgba(10,10,10,.98);z-index:2000;flex-direction:column;align-items:center;justify-content:center;gap:22px;}
@@ -256,16 +233,17 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56p
 <header id="header">
   <div class="container">
     <div class="nav-wrap">
-<a href="#" class="logo-text-only">ANADOLU SES IŞIK SİSTEMLERİ</a>
+      <a href="#" class="logo">
+        <img src="logo.jpg" alt="Logo" id="site-logo">
+        <div class="logo-text">
+          <div class="brand">ANADOLU SES IŞIK</div>
+          <div class="sub">Ses Işık Görüntü Sistemleri</div>
+        </div>
+      </a>
       <nav>
         <a href="#anasayfa">Anasayfa</a>
         <a href="#hakkimizda">Kurumsal</a>
-        <div class="nav-dropdown">
-          <span class="nav-dropdown-toggle">Hizmetler ▾</span>
-          <div class="nav-dropdown-menu" id="navHizmetMenu">
-            <a href="#hizmetler">Tüm Hizmetler</a>
-          </div>
-        </div>
+        <a href="#hizmetler">Hizmetler</a>
         <a href="#referanslar">Galeri</a>
         <a href="#projeler">Projeler</a>
         <a href="#markalar">Markalar</a>
@@ -282,7 +260,6 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56p
   <a href="#anasayfa" onclick="closeMenu()">Anasayfa</a>
   <a href="#hakkimizda" onclick="closeMenu()">Kurumsal</a>
   <a href="#hizmetler" onclick="closeMenu()">Hizmetler</a>
-  <div class="mobile-hizmet-list" id="mobileHizmetList"></div>
   <a href="#referanslar" onclick="closeMenu()">Galeri</a>
   <a href="#projeler" onclick="closeMenu()">Projeler</a>
   <a href="#markalar" onclick="closeMenu()">Markalar</a>
@@ -290,7 +267,7 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56p
   <a href="#iletisim" onclick="closeMenu()" style="color:var(--accent)">📞 Teklif Al</a>
 </div>
 
-<section class="hero" id="anasayfa" style="display:none;">
+<section class="hero" id="anasayfa">
   <div class="hero-bg"></div><div class="hero-pattern"></div><div class="hero-glow"></div>
   <div class="container">
     <div class="hero-inner">
@@ -326,7 +303,7 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56p
   <div class="scroll-ind">Keşfet</div>
 </section>
 
-<div class="banner-section" id="anasayfa-banner">
+<div class="banner-section" id="bannerSection">
   <div class="banner-nav banner-prev" onclick="prevBanner()">‹</div>
   <div class="banner-nav banner-next" onclick="nextBanner()">›</div>
   <div class="banner-dots" id="bannerDots"></div>
@@ -453,7 +430,9 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56p
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-<a href="#" class="logo-text-only" style="font-size:18px;">ANADOLU SES IŞIK SİSTEMLERİ</a>
+        <a href="#" class="logo"><img src="logo.jpg" alt="Logo" id="footer-logo" style="height:42px;">
+          <div class="logo-text"><div class="brand">ANADOLU SES IŞIK</div><div class="sub">Ses Işık Görüntü Sistemleri</div></div>
+        </a>
         <p>Ses, ışık ve görüntü sistemlerinde 15+ yıllık tecrübemizle profesyonel çözümler sunuyoruz.</p>
         <div class="footer-socials">
           <a href="https://wa.me/903124421513" class="social-btn" id="footer-wa">💬</a>
@@ -594,17 +573,6 @@ window.prevBanner=function(){const l=document.querySelectorAll('.banner-slide').
 setInterval(window.nextBanner,5000);
 
 function renderServices(data){
-  // Dropdown menüyü doldur
-  const navMenu = document.getElementById('navHizmetMenu');
-  const mobileMenu = document.getElementById('mobileHizmetList');
-  if(navMenu){
-    navMenu.innerHTML = '<a href="#hizmetler">Tüm Hizmetler</a>' +
-      data.map(s=>`<a href="#hizmetler" onclick="document.getElementById('hizmetler').scrollIntoView({behavior:'smooth'})">${s.title}</a>`).join('');
-  }
-  if(mobileMenu){
-    mobileMenu.innerHTML = data.map(s=>`<a href="#hizmetler" onclick="closeMenu()">${s.title}</a>`).join('');
-  }
-  // Hizmet kartlarını render et
   document.getElementById('servicesGrid').innerHTML=data.map(s=>`<div class="service-card fade-in">${s.img?`<img src="${s.img}" alt="${s.title}" class="service-img">`:`<div class="service-no-img">${s.icon||'⚙️'}</div>`}<div class="service-body"><span class="service-icon">${s.icon||'⚙️'}</span><h3>${s.title}</h3><p>${s.desc}</p><a href="#iletisim" class="service-learn">Teklif İste →</a></div></div>`).join('');
   obsFade();
 }
@@ -689,8 +657,6 @@ async function init(){
 }
 init();
 </script>
-
 </body>
-
 
 </html>
