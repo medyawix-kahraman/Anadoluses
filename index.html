@@ -43,7 +43,7 @@ nav a:hover{color:var(--accent);}nav a:hover::after{transform:scaleX(1);}
   padding:6px 0;z-index:3000;
   box-shadow:0 12px 40px rgba(0,0,0,.7);
 }
-.has-dropdown:hover .dropdown-menu{display:block;}
+.dropdown-menu.open{display:block;}
 .dropdown-menu a{
   display:block;padding:10px 18px;
   color:#9aa0ad;text-decoration:none;font-size:13px;
@@ -259,13 +259,13 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56p
         <a href="#anasayfa">Anasayfa</a>
         <a href="#hakkimizda">Kurumsal</a>
         <div class="has-dropdown">
-          <a href="#hizmetler">Hizmetler ▾</a>
+          <a href="#hizmetler" onclick="event.preventDefault();toggleDropdown('hizmetDropdown')">Hizmetler ▾</a>
           <div class="dropdown-menu" id="hizmetDropdown"></div>
         </div>
         <a href="#referanslar">Galeri</a>
         <a href="#projeler">Projeler</a>
         <div class="has-dropdown">
-          <a href="#markalar">Markalar ▾</a>
+          <a href="#markalar" onclick="event.preventDefault();toggleDropdown('markaDropdown')">Markalar ▾</a>
           <div class="dropdown-menu" id="markaDropdown"></div>
         </div>
         <a href="#iletisim">İletişim</a>
@@ -657,10 +657,24 @@ window.openMenu=function(){document.getElementById('mobileMenu').classList.add('
 window.closeMenu=function(){document.getElementById('mobileMenu').classList.remove('open');document.body.style.overflow='';};
 window.addEventListener('scroll',()=>document.getElementById('header').classList.toggle('scrolled',scrollY>50));
 const fObs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:.1});
+function toggleDropdown(id){
+  const menu=document.getElementById(id);
+  const isOpen=menu.classList.contains('open');
+  // Tüm dropdownları kapat
+  document.querySelectorAll('.dropdown-menu').forEach(m=>m.classList.remove('open'));
+  // Bu dropdown'ı aç/kapat
+  if(!isOpen) menu.classList.add('open');
+}
+// Dışarı tıklayınca kapat
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.has-dropdown')){
+    document.querySelectorAll('.dropdown-menu').forEach(m=>m.classList.remove('open'));
+  }
+});
+
 function scrollToService(i){
-  // Önce hizmetler bölümüne git
+  document.querySelectorAll('.dropdown-menu').forEach(m=>m.classList.remove('open'));
   document.getElementById('hizmetler').scrollIntoView({behavior:'smooth'});
-  // Kartlar yüklendikten sonra ilgili karta git
   setTimeout(()=>{
     const el=document.getElementById('svc-'+i);
     if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
