@@ -33,6 +33,25 @@ nav a::after{content:'';position:absolute;bottom:3px;left:12px;right:12px;height
 nav a:hover{color:var(--accent);}nav a:hover::after{transform:scaleX(1);}
 .nav-cta{background:var(--accent)!important;color:#000!important;font-weight:700!important;padding:9px 18px!important;border-radius:4px!important;}
 .nav-cta::after{display:none!important;}.nav-cta:hover{background:var(--accent2)!important;}
+/* DROPDOWN */
+.has-dropdown{position:relative;}
+.has-dropdown>a{cursor:pointer;}
+.dropdown-menu{
+  display:none;position:absolute;top:100%;left:0;
+  min-width:220px;background:#111318;
+  border:1px solid rgba(245,166,35,.25);border-radius:6px;
+  padding:6px 0;z-index:3000;
+  box-shadow:0 12px 40px rgba(0,0,0,.7);
+}
+.has-dropdown:hover .dropdown-menu{display:block;}
+.dropdown-menu a{
+  display:block;padding:10px 18px;
+  color:#9aa0ad;text-decoration:none;font-size:13px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  transition:all .15s;
+}
+.dropdown-menu a:last-child{border-bottom:none;}
+.dropdown-menu a:hover{color:var(--accent);background:rgba(245,166,35,.07);padding-left:24px;}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;}
 .hamburger span{display:block;width:24px;height:2px;background:var(--accent);}
 .mobile-menu{display:none;position:fixed;inset:0;background:rgba(10,10,10,.98);z-index:2000;flex-direction:column;align-items:center;justify-content:center;gap:22px;}
@@ -239,10 +258,16 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56p
       <nav>
         <a href="#anasayfa">Anasayfa</a>
         <a href="#hakkimizda">Kurumsal</a>
-        <a href="#hizmetler">Hizmetler</a>
+        <div class="has-dropdown">
+          <a href="#hizmetler">Hizmetler ▾</a>
+          <div class="dropdown-menu" id="hizmetDropdown"></div>
+        </div>
         <a href="#referanslar">Galeri</a>
         <a href="#projeler">Projeler</a>
-        <a href="#markalar">Markalar</a>
+        <div class="has-dropdown">
+          <a href="#markalar">Markalar ▾</a>
+          <div class="dropdown-menu" id="markaDropdown"></div>
+        </div>
         <a href="#iletisim">İletişim</a>
         <a href="#iletisim" class="nav-cta">Teklif Al</a>
       </nav>
@@ -569,7 +594,9 @@ window.prevBanner=function(){const l=document.querySelectorAll('.banner-slide').
 setInterval(window.nextBanner,5000);
 
 function renderServices(data){
-  document.getElementById('servicesGrid').innerHTML=data.map(s=>`<div class="service-card fade-in">${s.img?`<img src="${s.img}" alt="${s.title}" class="service-img">`:`<div class="service-no-img">${s.icon||'⚙️'}</div>`}<div class="service-body"><span class="service-icon">${s.icon||'⚙️'}</span><h3>${s.title}</h3><p>${s.desc}</p><a href="#iletisim" class="service-learn">Teklif İste →</a></div></div>`).join('');
+  const dd=document.getElementById('hizmetDropdown');
+  if(dd) dd.innerHTML=data.map(s=>`<a href="#hizmet-${s.id}" onclick="event.preventDefault();scrollToService('${s.id}')">${s.title}</a>`).join('');
+  document.getElementById('servicesGrid').innerHTML=data.map(s=>`<div class="service-card fade-in" id="hizmet-${s.id}">${s.img?`<img src="${s.img}" alt="${s.title}" class="service-img">`:`<div class="service-no-img">${s.icon||'⚙️'}</div>`}<div class="service-body"><span class="service-icon">${s.icon||'⚙️'}</span><h3>${s.title}</h3><p>${s.desc}</p><a href="#iletisim" class="service-learn">Teklif İste →</a></div></div>`).join('');
   obsFade();
 }
 function renderRefs(data){
@@ -609,6 +636,8 @@ window.filterProjects=function(cat){
   obsFade();
 };
 function renderBrands(data){
+  const dd=document.getElementById('markaDropdown');
+  if(dd) dd.innerHTML=data.map(b=>`<a href="#markalar">${b.name}</a>`).join('');
   document.getElementById('brandsGrid').innerHTML=data.map(b=>`<div class="brand-item fade-in"><div class="brand-logo">${b.name}</div><div class="brand-cat">${b.cat}</div></div>`).join('');
   obsFade();
 }
@@ -628,6 +657,11 @@ window.openMenu=function(){document.getElementById('mobileMenu').classList.add('
 window.closeMenu=function(){document.getElementById('mobileMenu').classList.remove('open');document.body.style.overflow='';};
 window.addEventListener('scroll',()=>document.getElementById('header').classList.toggle('scrolled',scrollY>50));
 const fObs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:.1});
+function scrollToService(id){
+  const el=document.getElementById('hizmet-'+id);
+  if(el){ el.scrollIntoView({behavior:'smooth',block:'center'}); }
+  else{ document.getElementById('hizmetler').scrollIntoView({behavior:'smooth'}); }
+}
 function obsFade(){document.querySelectorAll('.fade-in:not(.visible)').forEach(el=>{if(!el._o){el._o=true;fObs.observe(el);}});}
 window.acceptCookie=()=>{localStorage.setItem('ck','1');document.getElementById('cookieBar').classList.remove('show');};
 window.declineCookie=()=>document.getElementById('cookieBar').classList.remove('show');
