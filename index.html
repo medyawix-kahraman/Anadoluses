@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="tr">
 
+
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,19 +15,28 @@
 body{font-family:'Barlow',sans-serif;background:var(--black);color:var(--text);overflow-x:hidden;}
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--dark);}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px;}
 .container{max-width:1200px;margin:0 auto;padding:0 24px;}
+
+/* LOGO YENI */
+.logo-text-only{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:20px;font-weight:900;letter-spacing:3px;
+  text-transform:uppercase;text-decoration:none;
+  background:linear-gradient(90deg,#ffffff 0%,var(--accent) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
 /* TOPBAR */
 .topbar{background:var(--navy);padding:8px 0;font-size:13px;}
 .topbar .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
 .topbar a{color:rgba(255,255,255,.8);text-decoration:none;transition:color .2s;}.topbar a:hover{color:var(--accent);}
 .topbar-left,.topbar-right{display:flex;align-items:center;gap:20px;}
 /* HEADER */
-header{position:fixed;top:36px;left:0;right:0;z-index:1000;background:rgba(10,10,10,.97);border-bottom:2px solid var(--accent);backdrop-filter:blur(20px);transition:top .3s;}
+header{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,10,.97);border-bottom:2px solid var(--accent);backdrop-filter:blur(20px);transition:top .3s;}
 header.scrolled{top:0;}
 .nav-wrap{display:flex;align-items:center;justify-content:space-between;padding:11px 0;}
-
-
-
-
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.logo img{height:52px;object-fit:contain;}
+.logo-text .brand{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:900;color:var(--white);}
+.logo-text .sub{font-size:10px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;}
 nav{display:flex;align-items:center;gap:2px;}
 nav a{padding:7px 12px;color:var(--text);text-decoration:none;font-size:13px;font-weight:500;border-radius:3px;transition:color .2s;position:relative;}
 nav a::after{content:'';position:absolute;bottom:3px;left:12px;right:12px;height:2px;background:var(--accent);transform:scaleX(0);transition:transform .2s;}
@@ -58,7 +69,7 @@ nav a:hover{color:var(--accent);}nav a:hover::after{transform:scaleX(1);}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,166,35,.1);border:1px solid var(--border);border-radius:50px;padding:6px 18px;font-size:12px;color:var(--accent);letter-spacing:1px;text-transform:uppercase;margin-bottom:28px;}
 .hero-badge span{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.4);}}
-.hero h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(36px,5.5vw,68px);font-weight:900;line-height:1;letter-spacing:-1px;margin-bottom:22px;}
+.hero h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(42px,8vw,86px);font-weight:900;line-height:.95;letter-spacing:-1px;margin-bottom:22px;}
 .hero h1 em{font-style:normal;-webkit-text-stroke:2px var(--accent);color:transparent;}
 .hero p{font-size:17px;color:var(--text2);line-height:1.7;max-width:540px;margin-bottom:36px;}
 .hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
@@ -99,26 +110,16 @@ section{padding:90px 0;}
 .service-img{width:100%;height:170px;object-fit:cover;display:block;transition:transform .4s;}
 .service-card:hover .service-img{transform:scale(1.04);}
 .service-no-img{width:100%;height:120px;background:var(--dark2);display:flex;align-items:center;justify-content:center;font-size:44px;}
-.service-body{padding:26px 24px;}
-.service-icon-wrap{
-  width:52px;height:52px;border-radius:10px;
-  background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.2);
-  display:flex;align-items:center;justify-content:center;
-  margin-bottom:16px;transition:all .3s;
-}
-.service-card:hover .service-icon-wrap{background:rgba(245,166,35,.15);border-color:rgba(245,166,35,.4);}
-.service-icon-wrap svg{width:26px;height:26px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
-.service-card h3{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;margin-bottom:10px;letter-spacing:.3px;}
-.service-card p{font-size:13.5px;color:var(--text2);line-height:1.65;}
-.service-learn{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:13px;color:var(--accent);font-weight:600;text-decoration:none;letter-spacing:.3px;}
-.service-learn::after{content:'→';transition:transform .2s;}
-.service-card:hover .service-learn::after{transform:translateX(4px);}
+.service-body{padding:22px 20px;}
+.service-icon{font-size:28px;margin-bottom:12px;display:block;}
+.service-card h3{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:700;margin-bottom:9px;}
+.service-card p{font-size:13px;color:var(--text2);line-height:1.6;}
+.service-learn{display:inline-flex;align-items:center;gap:5px;margin-top:14px;font-size:12px;color:var(--accent);font-weight:600;text-decoration:none;}
 /* GALLERY */
 .references{background:var(--dark);}
 .ref-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:52px;}
 .ref-card{position:relative;overflow:hidden;cursor:pointer;aspect-ratio:4/3;}
 .ref-card img{width:100%;height:100%;object-fit:cover;transition:transform .5s;display:block;}
-.ref-card img[src=""],.ref-card img:not([src]){display:none;}
 .ref-card:hover img{transform:scale(1.07);}
 .ref-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,10,.92) 0%,transparent 55%);display:flex;flex-direction:column;justify-content:flex-end;padding:14px;opacity:0;transition:opacity .3s;}
 .ref-card:hover .ref-overlay{opacity:1;}
@@ -191,15 +192,15 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56p
 .footer-bottom p{font-size:12px;color:var(--text2);}
 .footer-bottom a{color:var(--accent);text-decoration:none;}
 /* BANNER */
-.banner-section{position:relative;overflow:hidden;height:480px;}
+.banner-section{position:relative;overflow:hidden;height:490px;}
 .banner-slide{position:absolute;inset:0;display:flex;align-items:center;opacity:0;transition:opacity 1s;}
 .banner-slide.active{opacity:1;}
-.banner-slide-bg{position:absolute;inset:0;background-size:cover;background-position:center center;background-repeat:no-repeat;transition:transform 8s;}
+.banner-slide-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 8s;}
 .banner-slide.active .banner-slide-bg{transform:scale(1.04);}
-.banner-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,10,10,.85) 0%,rgba(10,10,10,.4) 50%,rgba(10,10,10,.1) 100%);}
-.banner-content{position:relative;z-index:1;max-width:520px;}
-.banner-content h2{font-family:'Barlow Condensed',sans-serif;font-size:38px;font-weight:900;margin-bottom:10px;line-height:1.05;}
-.banner-content p{font-size:15px;color:var(--text2);max-width:380px;}
+.banner-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,10,10,.88) 0%,rgba(10,10,10,.2) 100%);}
+.banner-content{position:relative;z-index:1;}
+.banner-content h2{font-family:'Barlow Condensed',sans-serif;font-size:46px;font-weight:900;margin-bottom:12px;}
+.banner-content p{font-size:16px;color:var(--text2);max-width:440px;}
 .banner-dots{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:10;}
 .banner-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.25);cursor:pointer;transition:all .3s;}
 .banner-dot.active{background:var(--accent);width:24px;border-radius:4px;}
@@ -220,81 +221,8 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56p
 .fade-in{opacity:0;transform:translateY(26px);transition:opacity .7s,transform .7s;}
 .fade-in.visible{opacity:1;transform:translateY(0);}
 @media(max-width:1024px){.services-grid{grid-template-columns:repeat(2,1fr);}.brands-track{grid-template-columns:repeat(3,1fr);}.footer-grid{grid-template-columns:1fr 1fr;}.ref-grid{grid-template-columns:repeat(3,1fr);}.projects-grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:768px){
-  .topbar .topbar-right{display:none;}
-  header{top:0;}
-  nav{display:none;}
-  .hamburger{display:flex;}
-  .about-grid,.contact-grid{grid-template-columns:1fr;}
-  .hero{padding-top:80px;min-height:auto;}
-  .hero-inner{flex-direction:column;gap:24px;}
-  .hero-content{max-width:100%;order:2;}
-  .hero-visual{display:flex!important;max-width:100%;width:100%;order:1;}
-  .hero-visual-img{height:220px;}
-  .hero h1{font-size:28px!important;}
-  .hero p{font-size:14px;}
-  .hero-stats{gap:12px;flex-wrap:wrap;}
-  .hero-stats > div{min-width:calc(50% - 6px);}
-  .stat-num{font-size:28px;}
-  .form-row{grid-template-columns:1fr;}
-  .footer-grid{grid-template-columns:1fr 1fr;}
-  .banner-section{height:260px;}
-  .banner-content h2{font-size:22px;}
-  .banner-content p{font-size:13px;display:none;}
-  .banner-nav{width:30px;height:30px;font-size:14px;}
-  .about-badge{bottom:-14px;right:0;}
-  .ref-grid{grid-template-columns:repeat(2,1fr);}
-  .contact-form{padding:22px 16px;}
-  .projects-grid{grid-template-columns:1fr;}
-  .hero-visual-accent,.hero-visual-accent2,.hero-visual-badge{display:none;}
-  .hero-visual-badge{bottom:10px;right:10px;padding:8px 12px;}
-}
-@media(max-width:520px){
-  .services-grid{grid-template-columns:1fr;}
-  .brands-track{grid-template-columns:repeat(2,1fr);}
-  .footer-grid{grid-template-columns:1fr;}
-  .hero-stats > div{min-width:calc(50% - 6px);}
-  .about-features{grid-template-columns:1fr;}
-  .ref-grid{grid-template-columns:repeat(2,1fr);}
-  .banner-nav{display:none;}
-}
-
-/* LOGO */
-.logo{text-decoration:none;}
-.logo-brand{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:22px;font-weight:900;
-  color:var(--white);letter-spacing:3px;
-  text-transform:uppercase;
-  background:linear-gradient(90deg,#fff 0%,var(--accent) 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-
-/* DROPDOWN */
-.nav-dropdown{position:relative;display:inline-flex;align-items:center;}
-.nav-dropdown-toggle{padding:7px 12px;color:var(--text);text-decoration:none;font-size:13px;font-weight:500;border-radius:3px;transition:color .2s;cursor:pointer;}
-.nav-dropdown-toggle:hover{color:var(--accent);}
-.nav-dropdown-menu{
-  position:absolute;top:calc(100% + 8px);left:0;min-width:240px;
-  background:var(--dark2);border:1px solid var(--border);
-  border-radius:6px;padding:6px 0;z-index:1000;
-  box-shadow:0 12px 40px rgba(0,0,0,.5);
-  opacity:0;visibility:hidden;transform:translateY(-8px);
-  transition:all .2s;
-}
-.nav-dropdown:hover .nav-dropdown-menu{opacity:1;visibility:visible;transform:translateY(0);}
-.nav-dropdown-menu a{
-  display:flex;align-items:center;gap:10px;
-  padding:9px 16px;color:var(--text2);text-decoration:none;
-  font-size:13px;transition:all .15s;
-}
-.nav-dropdown-menu a:hover{color:var(--accent);background:rgba(245,166,35,.06);padding-left:20px;}
-.nav-dropdown-menu a .dd-icon{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
-
-/* MOBILE SERVICE LIST */
-.mobile-service-list{display:flex;flex-direction:column;}
-.mobile-service-list a{padding:10px 24px 10px 36px;color:var(--text2);text-decoration:none;font-size:13px;border-bottom:1px solid rgba(255,255,255,.04);}
-.mobile-service-list a:hover{color:var(--accent);}
+@media(max-width:768px){.topbar .topbar-right{display:none;}header{top:0;}nav{display:none;}.hamburger{display:flex;}.about-grid,.contact-grid{grid-template-columns:1fr;}.hero-inner{flex-direction:column;}.hero-content{max-width:100%;}.hero-visual{display:none;}.hero-stats{gap:24px;}.form-row{grid-template-columns:1fr;}.footer-grid{grid-template-columns:1fr 1fr;}.banner-section{height:340px;}.banner-content h2{font-size:30px;}.about-badge{bottom:-14px;right:0;}.ref-grid{grid-template-columns:repeat(2,1fr);}.contact-form{padding:22px 16px;}.projects-grid{grid-template-columns:1fr;}}
+@media(max-width:520px){.services-grid{grid-template-columns:1fr;}.brands-track{grid-template-columns:repeat(2,1fr);}.footer-grid{grid-template-columns:1fr;}.hero-stats{flex-direction:column;gap:16px;}.about-features{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -315,16 +243,11 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56p
 <header id="header">
   <div class="container">
     <div class="nav-wrap">
-      <a href="#" class="logo">
-        <div class="logo-brand">ANADOLU SES IŞIK SİSTEMLERİ</div>
-      </a>
+<a href="#" class="logo-text-only">ANADOLU SES IŞIK SİSTEMLERİ</a>
       <nav>
         <a href="#anasayfa">Anasayfa</a>
         <a href="#hakkimizda">Kurumsal</a>
-        <div class="nav-dropdown">
-          <a href="#hizmetler" class="nav-dropdown-toggle">Hizmetler ▾</a>
-          <div class="nav-dropdown-menu" id="serviceDropdown"></div>
-        </div>
+        <a href="#hizmetler">Hizmetler</a>
         <a href="#referanslar">Galeri</a>
         <a href="#projeler">Projeler</a>
         <a href="#markalar">Markalar</a>
@@ -341,7 +264,6 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56p
   <a href="#anasayfa" onclick="closeMenu()">Anasayfa</a>
   <a href="#hakkimizda" onclick="closeMenu()">Kurumsal</a>
   <a href="#hizmetler" onclick="closeMenu()">Hizmetler</a>
-  <div class="mobile-service-list" id="mobileServiceList"></div>
   <a href="#referanslar" onclick="closeMenu()">Galeri</a>
   <a href="#projeler" onclick="closeMenu()">Projeler</a>
   <a href="#markalar" onclick="closeMenu()">Markalar</a>
@@ -349,7 +271,43 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56p
   <a href="#iletisim" onclick="closeMenu()" style="color:var(--accent)">📞 Teklif Al</a>
 </div>
 
-<div class="banner-section" id="anasayfa">
+<section class="hero" id="anasayfa" style="display:none;">
+  <div class="hero-bg"></div><div class="hero-pattern"></div><div class="hero-glow"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge"><span></span> 15+ Yıllık Güvenilir Deneyim</div>
+        <h1 id="hero-title">GÜÇLÜ SES<br><em>KUSURSUZ</em><br>GÖRÜNTÜ</h1>
+        <p id="hero-desc">Konferans salonlarından kültür merkezlerine, eğitim kurumlarından kamu binalarına kadar profesyonel ses, ışık ve görüntü sistemleri kurulumu ve tasarımı.</p>
+        <div class="hero-btns">
+          <a href="#iletisim" class="btn-primary">🎯 Ücretsiz Teklif Al</a>
+          <a href="#referanslar" class="btn-outline">📁 Galeri</a>
+        </div>
+        <div class="hero-stats">
+          <div><div class="stat-num" id="stat1">300+</div><div class="stat-label">Tamamlanan Proje</div></div>
+          <div><div class="stat-num" id="stat2">15+</div><div class="stat-label">Yıl Tecrübe</div></div>
+          <div><div class="stat-num" id="stat3">50+</div><div class="stat-label">Marka Ortağı</div></div>
+          <div><div class="stat-num" id="stat4">7/24</div><div class="stat-label">Teknik Destek</div></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-visual-wrap">
+          <img src="ref1.jpg" alt="Profesyonel Ses Işık Sistemi" class="hero-visual-img">
+          <div class="hero-visual-border"></div>
+          <div class="hero-visual-accent"></div>
+          <div class="hero-visual-accent2"></div>
+          <div class="hero-visual-badge">
+            <div class="hb-num">300+</div>
+            <div class="hb-lbl">Tamamlanan Proje</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-ind">Keşfet</div>
+</section>
+
+<div class="banner-section" id="anasayfa-banner">
   <div class="banner-nav banner-prev" onclick="prevBanner()">‹</div>
   <div class="banner-nav banner-next" onclick="nextBanner()">›</div>
   <div class="banner-dots" id="bannerDots"></div>
@@ -358,8 +316,8 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56p
 <section class="about" id="hakkimizda">
   <div class="container">
     <div class="about-grid">
-      <div class="about-img-wrap fade-in" id="aboutImgWrap" style="display:none;">
-        <img src="" alt="Hakkımızda" id="about-img">
+      <div class="about-img-wrap fade-in">
+        <img src="ref2.jpg" alt="Hakkımızda" id="about-img">
         <div class="about-badge"><div class="num">15+</div><div class="label">Yıl Tecrübe</div></div>
       </div>
       <div class="fade-in" style="transition-delay:.15s">
@@ -476,9 +434,7 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.06);padding:56p
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="#" class="logo">
-          <div class="logo-brand">ANADOLU SES IŞIK SİSTEMLERİ</div>
-        </a>
+<a href="#" class="logo-text-only" style="font-size:18px;">ANADOLU SES IŞIK SİSTEMLERİ</a>
         <p>Ses, ışık ve görüntü sistemlerinde 15+ yıllık tecrübemizle profesyonel çözümler sunuyoruz.</p>
         <div class="footer-socials">
           <a href="https://wa.me/903124421513" class="social-btn" id="footer-wa">💬</a>
@@ -540,15 +496,15 @@ try{ getAnalytics(app); }catch(e){}
 
 const DEF = {
   services:[
-    {icon:'ses',title:'Profesyonel Ses Sistemleri',img:'ref3.jpg',desc:'Salon, konferans, AVM ve okul için akustik hesaplama ve ses sistemi tasarımı, kurulum ve devreye alma.',order:1},
-    {icon:'isik',title:'Işık & Sahne Sistemleri',img:'ref2.jpg',desc:'Sahne ışıklandırması, LED sistemleri, efekt ışıkları ve ışık kontrolörü kurulumu.',order:2},
-    {icon:'goruntu',title:'Görüntü & Kamera Sistemleri',img:'ref11.jpg',desc:'LED ekranlar, projeksiyon, güvenlik kameraları ve video konferans sistemleri.',order:3},
-    {icon:'konferans',title:'Konferans Sistemleri',img:'ref4.jpg',desc:'Eş zamanlı tercüme, mikrofonlama ve modern konferans salon sistemleri.',order:4},
-    {icon:'hemsire',title:'Hemşire Çağrı Sistemi',img:'ref6.jpg',desc:'Hastane ve sağlık tesisleri için hemşire çağrı ve hasta takip sistemleri.',order:5},
-    {icon:'anons',title:'Acil Anons Sistemleri',img:'ref7.jpg',desc:'Yangın, tahliye ve acil durum anons sistemleri kurulumu.',order:6},
-    {icon:'zayif',title:'Zayıf Akım Sistemleri',img:'ref8.jpg',desc:'Erişim kontrol, interkom ve bina otomasyon zayıf akım sistemleri.',order:7},
-    {icon:'truss',title:'Truss & Askı Sistemleri',img:'ref10.jpg',desc:'Sahne kurulum, truss sistemleri ve ekipman askı sistemleri.',order:8},
-    {icon:'akustik',title:'Akustik Tasarım',img:'ref9.jpg',desc:'Oda akustiği, ses yalıtımı ve akustik panel tasarım & uygulama.',order:9}
+    {icon:'🎵',title:'Profesyonel Ses Sistemleri',img:'ref3.jpg',desc:'Salon, konferans, AVM ve okul için akustik hesaplama ve ses sistemi tasarımı, kurulum ve devreye alma.',order:1},
+    {icon:'💡',title:'Işık & Sahne Sistemleri',img:'ref2.jpg',desc:'Sahne ışıklandırması, LED sistemleri, efekt ışıkları ve ışık kontrolörü kurulumu.',order:2},
+    {icon:'📹',title:'Görüntü & Kamera Sistemleri',img:'ref11.jpg',desc:'LED ekranlar, projeksiyon, güvenlik kameraları ve video konferans sistemleri.',order:3},
+    {icon:'🎤',title:'Konferans Sistemleri',img:'ref4.jpg',desc:'Eş zamanlı tercüme, mikrofonlama ve modern konferans salon sistemleri.',order:4},
+    {icon:'🔔',title:'Hemşire Çağrı Sistemi',img:'ref6.jpg',desc:'Hastane ve sağlık tesisleri için hemşire çağrı ve hasta takip sistemleri.',order:5},
+    {icon:'📢',title:'Acil Anons Sistemleri',img:'ref7.jpg',desc:'Yangın, tahliye ve acil durum anons sistemleri kurulumu.',order:6},
+    {icon:'🔧',title:'Zayıf Akım Sistemleri',img:'ref8.jpg',desc:'Erişim kontrol, interkom ve bina otomasyon zayıf akım sistemleri.',order:7},
+    {icon:'🏗️',title:'Truss & Askı Sistemleri',img:'ref10.jpg',desc:'Sahne kurulum, truss sistemleri ve ekipman askı sistemleri.',order:8},
+    {icon:'🎛️',title:'Akustik Tasarım',img:'ref9.jpg',desc:'Oda akustiği, ses yalıtımı ve akustik panel tasarım & uygulama.',order:9}
   ],
   refs:[
     {img:'ref1.jpg',name:'Kültür Merkezi Ses Sistemi',cat:'Ses & Işık',order:1},
@@ -594,38 +550,19 @@ function applyInfo(si){
   se('stat1',si.stat1);se('stat2',si.stat2);se('stat3',si.stat3);se('stat4',si.stat4);
   se('tb-phone','📞 '+(si.phone||''));se('tb-email','✉ '+(si.email||''));
   se('tb-address','📍 '+(si.address||''));se('tb-hours',si.hours||'');
-  if(si.heroImg){
-    const hv=document.getElementById('heroVisual');
-    const hi=document.getElementById('heroVisualImg');
-    if(hv&&hi){hi.src=si.heroImg;hv.style.display='flex';}
-  }
-  if(si.aboutImg){
-    const aw=document.getElementById('aboutImgWrap');
-    const ai=document.getElementById('about-img');
-    if(aw&&ai){ai.src=si.aboutImg;aw.style.display='block';}
-  }
   if(si.heroTitle) document.getElementById('hero-title').innerHTML=si.heroTitle;
   se('hero-desc',si.heroDesc);
   if(si.whatsapp){const w='https://wa.me/'+si.whatsapp;['waFloat','wa-btn','footer-wa'].forEach(id=>{const e=document.getElementById(id);if(e)e.href=w;});}
-
+  if(si.logoUrl) document.querySelectorAll('#site-logo,#footer-logo').forEach(e=>e.src=si.logoUrl);
 }
 
 let cb=0;
-function clImg(url, w=1400, h=600){
-  if(!url) return '';
-  // Cloudinary URL'sine otomatik boyutlandırma ekle
-  if(url.includes('res.cloudinary.com')){
-    return url.replace('/upload/', `/upload/w_${w},h_${h},c_fill,g_center/`);
-  }
-  return url;
-}
-
 function renderBanners(data){
   const sec=document.getElementById('bannerSection'),dots=document.getElementById('bannerDots');
   sec.querySelectorAll('.banner-slide').forEach(e=>e.remove()); dots.innerHTML='';
   data.forEach((b,i)=>{
     const s=document.createElement('div'); s.className='banner-slide'+(i===0?' active':'');
-    s.innerHTML=`<div class="banner-slide-bg" style="background-image:url('${clImg(b.bg,1400,600)}')"></div><div class="banner-overlay"></div><div class="container"><div class="banner-content"><div class="section-tag">${b.tag||'Hizmetlerimiz'}</div><h2>${b.title}</h2><p>${b.subtitle}</p><div style="margin-top:22px;"><a href="#iletisim" class="btn-primary">Teklif Al</a></div></div></div>`;
+    s.innerHTML=`<div class="banner-slide-bg" style="background-image:url('${b.bg}')"></div><div class="banner-overlay"></div><div class="container"><div class="banner-content"><div class="section-tag">${b.tag||'Hizmetlerimiz'}</div><h2>${b.title}</h2><p>${b.subtitle}</p><div style="margin-top:22px;"><a href="#iletisim" class="btn-primary">Teklif Al</a></div></div></div>`;
     sec.insertBefore(s,sec.querySelector('.banner-nav'));
     const d=document.createElement('div'); d.className='banner-dot'+(i===0?' active':'');
     d.onclick=()=>goBanner(i); dots.appendChild(d);
@@ -637,79 +574,12 @@ window.nextBanner=function(){goBanner((cb+1)%(document.querySelectorAll('.banner
 window.prevBanner=function(){const l=document.querySelectorAll('.banner-slide').length||1;goBanner((cb-1+l)%l);};
 setInterval(window.nextBanner,5000);
 
-const SVG_ICONS = {
-  ses:`<svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>`,
-  isik:`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>`,
-  goruntu:`<svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>`,
-  konferans:`<svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
-  hemsire:`<svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
-  anons:`<svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 1 0 8"/><path d="M14.54 9.46a3 3 0 0 1 0 4.24"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/></svg>`,
-  zayif:`<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 7h.01M12 7h.01M17 7h.01M7 11h10"/></svg>`,
-  truss:`<svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`,
-  akustik:`<svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><path d="M5 9v6"/><path d="M8 8v8"/><path d="M2 10v4"/></svg>`,
-  default:`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>`
-};
-
-function getSvgIcon(key){
-  return SVG_ICONS[key] || SVG_ICONS[Object.keys(SVG_ICONS).find(k=>key&&key.toLowerCase().includes(k))||'default'] || SVG_ICONS.default;
-}
-
-function populateDropdown(data){
-  const dd=document.getElementById('serviceDropdown');
-  const msl=document.getElementById('mobileServiceList');
-  if(dd) dd.innerHTML=data.map(s=>`<a href="#hizmetler" onclick="showServiceDetail('${s.id}')">${s.title}</a>`).join('');
-  if(msl) msl.innerHTML=data.map(s=>`<a href="#hizmetler" onclick="showServiceDetail('${s.id}');closeMenu();">${s.title}</a>`).join('');
-}
-
 function renderServices(data){
-  // Dropdown menüyü doldur
-  const dd = document.getElementById('serviceDropdown');
-  const msl = document.getElementById('mobileServiceList');
-  if(dd){
-    dd.innerHTML = data.map(s=>`
-      <a href="#hizmet-${s.id}" onclick="showServiceDetail('${s.id}')">
-        <svg class="dd-icon" viewBox="0 0 24 24">${getSvgIcon(s.icon||'').replace(/<svg[^>]*>/,'').replace('</svg>','')}</svg>
-        ${s.title}
-      </a>`).join('');
-  }
-  if(msl){
-    msl.innerHTML = data.map(s=>`
-      <a href="#hizmet-${s.id}" onclick="showServiceDetail('${s.id}');closeMenu();">${s.title}</a>`).join('');
-  }
-
-  // Ana hizmet kartları
-  document.getElementById('servicesGrid').innerHTML=data.map(s=>`
-    <div class="service-card fade-in" onclick="showServiceDetail('${s.id}')" style="cursor:pointer;">
-      ${s.img?`<img src="${s.img}" alt="${s.title}" class="service-img" onerror="this.style.display='none'">`:''}
-      <div class="service-body">
-        <div class="service-icon-wrap">${getSvgIcon(s.icon||'')}</div>
-        <h3>${s.title}</h3>
-        <p>${s.desc}</p>
-        <span class="service-learn">Detayları Gör</span>
-      </div>
-    </div>`).join('');
+  document.getElementById('servicesGrid').innerHTML=data.map(s=>`<div class="service-card fade-in">${s.img?`<img src="${s.img}" alt="${s.title}" class="service-img">`:`<div class="service-no-img">${s.icon||'⚙️'}</div>`}<div class="service-body"><span class="service-icon">${s.icon||'⚙️'}</span><h3>${s.title}</h3><p>${s.desc}</p><a href="#iletisim" class="service-learn">Teklif İste →</a></div></div>`).join('');
   obsFade();
 }
-
-// Hizmet detay modalı
-window.showServiceDetail = function(id){
-  if(!window._servicesData) return;
-  const s = window._servicesData.find(x=>x.id===id);
-  if(!s) return;
-  const modal = document.getElementById('serviceModal');
-  document.getElementById('serviceModalTitle').textContent = s.title;
-  document.getElementById('serviceModalDesc').textContent = s.desc||'';
-  const img = document.getElementById('serviceModalImg');
-  if(s.img){img.src=s.img;img.style.display='block';}else{img.style.display='none';}
-  modal.classList.add('open');
-  document.body.style.overflow='hidden';
-};
-window.closeServiceModal = function(){
-  document.getElementById('serviceModal').classList.remove('open');
-  document.body.style.overflow='';
-};
 function renderRefs(data){
-  document.getElementById('refGrid').innerHTML=data.map(r=>`<div class="ref-card fade-in" onclick="openRef('${r.img}','${r.name}','${r.cat}')"><img src="${r.img}" alt="${r.name}" loading="lazy" onerror="this.closest('.ref-card').style.display='none'"><div class="ref-overlay"><div class="ref-cat">${r.cat}</div><div class="ref-name">${r.name}</div></div></div>`).join('');
+  document.getElementById('refGrid').innerHTML=data.map(r=>`<div class="ref-card fade-in" onclick="openRef('${r.img}','${r.name}','${r.cat}')"><img src="${r.img}" alt="${r.name}" loading="lazy"><div class="ref-overlay"><div class="ref-cat">${r.cat}</div><div class="ref-name">${r.name}</div></div></div>`).join('');
   obsFade();
 }
 
@@ -729,7 +599,7 @@ window.filterProjects=function(cat){
   if(filtered.length===0){grid.innerHTML='<div class="projects-empty">Bu kategoride proje bulunamadı.</div>';return;}
   grid.innerHTML=filtered.map(p=>`<div class="project-card fade-in">
     <div class="project-img-wrap">
-      <img src="${p.img||''}" alt="${p.title}" class="project-img" loading="lazy" onerror="this.style.display='none'">
+      <img src="${p.img||'ref1.jpg'}" alt="${p.title}" class="project-img" loading="lazy">
       <span class="project-cat-badge">${p.cat||'Genel'}</span>
     </div>
     <div class="project-body">
@@ -779,7 +649,7 @@ async function init(){
     renderBanners(bans||DEF.banners); renderServices(svcs||DEF.services); renderRefs(refs||DEF.refs); renderBrands(brs||DEF.brands); renderProjects(projs||DEF.projects);
     if(siSnap&&siSnap.exists()) applyInfo(siSnap.data()); else applyInfo(DEF.settings);
     onSnapshot(collection(db,'banners'),s=>{const d=[];s.forEach(x=>d.push({id:x.id,...x.data()}));d.sort((a,b)=>(a.order||0)-(b.order||0));renderBanners(d);});
-    onSnapshot(collection(db,'services'),s=>{const d=[];s.forEach(x=>d.push({id:x.id,...x.data()}));d.sort((a,b)=>(a.order||0)-(b.order||0));window._servicesData=d;renderServices(d);populateDropdown(d);});
+    onSnapshot(collection(db,'services'),s=>{const d=[];s.forEach(x=>d.push({id:x.id,...x.data()}));d.sort((a,b)=>(a.order||0)-(b.order||0));renderServices(d);});
     onSnapshot(collection(db,'refs'),s=>{const d=[];s.forEach(x=>d.push({id:x.id,...x.data()}));d.sort((a,b)=>(a.order||0)-(b.order||0));renderRefs(d);});
     onSnapshot(collection(db,'brands'),s=>{const d=[];s.forEach(x=>d.push({id:x.id,...x.data()}));d.sort((a,b)=>(a.order||0)-(b.order||0));renderBrands(d);});
     onSnapshot(collection(db,'projects'),s=>{const d=[];s.forEach(x=>d.push({id:x.id,...x.data()}));d.sort((a,b)=>(a.order||0)-(b.order||0));renderProjects(d);});
@@ -789,17 +659,8 @@ async function init(){
 }
 init();
 </script>
-<!-- SERVICE MODAL -->
-<div class="ref-modal" id="serviceModal" onclick="if(event.target===this)closeServiceModal()">
-  <div class="ref-modal-inner" style="max-width:640px;">
-    <button class="ref-modal-close" onclick="closeServiceModal()">✕</button>
-    <img id="serviceModalImg" src="" alt="" style="width:100%;border-radius:6px;max-height:320px;object-fit:cover;margin-bottom:20px;">
-    <h2 id="serviceModalTitle" style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;margin-bottom:12px;"></h2>
-    <p id="serviceModalDesc" style="color:var(--text2);line-height:1.7;font-size:15px;margin-bottom:24px;"></p>
-    <a href="#iletisim" class="btn-primary" onclick="closeServiceModal()">🎯 Teklif İste</a>
-  </div>
-</div>
 
 </body>
+
 
 </html>
