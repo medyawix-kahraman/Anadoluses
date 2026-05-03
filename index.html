@@ -658,12 +658,13 @@ window.closeMenu=function(){document.getElementById('mobileMenu').classList.remo
 window.addEventListener('scroll',()=>document.getElementById('header').classList.toggle('scrolled',scrollY>50));
 const fObs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:.1});
 function scrollToService(i){
-  const el=document.getElementById('svc-'+i);
-  if(el){
-    setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'center'}),100);
-  } else {
-    document.getElementById('hizmetler').scrollIntoView({behavior:'smooth'});
-  }
+  // Önce hizmetler bölümüne git
+  document.getElementById('hizmetler').scrollIntoView({behavior:'smooth'});
+  // Kartlar yüklendikten sonra ilgili karta git
+  setTimeout(()=>{
+    const el=document.getElementById('svc-'+i);
+    if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
+  },600);
 }
 function obsFade(){document.querySelectorAll('.fade-in:not(.visible)').forEach(el=>{if(!el._o){el._o=true;fObs.observe(el);}});}
 window.acceptCookie=()=>{localStorage.setItem('ck','1');document.getElementById('cookieBar').classList.remove('show');};
