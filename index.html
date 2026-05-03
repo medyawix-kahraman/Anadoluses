@@ -595,7 +595,7 @@ setInterval(window.nextBanner,5000);
 
 function renderServices(data){
   const dd=document.getElementById('hizmetDropdown');
-  if(dd) dd.innerHTML=data.map((s,i)=>`<a href="#hizmetler" onclick="event.preventDefault();scrollToService(${i})">${s.title}</a>`).join('');
+  if(dd) dd.innerHTML=data.map((s,i)=>`<a href="javascript:void(0)" onclick="scrollToService(${i})">${s.title}</a>`).join('');
   document.getElementById('servicesGrid').innerHTML=data.map((s,i)=>`<div class="service-card fade-in" id="svc-${i}">${s.img?`<img src="${s.img}" alt="${s.title}" class="service-img">`:`<div class="service-no-img">${s.icon||'⚙️'}</div>`}<div class="service-body"><span class="service-icon">${s.icon||'⚙️'}</span><h3>${s.title}</h3><p>${s.desc}</p><a href="#iletisim" class="service-learn">Teklif İste →</a></div></div>`).join('');
   obsFade();
 }
@@ -659,8 +659,11 @@ window.addEventListener('scroll',()=>document.getElementById('header').classList
 const fObs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:.1});
 function scrollToService(i){
   const el=document.getElementById('svc-'+i);
-  if(el){ el.scrollIntoView({behavior:'smooth',block:'center'}); }
-  else{ document.getElementById('hizmetler').scrollIntoView({behavior:'smooth'}); }
+  if(el){
+    setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'center'}),100);
+  } else {
+    document.getElementById('hizmetler').scrollIntoView({behavior:'smooth'});
+  }
 }
 function obsFade(){document.querySelectorAll('.fade-in:not(.visible)').forEach(el=>{if(!el._o){el._o=true;fObs.observe(el);}});}
 window.acceptCookie=()=>{localStorage.setItem('ck','1');document.getElementById('cookieBar').classList.remove('show');};
