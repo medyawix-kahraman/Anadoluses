@@ -654,6 +654,13 @@ function getSvgIcon(key){
   return SVG_ICONS[key] || SVG_ICONS[Object.keys(SVG_ICONS).find(k=>key&&key.toLowerCase().includes(k))||'default'] || SVG_ICONS.default;
 }
 
+function populateDropdown(data){
+  const dd=document.getElementById('serviceDropdown');
+  const msl=document.getElementById('mobileServiceList');
+  if(dd) dd.innerHTML=data.map(s=>`<a href="#hizmetler" onclick="showServiceDetail('${s.id}')">${s.title}</a>`).join('');
+  if(msl) msl.innerHTML=data.map(s=>`<a href="#hizmetler" onclick="showServiceDetail('${s.id}');closeMenu();">${s.title}</a>`).join('');
+}
+
 function renderServices(data){
   // Dropdown menüyü doldur
   const dd = document.getElementById('serviceDropdown');
@@ -772,7 +779,7 @@ async function init(){
     renderBanners(bans||DEF.banners); renderServices(svcs||DEF.services); renderRefs(refs||DEF.refs); renderBrands(brs||DEF.brands); renderProjects(projs||DEF.projects);
     if(siSnap&&siSnap.exists()) applyInfo(siSnap.data()); else applyInfo(DEF.settings);
     onSnapshot(collection(db,'banners'),s=>{const d=[];s.forEach(x=>d.push({id:x.id,...x.data()}));d.sort((a,b)=>(a.order||0)-(b.order||0));renderBanners(d);});
-    onSnapshot(collection(db,'services'),s=>{const d=[];s.forEach(x=>d.push({id:x.id,...x.data()}));d.sort((a,b)=>(a.order||0)-(b.order||0));window._servicesData=d;renderServices(d);});
+    onSnapshot(collection(db,'services'),s=>{const d=[];s.forEach(x=>d.push({id:x.id,...x.data()}));d.sort((a,b)=>(a.order||0)-(b.order||0));window._servicesData=d;renderServices(d);populateDropdown(d);});
     onSnapshot(collection(db,'refs'),s=>{const d=[];s.forEach(x=>d.push({id:x.id,...x.data()}));d.sort((a,b)=>(a.order||0)-(b.order||0));renderRefs(d);});
     onSnapshot(collection(db,'brands'),s=>{const d=[];s.forEach(x=>d.push({id:x.id,...x.data()}));d.sort((a,b)=>(a.order||0)-(b.order||0));renderBrands(d);});
     onSnapshot(collection(db,'projects'),s=>{const d=[];s.forEach(x=>d.push({id:x.id,...x.data()}));d.sort((a,b)=>(a.order||0)-(b.order||0));renderProjects(d);});
