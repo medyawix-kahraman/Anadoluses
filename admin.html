@@ -8,7 +8,7 @@
 <style>
 :root{
   --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--surface3:#30363d;
-  --accent:#f5a623;--accent2:#c87d0e;--red:#f85149;--green:#3fb950;
+  --accent:#e82020;--accent2:#c41515;--red:#f85149;--green:#3fb950;
   --text:#e6edf3;--text2:#8b949e;--border:#30363d;
   --radius:8px;
   font-size:16px;
@@ -67,7 +67,7 @@ html,body{height:100%;font-family:'Barlow',sans-serif;background:var(--bg);color
   color:var(--text2);transition:all .15s;margin-bottom:3px;
 }
 .nav-item:hover{background:var(--surface2);color:var(--text);}
-.nav-item.active{background:rgba(245,166,35,.12);color:var(--accent);}
+.nav-item.active{background:rgba(232,32,32,.12);color:var(--accent);}
 .nav-item .icon{font-size:18px;width:22px;text-align:center;}
 .sidebar-footer{padding:16px 18px;border-top:1px solid var(--border);}
 .logout-btn{
@@ -164,12 +164,12 @@ tr:hover td{background:rgba(255,255,255,.02);}
   border-radius:var(--radius);padding:20px 24px;margin-bottom:14px;
   transition:border-color .2s;
 }
-.msg-card:hover{border-color:rgba(245,166,35,.3);}
+.msg-card:hover{border-color:rgba(232,32,32,.3);}
 .msg-meta{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:10px;}
 .msg-meta span{font-size:14px;color:var(--text2);}
 .msg-meta strong{color:var(--text);}
 .msg-text{font-size:14px;color:var(--text2);line-height:1.65;}
-.msg-service{display:inline-block;background:rgba(245,166,35,.1);color:var(--accent);font-size:12px;padding:3px 10px;border-radius:50px;margin-bottom:8px;}
+.msg-service{display:inline-block;background:rgba(232,32,32,.1);color:var(--accent);font-size:12px;padding:3px 10px;border-radius:50px;margin-bottom:8px;}
 .msg-date{font-size:12px;color:var(--text2);margin-top:8px;}
 
 /* SETTINGS */
@@ -210,7 +210,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
   text-align:center;cursor:pointer;transition:all .2s;position:relative;
   background:var(--surface2);
 }
-.upload-zone:hover,.upload-zone.dragover{border-color:var(--accent);background:rgba(245,166,35,.05);}
+.upload-zone:hover,.upload-zone.dragover{border-color:var(--accent);background:rgba(232,32,32,.05);}
 .upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
 .upload-zone .uz-icon{font-size:32px;margin-bottom:8px;}
 .upload-zone .uz-text{font-size:13px;color:var(--text2);}
@@ -332,13 +332,14 @@ tr:hover td{background:rgba(255,255,255,.02);}
         <div class="settings-card">
           <h4>🖼️ Ana Sayfa Görselleri</h4>
           <div class="form-group">
-            <label>Hero Görseli URL (sağ taraftaki büyük görsel)</label>
+            <label>Hero Görseli URL (ana sayfanın sağındaki büyük görsel)</label>
             <input type="text" id="s-heroImg" placeholder="https://res.cloudinary.com/...">
-            <div class="form-hint">Admin panelinden görsel yükleyip URL'sini buraya yapıştırın</div>
+            <div class="form-hint">💡 Cloudinary'e yükleyin, URL'yi buraya yapıştırın. Önerilen boyut: 800×600px</div>
           </div>
           <div class="form-group">
             <label>Hakkımızda Görseli URL</label>
             <input type="text" id="s-aboutImg" placeholder="https://res.cloudinary.com/...">
+            <div class="form-hint">💡 Önerilen boyut: 600×450px</div>
           </div>
         </div>
         <button class="btn btn-primary" onclick="saveSettings()" style="padding:12px 32px;font-size:15px;">💾 Ayarları Kaydet</button>
@@ -466,6 +467,7 @@ const db = getFirestore(app);
 
 // ── AUTH ──
 window.doLogin = function(){
+  document.querySelector('.login-box button').textContent = 'Giriş yapılıyor...';
   const pwd = document.getElementById('pwdInput').value;
   if(pwd === ADMIN_PASSWORD){
     document.getElementById('loginScreen').style.display = 'none';
@@ -741,6 +743,7 @@ function makeUploadField(fieldId, existingUrl=''){
         <div class="uz-icon">📁</div>
         <div class="uz-text">Görseli buraya sürükle veya tıkla</div>
         <div class="uz-sub">JPG, PNG, WEBP · Maks 10MB</div>
+      ${cfg&&cfg.imgHint?`<div style='font-size:11px;color:var(--accent);margin-top:4px;'>${cfg.imgHint}</div>`:''}
       </div>
       <div class="upload-progress" id="${uid}_prog"><div class="upload-progress-bar" id="${uid}_bar"></div></div>
       <div class="upload-preview" id="${uid}_preview">
@@ -814,7 +817,7 @@ const MODAL_CONFIGS = {
       {id:'tag',label:'Etiket (ör: Hizmetlerimiz)',type:'text'},
       {id:'order',label:'Sıra No',type:'number'},
     ],
-    imgField:'bg'
+    imgField:'bg',imgHint:'Banner görseli — geniş yatay fotoğraf önerilir (1600×700px)'
   },
   service:{
     title:'Hizmet',col:'services',
@@ -833,6 +836,7 @@ const MODAL_CONFIGS = {
       {id:'order',label:'Sıra No',type:'number'},
     ],
     imgField:'img',
+    imgHint:'Kare veya dikey fotoğraf (600×400px)',
     imgRequired:true
   },
   project:{
@@ -946,5 +950,8 @@ window.confirmDelete=async function(){
   }catch(e){toast('Silinemedi: '+e.message,'error');}
 };
 </script>
+<div style="text-align:center;padding:12px;font-size:12px;color:#555;border-top:1px solid var(--border);">
+  Tasarım & Reklam: <a href="https://wixmedya.com" target="_blank" style="color:var(--accent);text-decoration:none;font-weight:700;">wixmedya.com</a>
+</div>
 </body>
 </html>
